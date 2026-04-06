@@ -136,7 +136,7 @@ public abstract class Disguise {
         // Living Destroy (if player sees them already)
         ClientboundRemoveEntitiesPacket destroy_packet = new ClientboundRemoveEntitiesPacket(living.getId());
         Utils.sendPacket(player, destroy_packet);
-        // Set exact head rotation before entity is spawned since snapTo does not do that
+        // Set exact head rotation before entity is spawned since moveTo does not do that
         // The body of a mob is rotated on the client so this will make the body spawn already rotated
         living.setYHeadRot(owner.getLocation().getYaw());
         // Spawn living
@@ -171,7 +171,7 @@ public abstract class Disguise {
         // Living Spawn
         living.moveTo(owner.getLocation().getX(), owner.getLocation().getY(), owner.getLocation().getZ(),
                     owner.getLocation().getYaw(), owner.getLocation().getPitch());
-        // Set exact head rotation before entity is spawned since snapTo does not do that
+        // Set exact head rotation before entity is spawned since moveTo does not do that
         // The body of a mob is rotated on the client so this will make the body spawn already rotated
         living.setYHeadRot(owner.getLocation().getYaw());
         ClientboundAddEntityPacket living_packet = new ClientboundAddEntityPacket(
