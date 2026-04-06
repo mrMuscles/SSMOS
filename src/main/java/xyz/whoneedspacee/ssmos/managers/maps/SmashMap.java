@@ -26,7 +26,7 @@ public abstract class SmashMap implements Listener {
 
     public SmashMap(File original_directory) {
         Bukkit.getServer().getPluginManager().registerEvents(this, Main.getInstance());
-        File copy_directory = new File("maps/_Copies/" + UUID.randomUUID());
+        File copy_directory = new File("smash_" + UUID.randomUUID());
         if(copy_directory.exists()) {
             throw new RuntimeException("UUID Collision for Mapfile");
         }
@@ -49,12 +49,16 @@ public abstract class SmashMap implements Listener {
     }
 
     public void createWorld() {
-        World existing_world = Bukkit.getWorld(map_directory.getPath());
+        World existing_world = Bukkit.getWorld(map_directory.getName());
         if (existing_world != null) {
             return;
         }
-        WorldCreator worldCreator = new WorldCreator(map_directory.getPath());
+        WorldCreator worldCreator = new WorldCreator(map_directory.getName());
         world = worldCreator.createWorld();
+        if (world == null) {
+            Bukkit.getLogger().severe("[SSMOS] Failed to create world: " + map_directory.getName());
+            return;
+        }
         world.setAutoSave(false);
         Block center = world.getSpawnLocation().getBlock();
         if(permanent_chunk_load_radius >= 0) {

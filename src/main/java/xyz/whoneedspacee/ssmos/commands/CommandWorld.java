@@ -205,7 +205,7 @@ public class CommandWorld implements CommandExecutor {
             player.sendMessage("Failed to load world.");
             return;
         }
-        player.sendMessage("Started Editing: " + world_directory_path);
+        player.sendMessage("Started Editing: " + world.getName() + " (source: " + world_directory_path + ")");
         player.teleport(world.getSpawnLocation());
     }
 
@@ -229,8 +229,34 @@ public class CommandWorld implements CommandExecutor {
     }
 
     public static World loadWorld(String world_directory_path) {
-        WorldCreator worldCreator = new WorldCreator(world_directory_path);
-        return worldCreator.createWorld();
+        // In Minecraft 1.13+, world names cannot contain path separators.
+        // If the path contains separators, copy to a flat directory at the server root.
+        File source = new File(world_directory_path);
+        if (source.exists() && source.isDirectory() && !world_directory_path.equals(source.getName())) {
+            String world_name = source.getName();
+            World existing = Bukkit.getWorld(world_name);
+            if (existing != null) {
+                return existing;
+            }
+            File dest = new File(world_name);
+            if (!dest.exists()) {
+                try {
+                    FileUtils.copyDirectory(source, dest);
+                } catch (Exception e) {
+                    Bukkit.getLogger().severe("[SSMOS] Failed to copy world for editing: " + e.getMessage());
+                    return null;
+                }
+            }
+            WorldCreator worldCreator = new WorldCreator(world_name);
+            return worldCreator.createWorld();
+        }
+        try {
+            WorldCreator worldCreator = new WorldCreator(world_directory_path);
+            return worldCreator.createWorld();
+        } catch (Exception e) {
+            Bukkit.getLogger().severe("[SSMOS] Failed to load world '" + world_directory_path + "': " + e.getMessage());
+            return null;
+        }
     }
 
     public static void searchUnloadWorld(CommandSender commandSender, String[] args) {
