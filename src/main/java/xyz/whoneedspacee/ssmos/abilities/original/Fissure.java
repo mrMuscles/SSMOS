@@ -134,7 +134,7 @@ public class Fissure extends Ability implements OwnerRightClickEvent {
                 path.add(block);
 
                 //Effect
-                loc.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getTypeId());
+                loc.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 
                 //Slow
                 for (Player cur : block.getWorld().getPlayers())
@@ -155,34 +155,34 @@ public class Fissure extends Ability implements OwnerRightClickEvent {
             Block block = path.get(handled);
 
             //Cannot raise
-            if (block.getTypeId() == 46)
+            if (block.getType() == Material.TNT)
                 return false;
 
             Block up = block.getRelative(0, height + 1, 0);
 
             //Done Column
             if (!BlocksUtil.isAirOrFoliage(up)) {
-                loc.getWorld().playEffect(up.getLocation(), Effect.STEP_SOUND, up.getTypeId());
+                loc.getWorld().playEffect(up.getLocation(), Effect.STEP_SOUND, up.getType());
                 height = 0;
                 handled++;
                 return false;
             }
 
             //Boost Column
-            if (block.getTypeId() == 1) BlockRestoreManager.ourInstance.add(block, 4, block.getData(), 14000);
-            if (block.getTypeId() == 2) BlockRestoreManager.ourInstance.add(block, 3, block.getData(), 14000);
-            if (block.getTypeId() == 98) BlockRestoreManager.ourInstance.add(block, 98, (byte) 2, 14000);
+            if (block.getType() == Material.STONE) BlockRestoreManager.ourInstance.add(block, 4, (byte) 0, 14000);
+            if (block.getType() == Material.GRASS_BLOCK) BlockRestoreManager.ourInstance.add(block, 3, (byte) 0, 14000);
+            if (block.getType() == Material.STONE_BRICKS) BlockRestoreManager.ourInstance.add(block, 98, (byte) 2, 14000);
 
             if (block.getType() == Material.SNOW) {
-                BlockRestoreManager.ourInstance.add(block, Material.SNOW_BLOCK.getId(), (byte) 0, 10000 - (1000 * height));
-                BlockRestoreManager.ourInstance.add(up, Material.SNOW_BLOCK.getId(), (byte) 0, 10000 - (1000 * height));
+                BlockRestoreManager.ourInstance.add(block, 80, (byte) 0, 10000 - (1000 * height));
+                BlockRestoreManager.ourInstance.add(up, 80, (byte) 0, 10000 - (1000 * height));
             } else {
-                BlockRestoreManager.ourInstance.add(up, block.getTypeId(), block.getData(), 10000 - (1000 * height));
+                BlockRestoreManager.ourInstance.add(up, block.getBlockData(), 10000 - (1000 * height));
             }
             height++;
 
             //Effect
-            up.getWorld().playEffect(up.getLocation(), Effect.STEP_SOUND, block.getTypeId());
+            up.getWorld().playEffect(up.getLocation(), Effect.STEP_SOUND, block.getType());
 
             //Damage
             for (Player cur : up.getWorld().getPlayers())
