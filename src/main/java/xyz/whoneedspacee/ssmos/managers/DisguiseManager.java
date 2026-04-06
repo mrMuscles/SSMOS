@@ -8,7 +8,9 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
+import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -102,14 +104,17 @@ public class DisguiseManager implements Listener, Runnable {
                 // Intercept player attack packet
                 // If it's the entity the player is disguised as then redirect to the player instead
                 // If we're attacking the player directly, we shouldn't be able to so cancel it
-                if (msg instanceof PacketPlayInUseEntity) {
-                    PacketPlayInUseEntity packet = (PacketPlayInUseEntity) msg;
-                    Field f = packet.getClass().getDeclaredField("a");
+                if (msg instanceof ServerboundInteractPacket) {
+                    ServerboundInteractPacket packet = (ServerboundInteractPacket) msg;
+                    Field f = ServerboundInteractPacket.class.getDeclaredField("entityId");
                     f.setAccessible(true);
-                    int id = Integer.parseInt(f.get(packet).toString());
-                    PacketPlayInUseEntity.EnumEntityUseAction action = packet.a();
-                    if (action.equals(PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) ||
-                            action.equals(PacketPlayInUseEntity.EnumEntityUseAction.INTERACT)) {
+                    int id = (int) f.get(packet);
+                    Field actionField = ServerboundInteractPacket.class.getDeclaredField("action");
+                    actionField.setAccessible(true);
+                    Object action = actionField.get(packet);
+                    boolean isAttack = action.getClass().getSimpleName().contains("Attack");
+                    boolean isInteract = action.getClass().getSimpleName().contains("Interact");
+                    if (isAttack || isInteract) {
                         for (Disguise disguise : DisguiseManager.disguises.values()) {
                             if(disguise.getLiving() == null) {
                                 continue;
@@ -122,22 +127,6 @@ public class DisguiseManager implements Listener, Runnable {
                             if (disguise.getLiving().getId() == id ||
                                     disguise.getSquid().getId() == id) {
                                 f.setInt(packet, disguise.getOwner().getEntityId());
-                                //f.setInt(packet, DisguiseManager.disguises.values();
-                                /*PacketPlayInUseEntity newPacket = new PacketPlayInUseEntity();
-                                Field b = packet.getClass().getDeclaredField("action");
-                                b.setAccessible(true);
-                                Field c = packet.getClass().getDeclaredField("c");
-                                c.setAccessible(true);
-                                f.setInt(newPacket, disguise.getOwner().getEntityId());
-                                b.set(newPacket, b.get(packet));
-                                c.set(newPacket, c.get(packet));
-                                // Can't send packet when not on main thread
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((CraftPlayer) player).getHandle().playerConnection.a(newPacket);
-                                    }
-                                }, 0L);*/
                             }
                         }
                         for(Entity redirect_from : redirect_damage.keySet()) {
@@ -150,8 +139,7 @@ public class DisguiseManager implements Listener, Runnable {
                         }
                     }
                 }
-                if (msg instanceof PacketPlayInArmAnimation) {
-                    PacketPlayInArmAnimation packet = (PacketPlayInArmAnimation) msg;
+                if (msg instanceof ServerboundSwingPacket) {
                     // Make their disguise show the arm animation as well
                     for(Disguise disguise : DisguiseManager.disguises.values()) {
                         if(disguise.getLiving() == null) {
@@ -161,8 +149,8 @@ public class DisguiseManager implements Listener, Runnable {
                             continue;
                         }
                         if (disguise.getShowAttackAnimation()) {
-                            PacketPlayOutAnimation arm_swing_packet = new PacketPlayOutAnimation(
-                                    disguise.getLiving(), (byte) 0);
+                            ClientboundAnimatePacket arm_swing_packet = new ClientboundAnimatePacket(
+                                    disguise.getLiving(), 0);
                             Utils.sendPacketToAll(arm_swing_packet);
                         }
                     }
@@ -175,7 +163,7 @@ public class DisguiseManager implements Listener, Runnable {
                 super.write(channelHandlerContext, msg, channelPromise);
             }
         };
-        ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
+        ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().connection.getConnection().channel.pipeline();
         if (pipeline.get(player.getName()) != null) {
             pipeline.remove(player.getName());
         }
