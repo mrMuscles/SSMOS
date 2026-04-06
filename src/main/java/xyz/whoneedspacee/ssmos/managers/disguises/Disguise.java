@@ -1,7 +1,6 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import xyz.whoneedspacee.ssmos.Main;
 import xyz.whoneedspacee.ssmos.managers.gamestate.GameState;
@@ -19,6 +18,8 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityLinkPacket;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.PositionMoveRotation;
+import net.minecraft.world.entity.Relative;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.animal.Squid;
 import org.bukkit.Bukkit;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public abstract class Disguise {
 
@@ -88,7 +90,7 @@ public abstract class Disguise {
         armorstand = new ArmorStand(net.minecraft.world.entity.EntityType.ARMOR_STAND,
                 ((CraftWorld) owner.getWorld()).getHandle());
         // Had no idea this existed, but seems like this is what other servers must be doing
-        ((CraftArmorStand) armorstand.getBukkitEntity()).setMarker(true);
+        ((org.bukkit.entity.ArmorStand) armorstand.getBukkitEntity()).setMarker(true);
         squid = new Squid(net.minecraft.world.entity.EntityType.SQUID,
                 ((CraftWorld) owner.getWorld()).getHandle());
         for (Player player : owner.getWorld().getPlayers()) {
@@ -262,7 +264,8 @@ public abstract class Disguise {
         }
         living.snapTo(location.getX(), location.getY(), location.getZ(),
                 location.getYaw(), location.getPitch());
-        ClientboundTeleportEntityPacket teleport_packet = new ClientboundTeleportEntityPacket(living);
+        ClientboundTeleportEntityPacket teleport_packet = new ClientboundTeleportEntityPacket(
+                living.getId(), PositionMoveRotation.of(living), Set.of(), living.onGround());
         Utils.sendPacketToAllBut(owner, teleport_packet);
         ClientboundRotateHeadPacket head_packet = new ClientboundRotateHeadPacket(living,
                 (byte) ((location.getYaw() * 256.0F) / 360.0F));
@@ -271,11 +274,13 @@ public abstract class Disguise {
         // In the Entity.class al() method appears to be where it sets the passengers position
         squid.snapTo(location.getX(), living.getY() + living.getBbHeight() + squid.getBbHeight(), location.getZ(),
                 owner.getLocation().getYaw(), owner.getLocation().getPitch());
-        teleport_packet = new ClientboundTeleportEntityPacket(squid);
+        teleport_packet = new ClientboundTeleportEntityPacket(
+                squid.getId(), PositionMoveRotation.of(squid), Set.of(), squid.onGround());
         Utils.sendPacketToAllBut(owner, teleport_packet);
         armorstand.snapTo(location.getX(), squid.getY() + squid.getBbHeight() + armorstand.getBbHeight(), location.getZ(),
                 owner.getLocation().getYaw(), owner.getLocation().getPitch());
-        teleport_packet = new ClientboundTeleportEntityPacket(armorstand);
+        teleport_packet = new ClientboundTeleportEntityPacket(
+                armorstand.getId(), PositionMoveRotation.of(armorstand), Set.of(), armorstand.onGround());
         Utils.sendPacketToAllBut(owner, teleport_packet);
         // Show player data
         byte player_data = 0;

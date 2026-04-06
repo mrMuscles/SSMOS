@@ -5,87 +5,105 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BlocksUtil {
 
-    public static HashSet<Byte> blockUseSet = new HashSet<Byte>();;
-    public static HashSet<Byte> blockAirFoliageSet = new HashSet<Byte>();
+    public static Set<Material> blockUseSet = EnumSet.noneOf(Material.class);
+    public static Set<Material> blockAirFoliageSet = EnumSet.noneOf(Material.class);
 
     static {
-        blockAirFoliageSet.add((byte) Material.AIR.getId());
-        blockAirFoliageSet.add((byte) Material.OAK_SAPLING.getId());
-        blockAirFoliageSet.add((byte) Material.SHORT_GRASS.getId());
-        blockAirFoliageSet.add((byte) Material.LARGE_FERN.getId());
-        blockAirFoliageSet.add((byte) Material.DEAD_BUSH.getId());
-        blockAirFoliageSet.add((byte) Material.DANDELION.getId());
-        blockAirFoliageSet.add((byte) Material.POPPY.getId());
-        blockAirFoliageSet.add((byte) Material.BROWN_MUSHROOM.getId());
-        blockAirFoliageSet.add((byte) Material.RED_MUSHROOM.getId());
-        blockAirFoliageSet.add((byte) Material.FIRE.getId());
-        blockAirFoliageSet.add((byte) Material.WHEAT.getId());
-        blockAirFoliageSet.add((byte) Material.PUMPKIN_STEM.getId());
-        blockAirFoliageSet.add((byte) Material.MELON_STEM.getId());
-        blockAirFoliageSet.add((byte) Material.NETHER_WART.getId());
-        blockAirFoliageSet.add((byte) Material.TRIPWIRE_HOOK.getId());
-        blockAirFoliageSet.add((byte) Material.TRIPWIRE.getId());
-        blockAirFoliageSet.add((byte) Material.CARROT.getId());
-        blockAirFoliageSet.add((byte) Material.POTATO.getId());
-        blockAirFoliageSet.add((byte) Material.LARGE_FERN.getId());
-        blockAirFoliageSet.add((byte) Material.WHITE_BANNER.getId());
-        blockAirFoliageSet.add((byte) Material.WHITE_WALL_BANNER.getId());
+        blockAirFoliageSet.add(Material.AIR);
+        blockAirFoliageSet.add(Material.OAK_SAPLING);
+        blockAirFoliageSet.add(Material.BIRCH_SAPLING);
+        blockAirFoliageSet.add(Material.SPRUCE_SAPLING);
+        blockAirFoliageSet.add(Material.JUNGLE_SAPLING);
+        blockAirFoliageSet.add(Material.ACACIA_SAPLING);
+        blockAirFoliageSet.add(Material.DARK_OAK_SAPLING);
+        blockAirFoliageSet.add(Material.SHORT_GRASS);
+        blockAirFoliageSet.add(Material.FERN);
+        blockAirFoliageSet.add(Material.LARGE_FERN);
+        blockAirFoliageSet.add(Material.DEAD_BUSH);
+        blockAirFoliageSet.add(Material.DANDELION);
+        blockAirFoliageSet.add(Material.POPPY);
+        blockAirFoliageSet.add(Material.BROWN_MUSHROOM);
+        blockAirFoliageSet.add(Material.RED_MUSHROOM);
+        blockAirFoliageSet.add(Material.FIRE);
+        blockAirFoliageSet.add(Material.WHEAT);
+        blockAirFoliageSet.add(Material.PUMPKIN_STEM);
+        blockAirFoliageSet.add(Material.MELON_STEM);
+        blockAirFoliageSet.add(Material.NETHER_WART);
+        blockAirFoliageSet.add(Material.TRIPWIRE_HOOK);
+        blockAirFoliageSet.add(Material.TRIPWIRE);
+        blockAirFoliageSet.add(Material.CARROTS);
+        blockAirFoliageSet.add(Material.POTATOES);
+        blockAirFoliageSet.add(Material.WHITE_BANNER);
+        blockAirFoliageSet.add(Material.WHITE_WALL_BANNER);
+        blockAirFoliageSet.add(Material.CAVE_AIR);
+        blockAirFoliageSet.add(Material.VOID_AIR);
 
-        blockUseSet.add((byte) Material.DISPENSER.getId());
-        blockUseSet.add((byte) Material.WHITE_BED.getId());
-        blockUseSet.add((byte) Material.PISTON.getId());
-        blockUseSet.add((byte) Material.BOOKSHELF.getId());
-        blockUseSet.add((byte) Material.CHEST.getId());
-        blockUseSet.add((byte) Material.WORKBENCH.getId());
-        blockUseSet.add((byte) Material.FURNACE.getId());
-        blockUseSet.add((byte) Material.FURNACE.getId());
-        blockUseSet.add((byte) Material.OAK_DOOR.getId());
-        blockUseSet.add((byte) Material.LEVER.getId());
-        blockUseSet.add((byte) Material.IRON_DOOR.getId());
-        blockUseSet.add((byte) Material.STONE_BUTTON.getId());
-        blockUseSet.add((byte) Material.FENCE.getId());
-        blockUseSet.add((byte) Material.REPEATER.getId());
-        blockUseSet.add((byte) Material.REPEATER.getId());
-        blockUseSet.add((byte) Material.TRAP_DOOR.getId());
-        blockUseSet.add((byte) Material.FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.NETHER_BRICK_FENCE.getId());
-        blockUseSet.add((byte) Material.ENCHANTING_TABLE.getId());
-        blockUseSet.add((byte) Material.BREWING_STAND.getId());
-        blockUseSet.add((byte) Material.ENDER_CHEST.getId());
-        blockUseSet.add((byte) Material.ANVIL.getId());
-        blockUseSet.add((byte) Material.TRAPPED_CHEST.getId());
-        blockUseSet.add((byte) Material.HOPPER.getId());
-        blockUseSet.add((byte) Material.DROPPER.getId());
-
-        blockUseSet.add((byte) Material.BIRCH_FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.JUNGLE_FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.DARK_OAK_FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.ACACIA_FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.SPRUCE_FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.BIRCH_FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.JUNGLE_FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.DARK_OAK_FENCE_GATE.getId());
-        blockUseSet.add((byte) Material.ACACIA_FENCE_GATE.getId());
-
-        blockUseSet.add((byte) Material.SPRUCE_DOOR.getId());
-        blockUseSet.add((byte) Material.BIRCH_DOOR.getId());
-        blockUseSet.add((byte) Material.JUNGLE_DOOR.getId());
-        blockUseSet.add((byte) Material.ACACIA_DOOR.getId());
-        blockUseSet.add((byte) Material.DARK_OAK_DOOR.getId());
+        blockUseSet.add(Material.DISPENSER);
+        blockUseSet.add(Material.WHITE_BED);
+        blockUseSet.add(Material.ORANGE_BED);
+        blockUseSet.add(Material.MAGENTA_BED);
+        blockUseSet.add(Material.LIGHT_BLUE_BED);
+        blockUseSet.add(Material.YELLOW_BED);
+        blockUseSet.add(Material.LIME_BED);
+        blockUseSet.add(Material.PINK_BED);
+        blockUseSet.add(Material.GRAY_BED);
+        blockUseSet.add(Material.LIGHT_GRAY_BED);
+        blockUseSet.add(Material.CYAN_BED);
+        blockUseSet.add(Material.PURPLE_BED);
+        blockUseSet.add(Material.BLUE_BED);
+        blockUseSet.add(Material.BROWN_BED);
+        blockUseSet.add(Material.GREEN_BED);
+        blockUseSet.add(Material.RED_BED);
+        blockUseSet.add(Material.BLACK_BED);
+        blockUseSet.add(Material.PISTON);
+        blockUseSet.add(Material.BOOKSHELF);
+        blockUseSet.add(Material.CHEST);
+        blockUseSet.add(Material.CRAFTING_TABLE);
+        blockUseSet.add(Material.FURNACE);
+        blockUseSet.add(Material.OAK_DOOR);
+        blockUseSet.add(Material.SPRUCE_DOOR);
+        blockUseSet.add(Material.BIRCH_DOOR);
+        blockUseSet.add(Material.JUNGLE_DOOR);
+        blockUseSet.add(Material.ACACIA_DOOR);
+        blockUseSet.add(Material.DARK_OAK_DOOR);
+        blockUseSet.add(Material.IRON_DOOR);
+        blockUseSet.add(Material.LEVER);
+        blockUseSet.add(Material.STONE_BUTTON);
+        blockUseSet.add(Material.OAK_BUTTON);
+        blockUseSet.add(Material.OAK_FENCE);
+        blockUseSet.add(Material.REPEATER);
+        blockUseSet.add(Material.OAK_TRAPDOOR);
+        blockUseSet.add(Material.IRON_TRAPDOOR);
+        blockUseSet.add(Material.OAK_FENCE_GATE);
+        blockUseSet.add(Material.NETHER_BRICK_FENCE);
+        blockUseSet.add(Material.ENCHANTING_TABLE);
+        blockUseSet.add(Material.BREWING_STAND);
+        blockUseSet.add(Material.ENDER_CHEST);
+        blockUseSet.add(Material.ANVIL);
+        blockUseSet.add(Material.TRAPPED_CHEST);
+        blockUseSet.add(Material.HOPPER);
+        blockUseSet.add(Material.DROPPER);
+        blockUseSet.add(Material.BIRCH_FENCE_GATE);
+        blockUseSet.add(Material.JUNGLE_FENCE_GATE);
+        blockUseSet.add(Material.DARK_OAK_FENCE_GATE);
+        blockUseSet.add(Material.ACACIA_FENCE_GATE);
+        blockUseSet.add(Material.SPRUCE_FENCE_GATE);
     }
 
     public static boolean isAirOrFoliage(Block block) {
-        return blockAirFoliageSet.contains((byte) block.getTypeId());
+        return blockAirFoliageSet.contains(block.getType());
     }
 
     public static boolean isUsable(Block block) {
-        return blockUseSet.contains((byte) block.getTypeId());
+        return blockUseSet.contains(block.getType());
     }
 
     public static List<Block> getBlocks(Location start, int radius) {

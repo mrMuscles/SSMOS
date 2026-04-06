@@ -1,18 +1,15 @@
 package xyz.whoneedspacee.ssmos.projectiles.ssmos;
 
-import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.item.FallingBlockEntity;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.util.Vector;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.managers.DamageManager;
@@ -24,30 +21,29 @@ import java.util.HashMap;
 
 public class MagmaBoulderProjectile extends SmashProjectile {
 
-    protected int block_id;
-    protected byte block_data;
+    protected Material material;
     protected int max_bounces = 3;
     protected int hit_times = 0;
     protected HashMap<LivingEntity, Long> last_hit_time_ms = new HashMap<LivingEntity, Long>();
 
-    public MagmaBoulderProjectile(Player firer, String name, int block_id, byte block_data) {
+    public MagmaBoulderProjectile(Player firer, String name, Material material) {
         super(firer, name);
         this.damage = 4;
         this.hitbox_size = 0.75;
         this.knockback_mult = 1;
-        this.block_id = block_id;
-        this.block_data = block_data;
+        this.material = material;
         this.blockDetection = false;
+    }
+
+    /** Legacy constructor kept for compatibility (block_id and block_data are ignored, NETHERRACK is used). */
+    public MagmaBoulderProjectile(Player firer, String name, int block_id, byte block_data) {
+        this(firer, name, Material.NETHERRACK);
     }
 
     @Override
     public void run() {
         super.run();
         if(projectile != null) {
-            ClientboundTeleportEntityPacket teleport_packet = new ClientboundTeleportEntityPacket(((CraftEntity) projectile).getHandle());
-            for(Player player : projectile.getWorld().getPlayers()) {
-                Utils.sendPacket(player, teleport_packet);
-            }
             projectile.setVelocity(projectile.getVelocity().setY(Math.max(projectile.getVelocity().getY() - 0.02, -4.0)));
         }
         if(projectile != null && projectile.getVelocity().getY() < 0) {
@@ -69,12 +65,8 @@ public class MagmaBoulderProjectile extends SmashProjectile {
     @Override
     protected Entity createProjectileEntity() {
         Location spawn_location = firer.getEyeLocation().add(firer.getLocation().getDirection());
-        WorldServer world = ((CraftWorld) firer.getWorld()).getHandle();
-        EntityFallingBlock entity = new EntityFallingBlock(world, spawn_location.getX(), spawn_location.getY(), spawn_location.getZ(),
-                net.minecraft.server.v1_8_R3.Block.getById(block_id).fromLegacyData(block_data));
-        entity.ticksLived = 1;
-        world.addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        FallingBlock block = (FallingBlock) entity.getBukkitEntity();
+        BlockData blockData = material.createBlockData();
+        FallingBlock block = firer.getWorld().spawnFallingBlock(spawn_location, blockData);
         DamageManager.no_fast_block.put(block, 1);
         return block;
     }

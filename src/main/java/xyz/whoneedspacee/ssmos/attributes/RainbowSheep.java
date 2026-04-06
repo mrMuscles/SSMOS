@@ -3,7 +3,6 @@ package xyz.whoneedspacee.ssmos.attributes;
 import xyz.whoneedspacee.ssmos.managers.disguises.Disguise;
 import xyz.whoneedspacee.ssmos.managers.disguises.SheepDisguise;
 import xyz.whoneedspacee.ssmos.managers.DisguiseManager;
-import net.minecraft.world.entity.LivingEntity;
 
 public class RainbowSheep extends Attribute {
 
@@ -24,10 +23,11 @@ public class RainbowSheep extends Attribute {
             return;
         }
         SheepDisguise sheepDisguise = (SheepDisguise) disguise;
-        EntityLiving living = sheepDisguise.getLiving();
-        living.setCustomName("jeb_");
-        living.setCustomNameVisible(false);
-        //sheepDisguise.setColor((sheepDisguise.getColor() + 1) % 16);
+        net.minecraft.world.entity.LivingEntity living = sheepDisguise.getLiving();
+        if (living != null) {
+            living.getBukkitEntity().setCustomName("jeb_");
+            living.getBukkitEntity().setCustomNameVisible(false);
+        }
     }
 
 }

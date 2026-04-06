@@ -34,7 +34,7 @@ public class SkinsUtil {
         PropertyMap pMap = profile.getProperties();
         Property property = pMap.get("textures").iterator().next();
         if(original_property == null) {
-            original_property = new Property(property.getName(), property.getValue(), property.getSignature());
+            original_property = new Property(property.name(), property.value(), property.signature());
         }
         pMap.remove("textures", property);
         pMap.put("textures", new Property("textures", data, signature));
@@ -43,7 +43,7 @@ public class SkinsUtil {
 
     public void removeSkin() {
         if(original_property != null) {
-            changeSkin(original_property.getValue(), original_property.getSignature());
+            changeSkin(original_property.value(), original_property.signature());
         }
     }
 

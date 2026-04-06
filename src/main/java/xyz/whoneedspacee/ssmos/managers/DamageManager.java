@@ -11,13 +11,9 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
 import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
-import net.minecraft.server.v1_8_R3.*;
-import net.minecraft.server.v1_8_R3.Statistic;
+import net.minecraft.network.protocol.game.ClientboundEntityEventPacket;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.entity.CraftFallingSand;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -67,74 +63,6 @@ public class DamageManager implements Listener {
             return;
         }
         e.setCancelled(true);
-        EntityPlayer player = ((CraftPlayer) e.getPlayer()).getHandle();
-        EntityFallingBlock entityFallingBlock = ((CraftFallingSand) (e.getAttacked())).getHandle();
-        // EntityHuman.class attack code starts here, code is edited to ignore bits that would not call
-        if(!(entityFallingBlock.aD() && !entityFallingBlock.l(player))) {
-            return;
-        }
-        float f = (float)player.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).getValue();
-        byte b0 = 0;
-        float f1 = 0.0F;
-        f1 = EnchantmentManager.a(player.bA(), EnumMonsterType.UNDEFINED);
-        int i = b0 + EnchantmentManager.a(player);
-        if(player.isSprinting()) {
-            ++i;
-        }
-        if (f > 0.0F || f1 > 0.0F) {
-            boolean flag = false;
-            if (flag && f > 0.0F) {
-                f *= 1.5F;
-            }
-
-            f += f1;
-            boolean flag1 = false;
-            int j = EnchantmentManager.getFireAspectEnchantmentLevel(player);
-
-            double d0 = entityFallingBlock.motX;
-            double d1 = entityFallingBlock.motY;
-            double d2 = entityFallingBlock.motZ;
-            // Copy this in to replace what the patch did instead of calling the normal damage
-            CraftEventFactory.handleNonLivingEntityDamageEvent(entityFallingBlock, DamageSource.playerAttack(player), f);
-            // This is the return from the patch
-            boolean flag2 = true;
-            if (flag2) {
-                if (i > 0) {
-                    entityFallingBlock.g((double)(-MathHelper.sin(player.yaw * 3.1415927F / 180.0F) * (float)i * 0.5F), 0.1, (double)(MathHelper.cos(player.yaw * 3.1415927F / 180.0F) * (float)i * 0.5F));
-                    //Bukkit.broadcastMessage(String.format("X: %.1f, Y: %.1f, Z: %.1f", entityFallingBlock.motX, entityFallingBlock.motY, entityFallingBlock.motZ));
-                    player.motX *= 0.6;
-                    player.motZ *= 0.6;
-                    // This sets it on the server only, so just don't do that
-                    // This means this is probably wrong since I do remember it toggling the players sprinting
-                    // Unfortunately I have no idea what to do here
-                    // According to some clicking block toss didn't toggle sprint though so maybe it is fine
-                    //player.setSprinting(false);
-                }
-
-                if (flag) {
-                    player.b(entityFallingBlock);
-                }
-
-                if (f1 > 0.0F) {
-                    player.c(entityFallingBlock);
-                }
-
-                if (f >= 18.0F) {
-                    player.b((Statistic)AchievementList.F);
-                }
-
-                player.p(entityFallingBlock);
-
-                EnchantmentManager.b(player, entityFallingBlock);
-                ItemStack itemstack = player.bZ();
-                Object object = entityFallingBlock;
-
-                player.applyExhaustion(player.world.spigotConfig.combatExhaustion);
-            } else if (flag1) {
-                player.extinguish();
-            }
-        }
-        //Bukkit.broadcastMessage("Velocity: " + String.format("%.2f, %.2f, %.2f", entityFallingBlock.motX, entityFallingBlock.motY, entityFallingBlock.motZ));
     }
 
     // Highest priority to get after all changes
@@ -352,17 +280,17 @@ public class DamageManager implements Listener {
             damageMultiplier = 1;
         }
         double previousHealth = damagee.getHealth();
-        EntityLiving entityDamagee = ((CraftLivingEntity) damagee).getHandle();
+        net.minecraft.world.entity.LivingEntity entityDamagee = ((CraftLivingEntity) damagee).getHandle();
         boolean died = false;
         double new_health = 20;
         double dealt = 0;
         if ((float) damagee.getNoDamageTicks() > (float) damagee.getMaximumNoDamageTicks() / 2.0F) {
-            dealt = Math.max(damage - entityDamagee.lastDamage, 0) * damageMultiplier;
+            dealt = Math.max(damage - entityDamagee.lastHurt, 0) * damageMultiplier;
         } else {
             dealt = damage * damageMultiplier;
         }
         new_health = Math.max(damagee.getHealth() - dealt, 0);
-        entityDamagee.lastDamage = (float) damage;
+        entityDamagee.lastHurt = (float) damage;
         // Avoid really killing the player
         if (new_health <= 0) {
             died = true;
@@ -374,7 +302,7 @@ public class DamageManager implements Listener {
         if(damagee instanceof Player) {
             disguise = DisguiseManager.disguises.get(damagee);
             if (disguise != null && disguise.getLiving() != null) {
-                PacketPlayOutEntityStatus packet = new PacketPlayOutEntityStatus((net.minecraft.server.v1_8_R3.Entity) disguise.getLiving(), (byte) 2);
+                ClientboundEntityEventPacket packet = new ClientboundEntityEventPacket(disguise.getLiving(), (byte) 2);
                 Utils.sendPacketToAllBut(disguise.getOwner(), packet);
             }
         }
