@@ -1,6 +1,6 @@
 package xyz.whoneedspacee.ssmos.utilities;
 
-import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Particle;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -19,14 +19,14 @@ public class LineParticle {
 
     private boolean ignoreAllBlocks;
 
-    private final EnumParticle particleType;
+    private final Particle particleType;
     private final List<Player> toDisplay;
 
-    public LineParticle(Location start, Vector direction, double incrementedRange, double maxRange, EnumParticle particleType, List<Player> toDisplay) {
+    public LineParticle(Location start, Vector direction, double incrementedRange, double maxRange, Particle particleType, List<Player> toDisplay) {
         this(start, null, direction, incrementedRange, maxRange, particleType, toDisplay);
     }
 
-    public LineParticle(Location start, Location end, Vector direction, double incrementedRange, double maxRange, EnumParticle particleType, List<Player> toDisplay) {
+    public LineParticle(Location start, Location end, Vector direction, double incrementedRange, double maxRange, Particle particleType, List<Player> toDisplay) {
         this.start = start;
         this.direction = direction;
         this.lastLocation = start;

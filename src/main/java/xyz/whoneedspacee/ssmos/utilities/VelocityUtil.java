@@ -1,9 +1,9 @@
 package xyz.whoneedspacee.ssmos.utilities;
 
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
+import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -11,14 +11,13 @@ import org.bukkit.util.Vector;
 public class VelocityUtil {
 
     public static void setVelocity(Entity entity, Vector velocity) {
-        net.minecraft.server.v1_8_R3.Entity nmsEntity = ((CraftEntity) entity).getHandle();
-        nmsEntity.motX = velocity.getX();
-        nmsEntity.motY = velocity.getY();
-        nmsEntity.motZ = velocity.getZ();
+        net.minecraft.world.entity.Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        nmsEntity.setDeltaMovement(velocity.getX(), velocity.getY(), velocity.getZ());
+        nmsEntity.hurtMarked = true;
         if (entity instanceof Player) {
             Player player = (Player) entity;
-            EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-            Utils.sendPacket(player, new PacketPlayOutEntityVelocity(entityPlayer));
+            ServerPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+            Utils.sendPacket(player, new ClientboundSetEntityMotionPacket(entityPlayer));
         }
     }
 
