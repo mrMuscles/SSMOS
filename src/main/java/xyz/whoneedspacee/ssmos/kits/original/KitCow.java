@@ -24,7 +24,7 @@ public class KitCow extends Kit {
         this.regeneration = 0.25;
         this.knockback = 1.1;
         this.name = "Cow";
-        this.menuItem = Material.RAW_BEEF;
+        this.menuItem = Material.BEEF;
         this.podium_mob_type = EntityType.COW;
     }
 

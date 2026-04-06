@@ -6,11 +6,11 @@ import xyz.whoneedspacee.ssmos.abilities.Ability;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.world.entity.projectile.LargeFireball;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.entity.CraftLargeFireball;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -57,8 +57,7 @@ public class MagmaBlast extends Ability implements OwnerRightClickEvent, OwnerDe
         ball.setBounce(false);
         ball.teleport(owner.getEyeLocation().add(owner.getLocation().getDirection().multiply(1)));
         Vector dir = owner.getLocation().getDirection().multiply(velocity);
-        LargeFireball eFireball = ((CraftLargeFireball) ball).getHandle();
-        eFireball.setPower(dir.getX(), dir.getY(), dir.getZ());
+        ((Fireball) ball).setDirection(dir.clone().normalize());
         VelocityUtil.setVelocity(owner, owner.getLocation().getDirection().multiply(-1), 1.2, false, 0, 0.2, 1.2, true);
         ball.setMetadata("Magma Blast", new FixedMetadataValue(plugin, 1));
         owner.getWorld().playSound(owner.getLocation(), Sound.CREEPER_DEATH, 2f, 1.5f);

@@ -1,11 +1,8 @@
 package xyz.whoneedspacee.ssmos.commands;
 
-import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class CommandPing implements CommandExecutor {
@@ -18,8 +15,7 @@ public class CommandPing implements CommandExecutor {
         Player player = (Player) commandSender;
         player.sendMessage("Player Ping:");
         for(Player check : player.getWorld().getPlayers()) {
-            ServerPlayer nms_check = ((CraftPlayer) check).getHandle();
-            player.sendMessage(check.getName() + ": " + nms_check.latency);
+            player.sendMessage(check.getName() + ": " + check.getPing());
         }
         return true;
     }

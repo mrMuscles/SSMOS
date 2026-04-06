@@ -5,6 +5,7 @@ import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
@@ -17,11 +18,10 @@ public class BlockProjectile extends SmashProjectile {
     protected double max_damage;
     protected long charge;
     protected double mult;
-    protected int block_id;
-    protected byte block_data;
+    protected BlockData blockData;
     protected FallingBlock hit_block_effect;
 
-    public BlockProjectile(Player firer, String name, long charge, double mult, int block_id, byte block_data) {
+    public BlockProjectile(Player firer, String name, long charge, double mult, BlockData blockData) {
         super(firer, name);
         this.damage = 8;
         this.max_damage = 9;
@@ -29,21 +29,18 @@ public class BlockProjectile extends SmashProjectile {
         this.knockback_mult = 2.5;
         this.charge = charge;
         this.mult = mult;
-        this.block_id = block_id;
-        this.block_data = block_data;
+        this.blockData = blockData;
+    }
+
+    /** Legacy constructor kept for compatibility; block_id/block_data are ignored, uses STONE. */
+    public BlockProjectile(Player firer, String name, long charge, double mult, int block_id, byte block_data) {
+        this(firer, name, charge, mult, Material.STONE.createBlockData());
     }
 
     @Override
     protected Entity createProjectileEntity() {
         Location spawn_location = firer.getEyeLocation().add(firer.getLocation().getDirection());
-        FallingBlock block = firer.getWorld().spawnFallingBlock(spawn_location, block_id, block_data);
-        //WorldServer world = ((CraftWorld) firer.getWorld()).getHandle();
-        //EntityFallingBlock entity = new EntityFallingBlock(world, spawn_location.getX(), spawn_location.getY(), spawn_location.getZ(),
-        //        net.minecraft.server.v1_8_R3.Block.getById(block_id).fromLegacyData(block_data));
-        //entity.ticksLived = 1;
-        //world.addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        //return entity.getBukkitEntity();
-        return block;
+        return firer.getWorld().spawnFallingBlock(spawn_location, blockData);
     }
 
     @Override
@@ -72,7 +69,7 @@ public class BlockProjectile extends SmashProjectile {
         smashDamageEvent.callEvent();
         if (projectile instanceof FallingBlock) {
             FallingBlock thrown = (FallingBlock) projectile;
-            hit_block_effect = projectile.getWorld().spawnFallingBlock(projectile.getLocation(), thrown.getMaterial(), (byte) thrown.getBlockData());
+            hit_block_effect = projectile.getWorld().spawnFallingBlock(projectile.getLocation(), thrown.getBlockData());
         }
         return true;
     }
@@ -97,11 +94,11 @@ public class BlockProjectile extends SmashProjectile {
         }
         FallingBlock falling = (FallingBlock) e.getEntity();
         if(e.getEntity().equals(projectile)) {
-            falling.getWorld().playEffect(e.getBlock().getLocation(), Effect.STEP_SOUND, falling.getBlockId());
+            falling.getWorld().playEffect(e.getBlock().getLocation(), Effect.STEP_SOUND, falling.getBlockData().getMaterial());
             cancel();
         }
         if(e.getEntity().equals(hit_block_effect)) {
-            falling.getWorld().playEffect(e.getBlock().getLocation(), Effect.STEP_SOUND, falling.getBlockId());
+            falling.getWorld().playEffect(e.getBlock().getLocation(), Effect.STEP_SOUND, falling.getBlockData().getMaterial());
             falling.remove();
         }
         e.setCancelled(true);

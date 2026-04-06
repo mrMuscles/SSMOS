@@ -1,10 +1,8 @@
 package xyz.whoneedspacee.ssmos.commands;
 
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -20,7 +18,6 @@ public class CommandJump implements CommandExecutor {
             return true;
         }
         Player player = (Player) commandSender;
-        CraftPlayer craftplayer = (CraftPlayer) player;
         float power = 1;
         if (args.length == 1) {
             power = Float.parseFloat(args[0]);

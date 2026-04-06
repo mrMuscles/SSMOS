@@ -1,6 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
 
-import net.minecraft.world.entity.monster.Slime;
 import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
@@ -96,7 +95,7 @@ public class SlimeRocket extends Ability implements OwnerRightClickEvent {
         Slime slime = owner.getWorld().spawn(owner.getEyeLocation(), Slime.class);
         // Hack fix because slimes refuse to face any direction but south
         BukkitRunnable runnable = new BukkitRunnable() {
-            private Slime nms_slime = ((CraftSlime) slime).getHandle();
+            private net.minecraft.world.entity.monster.Slime nms_slime = ((CraftSlime) slime).getHandle();
             private float original_yaw = owner.getEyeLocation().getYaw();
             @Override
             public void run() {
@@ -105,7 +104,7 @@ public class SlimeRocket extends Ability implements OwnerRightClickEvent {
                     return;
                 }
                 nms_slime.setYRot(original_yaw);
-                nms_slime.yRotLast = original_yaw;
+                nms_slime.yRotO = original_yaw;
             }
         };
         runnable.runTaskTimer(plugin, 0L, 0L);

@@ -26,7 +26,7 @@ public class SnowDamage extends Attribute implements OwnerDealSmashDamageEvent {
 
     @Override
     public void onOwnerDealSmashDamageEvent(SmashDamageEvent e) {
-        if(e.getDamagee().getLocation().getBlock().getTypeId() != 78) {
+        if(e.getDamagee().getLocation().getBlock().getType() != org.bukkit.Material.SNOW) {
             return;
         }
         e.setDamage(e.getDamage() + bonus_damage);

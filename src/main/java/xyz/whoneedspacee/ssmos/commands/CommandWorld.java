@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Wool;
 import xyz.whoneedspacee.ssmos.Main;
 
 import java.io.File;
@@ -356,11 +355,7 @@ public class CommandWorld implements CommandExecutor {
     }
 
     public static boolean isRespawnPoint(Block check) {
-        if (check.getType() != Material.WOOL) {
-            return false;
-        }
-        Wool wool = (Wool) check.getState().getData();
-        if (wool.getColor() != DyeColor.GREEN) {
+        if (check.getType() != Material.GREEN_WOOL) {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
@@ -368,11 +363,7 @@ public class CommandWorld implements CommandExecutor {
     }
 
     public static boolean isBoundaryPoint(Block check) {
-        if (check.getType() != Material.WOOL) {
-            return false;
-        }
-        Wool wool = (Wool) check.getState().getData();
-        if (wool.getColor() != DyeColor.RED) {
+        if (check.getType() != Material.RED_WOOL) {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
@@ -380,11 +371,7 @@ public class CommandWorld implements CommandExecutor {
     }
 
     public static boolean isCenterPoint(Block check) {
-        if (check.getType() != Material.WOOL) {
-            return false;
-        }
-        Wool wool = (Wool) check.getState().getData();
-        if (wool.getColor() != DyeColor.WHITE) {
+        if (check.getType() != Material.WHITE_WOOL) {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);

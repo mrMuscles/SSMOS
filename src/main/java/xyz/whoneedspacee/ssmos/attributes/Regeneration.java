@@ -1,8 +1,5 @@
 package xyz.whoneedspacee.ssmos.attributes;
 
-import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.network.protocol.game.ClientboundSetHealthPacket;
-
 public class Regeneration extends Attribute {
 
     protected double regen_amount;
@@ -31,10 +28,7 @@ public class Regeneration extends Attribute {
 
     public void activate() {
         if (!owner.isDead() && owner.getFoodLevel() > 0) {
-            // Use packets here to make the visual effect on the healthbar appear
             owner.setHealth(Math.min(owner.getHealth() + regen_amount, 20));
-            ClientboundSetHealthPacket packet = new ClientboundSetHealthPacket((float) owner.getHealth(), owner.getFoodLevel(), owner.getSaturation());
-            Utils.sendPacket(owner, packet);
         }
     }
 

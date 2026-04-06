@@ -62,7 +62,7 @@ public class KitVillager extends Kit {
         setItem(new ItemStack(Material.IRON_HOE), 1);
         setItem(new ItemStack(Material.IRON_SPADE), 2);
         setItem(Compass.COMPASS_ITEM, 3);
-        setItem(new ItemStack(Material.INK_SAC, 1, (short)(15 - DyeColor.RED.getData())), 7);
+        setItem(new ItemStack(Material.RED_DYE), 7);
     }
 
     @Override

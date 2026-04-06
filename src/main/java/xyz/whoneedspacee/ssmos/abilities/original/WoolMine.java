@@ -34,7 +34,7 @@ public class WoolMine extends Ability implements OwnerRightClickEvent {
     public WoolProjectile projectile = null;
     public Block wool_block = null;
     public Material block_material = null;
-    public byte block_data = 0;
+    public org.bukkit.block.data.BlockData block_blockData = null;
     public long last_delay_time = 0;
     public long arm_time = 0;
 
@@ -65,10 +65,10 @@ public class WoolMine extends Ability implements OwnerRightClickEvent {
         if(System.currentTimeMillis() - arm_time >= auto_detonate_delay_ms) {
             detonate(false);
         } else if(System.currentTimeMillis() - arm_time >= delay_ms) {
-            if(wool_block.getData() == 14) {
-                wool_block.setData((byte) 0);
+            if(wool_block.getType() == Material.RED_WOOL) {
+                wool_block.setType(Material.WHITE_WOOL);
             } else {
-                wool_block.setData((byte) 14);
+                wool_block.setType(Material.RED_WOOL);
             }
         }
     }
@@ -104,8 +104,8 @@ public class WoolMine extends Ability implements OwnerRightClickEvent {
                 0, 0, 0, 0, 1, 96, wool_block.getWorld().getPlayers());
         wool_block.getWorld().playSound(wool_block.getLocation(), Sound.EXPLODE, 3f, 0.8f);
         if(owner == null) {
-            wool_block.setType(block_material);
-            wool_block.setData(block_data);
+            if (block_blockData != null) wool_block.setBlockData(block_blockData);
+            else wool_block.setType(block_material != null ? block_material : Material.AIR);
             wool_block = null;
             return;
         }
@@ -120,8 +120,8 @@ public class WoolMine extends Ability implements OwnerRightClickEvent {
             smashDamageEvent.setReason(name);
             smashDamageEvent.callEvent();
             if(owner == null) {
-                wool_block.setType(block_material);
-                wool_block.setData(block_data);
+                if (block_blockData != null) wool_block.setBlockData(block_blockData);
+                else wool_block.setType(block_material != null ? block_material : Material.AIR);
                 wool_block = null;
                 return;
             }
@@ -134,8 +134,8 @@ public class WoolMine extends Ability implements OwnerRightClickEvent {
                         ChatColor.GRAY + " hit you with", name, player, ServerMessageType.GAME);
             }
         }
-        wool_block.setType(block_material);
-        wool_block.setData(block_data);
+        if (block_blockData != null) wool_block.setBlockData(block_blockData);
+        else wool_block.setType(block_material != null ? block_material : Material.AIR);
         wool_block = null;
         if(inform) {
             Utils.sendAttributeMessage("You detonated", name, owner, ServerMessageType.SKILL);

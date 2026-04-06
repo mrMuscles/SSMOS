@@ -35,7 +35,7 @@ public class WoolProjectile extends SmashProjectile {
 
     @Override
     protected Entity createProjectileEntity() {
-        ItemStack wool = new ItemStack(Material.WOOL);
+        ItemStack wool = new ItemStack(Material.WHITE_WOOL);
         return firer.getWorld().dropItem(firer.getEyeLocation(), wool);
     }
 
@@ -87,13 +87,13 @@ public class WoolProjectile extends SmashProjectile {
             if (mine != null) {
                 mine.wool_block = block;
                 mine.block_material = block.getType();
-                mine.block_data = block.getData();
+                mine.block_blockData = block.getBlockData();
                 mine.arm_time = System.currentTimeMillis();
                 mine.last_delay_time = System.currentTimeMillis();
                 mine.projectile = null;
             }
         }
-        block.setType(Material.WOOL);
+        block.setType(Material.WHITE_WOOL);
         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
         if (inform) {
             firer.getWorld().playSound(firer.getLocation(), Sound.ENTITY_SHEEP_AMBIENT, 2f, 1.5f);

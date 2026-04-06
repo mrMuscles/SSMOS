@@ -5,7 +5,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Wool;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -136,11 +135,7 @@ public class GameMap extends SmashMap {
     }
 
     public boolean isRespawnPoint(Block check) {
-        if (check.getType() != Material.WOOL) {
-            return false;
-        }
-        Wool wool = (Wool) check.getState().getData();
-        if (wool.getColor() != DyeColor.GREEN) {
+        if (check.getType() != Material.GREEN_WOOL) {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
@@ -148,11 +143,7 @@ public class GameMap extends SmashMap {
     }
 
     public boolean isBoundaryPoint(Block check) {
-        if (check.getType() != Material.WOOL) {
-            return false;
-        }
-        Wool wool = (Wool) check.getState().getData();
-        if (wool.getColor() != DyeColor.RED) {
+        if (check.getType() != Material.RED_WOOL) {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
@@ -160,11 +151,7 @@ public class GameMap extends SmashMap {
     }
 
     public boolean isCenterPoint(Block check) {
-        if (check.getType() != Material.WOOL) {
-            return false;
-        }
-        Wool wool = (Wool) check.getState().getData();
-        if (wool.getColor() != DyeColor.WHITE) {
+        if (check.getType() != Material.WHITE_WOOL) {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);

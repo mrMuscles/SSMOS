@@ -1,24 +1,12 @@
 package xyz.whoneedspacee.ssmos.utilities;
 
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
-import net.minecraft.server.level.ServerPlayer;
-import org.bukkit.craftbukkit.entity.CraftEntity;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class VelocityUtil {
 
     public static void setVelocity(Entity entity, Vector velocity) {
-        net.minecraft.world.entity.Entity nmsEntity = ((CraftEntity) entity).getHandle();
-        nmsEntity.setDeltaMovement(velocity.getX(), velocity.getY(), velocity.getZ());
-        nmsEntity.hurtMarked = true;
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
-            ServerPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-            Utils.sendPacket(player, new ClientboundSetEntityMotionPacket(entityPlayer));
-        }
+        entity.setVelocity(velocity);
     }
 
     public static void setVelocity(Entity ent, double str, double yAdd, double yMax, boolean groundBoost) {

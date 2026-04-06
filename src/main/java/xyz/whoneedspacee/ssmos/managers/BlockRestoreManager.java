@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.type.Snow;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -71,7 +72,7 @@ public class BlockRestoreManager implements Listener, Runnable {
                 return;
 
             if (contains(push)) {
-                push.getWorld().playEffect(push.getLocation(), Effect.STEP_SOUND, push.getTypeId());
+                push.getWorld().playEffect(push.getLocation(), Effect.STEP_SOUND, push.getType());
                 event.setCancelled(true);
                 return;
             }
@@ -146,7 +147,7 @@ public class BlockRestoreManager implements Listener, Runnable {
     }
 
     public void add(Block block, int toID, byte toData, long expireTime, boolean restoreOnBreak) {
-        add(block, toID, toData, block.getTypeId(), block.getData(), expireTime, restoreOnBreak);
+        add(block, toID, toData, 0, (byte) 0, expireTime, restoreOnBreak);
     }
 
     public void add(Block block, int toID, byte toData, int fromID, byte fromData, long expireTime) {
@@ -163,9 +164,63 @@ public class BlockRestoreManager implements Listener, Runnable {
         }
     }
 
+    public void add(Block block, org.bukkit.block.data.BlockData toData, long expireTime) {
+        add(block, toData, expireTime, false);
+    }
+
+    public void add(Block block, org.bukkit.block.data.BlockData toData, long expireTime, boolean restoreOnBreak) {
+        if (!contains(block))
+            getBlocks().put(block, new BlockRestoreData(block, toData, expireTime, restoreOnBreak));
+        else {
+            if (getData(block) != null)
+                getData(block).update(toData, expireTime);
+        }
+    }
+
+    /**
+     * Maps legacy numeric block IDs and data bytes to modern BlockData.
+     * Only covers IDs used within this plugin.
+     */
+    public static org.bukkit.block.data.BlockData legacyIdToBlockData(int id, byte data) {
+        switch (id) {
+            case 0:   return Bukkit.createBlockData(Material.AIR);
+            case 1:   return Bukkit.createBlockData(Material.STONE);
+            case 2:   return Bukkit.createBlockData(Material.GRASS_BLOCK);
+            case 3:   return Bukkit.createBlockData(Material.DIRT);
+            case 4:   return Bukkit.createBlockData(Material.COBBLESTONE);
+            case 8:
+            case 9:   return Bukkit.createBlockData(Material.WATER);
+            case 30:  return Bukkit.createBlockData(Material.COBWEB);
+            case 44:  return Bukkit.createBlockData(Material.SMOOTH_STONE_SLAB);
+            case 78: {
+                // data 0-7 → layers 1-8
+                org.bukkit.block.data.BlockData bd = Bukkit.createBlockData(Material.SNOW);
+                ((Snow) bd).setLayers(Math.min(8, Math.max(1, (data & 0xFF) + 1)));
+                return bd;
+            }
+            case 79:  return Bukkit.createBlockData(Material.ICE);
+            case 80:  return Bukkit.createBlockData(Material.SNOW_BLOCK);
+            case 98:
+                if (data == 2) return Bukkit.createBlockData(Material.CRACKED_STONE_BRICKS);
+                return Bukkit.createBlockData(Material.STONE_BRICKS);
+            case 126: return Bukkit.createBlockData(Material.OAK_SLAB);
+            case 174: return Bukkit.createBlockData(Material.PACKED_ICE);
+            default:  return Bukkit.createBlockData(Material.STONE);
+        }
+    }
+
     public void snow(Block block, byte heightAdd, byte heightMax, long expireTime, long meltDelay, int heightJumps) {
-        //Fill Above
-        if (((block.getTypeId() == 78 && block.getData() >= (byte) 7) || block.getTypeId() == 80) && getData(block) != null) {
+        Material blockMat = block.getType();
+        Material downMat = block.getRelative(BlockFace.DOWN).getType();
+
+        // Current snow layer data (0-7 equivalent) when block is already a snow layer
+        byte currentLayerData = 0;
+        if (blockMat == Material.SNOW) {
+            currentLayerData = (byte) (((Snow) block.getBlockData()).getLayers() - 1);
+        }
+
+        //Fill Above - block is full snow (layer 8 = data 7) or snow block
+        if (((blockMat == Material.SNOW && currentLayerData >= (byte) 7) || blockMat == Material.SNOW_BLOCK) && getData(block) != null) {
             if (getData(block) != null)
                 getData(block).update(78, heightAdd, expireTime, meltDelay);
 
@@ -178,19 +233,21 @@ public class BlockRestoreManager implements Listener, Runnable {
         }
 
         //Not Grounded
-        if (!block.getRelative(BlockFace.DOWN).getType().isSolid() && block.getRelative(BlockFace.DOWN).getTypeId() != 78)
+        if (!downMat.isSolid() && downMat != Material.SNOW)
             return;
 
-        //Not on Solid Snow
-        if (block.getRelative(BlockFace.DOWN).getTypeId() == 78 && block.getRelative(BlockFace.DOWN).getData() < (byte) 7)
-            return;
+        //Not on Solid Snow (must be at max layer height)
+        if (downMat == Material.SNOW) {
+            int downLayers = ((Snow) block.getRelative(BlockFace.DOWN).getBlockData()).getLayers() - 1;
+            if (downLayers < 7) return;
+        }
 
         //No Snow on Ice
-        if (block.getRelative(BlockFace.DOWN).getTypeId() == 79 || block.getRelative(BlockFace.DOWN).getTypeId() == 174)
+        if (downMat == Material.ICE || downMat == Material.PACKED_ICE)
             return;
 
         //No Snow on Slabs
-        if (block.getRelative(BlockFace.DOWN).getTypeId() == 44 || block.getRelative(BlockFace.DOWN).getTypeId() == 126)
+        if (downMat == Material.SMOOTH_STONE_SLAB || downMat == Material.OAK_SLAB)
             return;
 
         //No Snow on Stairs
@@ -198,25 +255,26 @@ public class BlockRestoreManager implements Listener, Runnable {
             return;
 
         //No Snow on Fence or Walls
-        if (block.getRelative(BlockFace.DOWN).getType().name().toLowerCase().contains("fence") ||
-                block.getRelative(BlockFace.DOWN).getType().name().toLowerCase().contains("wall"))
+        if (downMat.name().toLowerCase().contains("fence") ||
+                downMat.name().toLowerCase().contains("wall"))
             return;
 
         //Not Buildable
-        if (block.getType().isSolid() && block.getTypeId() != 78 && block.getType() != Material.CARPET)
+        if (blockMat.isSolid() && blockMat != Material.SNOW && !blockMat.name().endsWith("_CARPET"))
             return;
 
         //Limit Build Height
-        if (block.getTypeId() == 78)
-            if (block.getData() >= (byte) (heightMax - 1))
-                heightAdd = 0;
+        byte adjustedHeightAdd = heightAdd;
+        if (blockMat == Material.SNOW)
+            if (currentLayerData >= (byte) (heightMax - 1))
+                adjustedHeightAdd = 0;
 
         //Snow
         if (!contains(block))
-            getBlocks().put(block, new BlockRestoreData(block, 78, (byte) Math.max(0, heightAdd - 1), block.getTypeId(), block.getData(), expireTime, meltDelay, false));
+            getBlocks().put(block, new BlockRestoreData(block, 78, (byte) Math.max(0, adjustedHeightAdd - 1), 0, (byte) 0, expireTime, meltDelay, false));
         else {
             if (getData(block) != null)
-                getData(block).update(78, heightAdd, expireTime, meltDelay);
+                getData(block).update(78, adjustedHeightAdd, expireTime, meltDelay);
         }
     }
 
@@ -312,6 +370,26 @@ public class BlockRestoreManager implements Listener, Runnable {
             set();
         }
 
+        public BlockRestoreData(Block block, org.bukkit.block.data.BlockData toBlockData, long expireDelay, boolean restoreOnBreak) {
+            this.block = block;
+            this.fromState = block.getState();
+
+            this.fromID = 0;
+            this.fromData = 0;
+            this.toID = 0;
+            this.toData = 0;
+
+            this.expireDelay = expireDelay;
+            this.epoch = System.currentTimeMillis();
+
+            this.meltDelay = 0;
+            this.meltLast = System.currentTimeMillis();
+
+            this.restoreOnBreak = restoreOnBreak;
+
+            block.setBlockData(toBlockData, true);
+        }
+
         public boolean expire() {
             if (System.currentTimeMillis() - epoch < expireDelay)
                 return false;
@@ -326,10 +404,12 @@ public class BlockRestoreManager implements Listener, Runnable {
         }
 
         public boolean melt() {
-            if (block.getTypeId() != 78 && block.getTypeId() != 80)
+            Material blockMat = block.getType();
+            if (blockMat != Material.SNOW && blockMat != Material.SNOW_BLOCK)
                 return false;
 
-            if (block.getRelative(BlockFace.UP).getTypeId() == 78 || block.getRelative(BlockFace.UP).getTypeId() == 80) {
+            Material upMat = block.getRelative(BlockFace.UP).getType();
+            if (upMat == Material.SNOW || upMat == Material.SNOW_BLOCK) {
                 meltLast = System.currentTimeMillis();
                 return true;
             }
@@ -337,14 +417,22 @@ public class BlockRestoreManager implements Listener, Runnable {
             if (System.currentTimeMillis() - meltLast < meltDelay)
                 return true;
 
-            //Return to Cover
-            if (block.getTypeId() == 80)
-                block.setTypeIdAndData(78, (byte) 7, false);
+            //Return to Cover: snow block → full snow layer (8 layers)
+            if (blockMat == Material.SNOW_BLOCK) {
+                org.bukkit.block.data.BlockData bd = Bukkit.createBlockData(Material.SNOW);
+                ((Snow) bd).setLayers(8);
+                block.setBlockData(bd, false);
+            }
 
-            byte data = block.getData();
-            if (data <= 0) return false;
+            //Reduce one snow layer
+            if (block.getType() == Material.SNOW) {
+                Snow snow = (Snow) block.getBlockData();
+                int layers = snow.getLayers();
+                if (layers <= 1) return false;
+                snow.setLayers(layers - 1);
+                block.setBlockData(snow, false);
+            }
 
-            block.setData((byte) (block.getData() - 1));
             meltLast = System.currentTimeMillis();
             return true;
         }
@@ -360,12 +448,12 @@ public class BlockRestoreManager implements Listener, Runnable {
         public void update(int toID, byte addData, long expireTime) {
             //Snow Data
             if (toID == 78) {
-                if (toID == 78) toData = (byte) Math.min(7, toData + addData);
-                else toData = addData;
-            } else
-                toData = addData;
+                this.toData = (byte) Math.min(7, this.toData + addData);
+            } else {
+                this.toData = addData;
+            }
 
-            toID = toID;
+            this.toID = toID;
 
             //Set
             set();
@@ -378,11 +466,10 @@ public class BlockRestoreManager implements Listener, Runnable {
         public void update(int toID, byte addData, long expireTime, long meltDelay) {
             //Snow Data
             if (toID == 78) {
-                if (toID == 78) toData = (byte) Math.min(7, toData + addData);
-                else toData = addData;
+                this.toData = (byte) Math.min(7, this.toData + addData);
             }
 
-            toID = toID;
+            this.toID = toID;
 
             //Set
             set();
@@ -392,18 +479,25 @@ public class BlockRestoreManager implements Listener, Runnable {
             epoch = System.currentTimeMillis();
 
             //Melt Delay
-            if (meltDelay < meltDelay)
-                meltDelay = (meltDelay + meltDelay) / 2;
+            if (meltDelay < this.meltDelay)
+                this.meltDelay = (this.meltDelay + meltDelay) / 2;
+        }
+
+        public void update(org.bukkit.block.data.BlockData newBlockData, long expireTime) {
+            block.setBlockData(newBlockData, true);
+            expireDelay = expireTime;
+            epoch = System.currentTimeMillis();
         }
 
         public void set() {
-            if (toID == 78 && toData == (byte) 7)
-                block.setTypeIdAndData(80, (byte) 0, true);
-            else if (toID == 8 || toID == 9 || toID == 79) {
+            if (toID == 78 && toData == (byte) 7) {
+                block.setBlockData(Bukkit.createBlockData(Material.SNOW_BLOCK), true);
+            } else if (toID == 8 || toID == 9 || toID == 79) {
                 handleLilypad(false);
-                block.setTypeIdAndData(toID, toData, true);
-            } else
-                block.setTypeIdAndData(toID, toData, true);
+                block.setBlockData(legacyIdToBlockData(toID, toData), true);
+            } else {
+                block.setBlockData(legacyIdToBlockData(toID, toData), true);
+            }
         }
 
         public boolean isRestoreOnBreak() {
@@ -411,9 +505,7 @@ public class BlockRestoreManager implements Listener, Runnable {
         }
 
         public void restore() {
-            block.setTypeIdAndData(fromID, fromData, true);
-            fromState.update();
-
+            fromState.update(true, false);
             handleLilypad(true);
         }
 
@@ -429,11 +521,10 @@ public class BlockRestoreManager implements Listener, Runnable {
             if (restore) {
                 for (Location l : pad.keySet()) {
                     l.getBlock().setType(Material.LILY_PAD);
-                    l.getBlock().setData(pad.get(l));
                 }
             } else {
                 if (block.getRelative(BlockFace.UP, 1).getType() == Material.LILY_PAD) {
-                    pad.put(block.getRelative(BlockFace.UP, 1).getLocation(), block.getRelative(BlockFace.UP, 1).getData());
+                    pad.put(block.getRelative(BlockFace.UP, 1).getLocation(), (byte) 0);
                     block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
                 }
             }
@@ -456,13 +547,13 @@ public class BlockRestoreManager implements Listener, Runnable {
         }
 
         //Save
-        final HashMap<Block, Map.Entry<Integer, Byte>> blocks = new HashMap<>();
+        final HashMap<Block, org.bukkit.block.data.BlockData> blocks = new HashMap<>();
 
         for (Block cur : blockSet) {
-            if (cur.getTypeId() == 0 || onlyAbove && cur.getY() < mid.getY())
+            if (cur.getType() == Material.AIR || onlyAbove && cur.getY() < mid.getY())
                 continue;
 
-            blocks.put(cur, new AbstractMap.SimpleEntry<>(cur.getTypeId(), cur.getData()));
+            blocks.put(cur, cur.getBlockData());
 
             if (removeBlock) {
                 BlockRestoreManager.ourInstance.add(cur, 0, (byte) 0, (long) (time_restore_ms + ((cur.getLocation().getBlockY() - lowestY) * 3000L) + (Math.random() * 1500)));
@@ -476,13 +567,15 @@ public class BlockRestoreManager implements Listener, Runnable {
             public void run() {
                 //Launch
                 for (Block cur : blocks.keySet()) {
-                    if (blocks.get(cur).getKey() == 98)
-                        if (blocks.get(cur).getValue() == 0 || blocks.get(cur).getValue() == 3)
-                            continue;
+                    org.bukkit.block.data.BlockData bd = blocks.get(cur);
+                    Material mat = bd.getMaterial();
+                    // Skip plain and chiseled stone bricks (legacy id 98 data 0 and data 3)
+                    if (mat == Material.STONE_BRICKS || mat == Material.CHISELED_STONE_BRICKS)
+                        continue;
 
                     double chance = 0.2 + (double) explosionBlocks.size() / (double) 80;
                     if (Math.random() > Math.min(0.98, chance)) {
-                        FallingBlock fall = cur.getWorld().spawnFallingBlock(cur.getLocation().add(0.5, 0.5, 0.5), blocks.get(cur).getKey(), blocks.get(cur).getValue());
+                        FallingBlock fall = cur.getWorld().spawnFallingBlock(cur.getLocation().add(0.5, 0.5, 0.5), bd);
                         fall.setDropItem(false);
 
                         Vector vec = fall.getLocation().subtract(fLoc).toVector().normalize();
@@ -503,7 +596,7 @@ public class BlockRestoreManager implements Listener, Runnable {
             return;
         }
         FallingBlock falling = (FallingBlock) e.getEntity();
-        falling.getWorld().playEffect(e.getBlock().getLocation(), Effect.STEP_SOUND, falling.getBlockId());
+        falling.getWorld().playEffect(e.getBlock().getLocation(), Effect.STEP_SOUND, falling.getBlockData().getMaterial());
         falling.remove();
         e.setCancelled(true);
     }
@@ -547,17 +640,18 @@ public class BlockRestoreManager implements Listener, Runnable {
         }
 
         public void set(Block block, Material material) {
-            set(block, material, (byte) 0);
+            addBlockData(new BlockData(block));
+            block.setBlockData(Bukkit.createBlockData(material), false);
         }
 
         public void set(Block block, Material material, byte toData) {
-            set(block, material.getId(), toData);
+            addBlockData(new BlockData(block));
+            block.setBlockData(Bukkit.createBlockData(material), false);
         }
 
         public void set(Block block, int toId, byte toData) {
             addBlockData(new BlockData(block));
-
-            block.setTypeIdAndData(toId, toData, false);
+            block.setBlockData(legacyIdToBlockData(toId, toData), false);
         }
 
         public boolean contains(Block block) {
@@ -711,13 +805,13 @@ public class BlockRestoreManager implements Listener, Runnable {
     public static class BlockData {
         public Block Block;
         public Material Material;
-        public byte Data;
+        public org.bukkit.block.data.BlockData blockDataState;
         public long Time;
 
         public BlockData(Block block) {
             Block = block;
             Material = block.getType();
-            Data = block.getData();
+            blockDataState = block.getBlockData();
             Time = System.currentTimeMillis();
         }
 
@@ -729,7 +823,7 @@ public class BlockRestoreManager implements Listener, Runnable {
             if (requireNotAir && Block.getType() == org.bukkit.Material.AIR)
                 return;
 
-            Block.setTypeIdAndData(Material.getId(), Data, true);
+            Block.setBlockData(blockDataState, true);
         }
     }
 

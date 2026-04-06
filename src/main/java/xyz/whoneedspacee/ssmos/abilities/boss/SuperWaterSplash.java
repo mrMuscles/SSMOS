@@ -80,7 +80,7 @@ public class SuperWaterSplash extends Ability implements OwnerRightClickEvent, O
                 Utils.playParticle(Particle.DRIPPING_WATER, owner.getLocation(),
                         0.5f, 0.5f, 0.5f, 0.01f, 10, 96, owner.getWorld().getPlayers());
                 long time_elapsed = CooldownManager.getInstance().getTimeElapsedFor(SuperWaterSplash.this, owner);
-                if (Utils.entityIsDirectlyOnGround(owner) && owner.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.FENCE &&
+                if (Utils.entityIsDirectlyOnGround(owner) && owner.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.OAK_FENCE &&
                         time_elapsed >= minimum_air_time_ms) {
                     Utils.playParticle(Particle.FIREWORK, owner.getEyeLocation(),
                             0, 0, 0, 0.5f, 50, 96, owner.getWorld().getPlayers());

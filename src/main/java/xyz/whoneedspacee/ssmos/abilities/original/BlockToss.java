@@ -9,14 +9,14 @@ import xyz.whoneedspacee.ssmos.managers.DisguiseManager;
 import xyz.whoneedspacee.ssmos.utilities.BlocksUtil;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import xyz.whoneedspacee.ssmos.attributes.Attribute;
 
 public class BlockToss extends Ability implements OwnerRightClickEvent {
 
-    private int holding_id = 0;
-    private byte holding_data = 0;
+    private BlockData holding_block = null;
     private long pickup_time_ms = 0;
     private int toss_task = -1;
     protected long charge_time_ms = 1200;
@@ -46,14 +46,14 @@ public class BlockToss extends Ability implements OwnerRightClickEvent {
         }
         Block block = e.getClickedBlock();
         Material material = e.getClickedBlock().getType();
-        if(BlocksUtil.isUsable(block) || material == Material.REDSTONE_WIRE || material == Material.SKULL) {
+        if(BlocksUtil.isUsable(block) || material == Material.REDSTONE_WIRE) {
             return;
         }
-        setDisguiseBlock(block.getTypeId(), block.getData());
-        holding_id = block.getTypeId();
-        holding_data = block.getData();
+        BlockData blockData = block.getBlockData();
+        setDisguiseBlock(blockData);
+        holding_block = blockData;
         pickup_time_ms = System.currentTimeMillis();
-        owner.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getTypeId());
+        owner.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, material);
         if(Bukkit.getScheduler().isQueued(toss_task) || Bukkit.getScheduler().isCurrentlyRunning(toss_task)) {
             Bukkit.getScheduler().cancelTask(toss_task);
         }
@@ -85,22 +85,23 @@ public class BlockToss extends Ability implements OwnerRightClickEvent {
     public void activate() {
         long charge = System.currentTimeMillis() - pickup_time_ms;
         double mult = Math.min(1.4, 1.4 * ((double) charge / charge_time_ms));
-        BlockProjectile projectile = new BlockProjectile(owner, name, charge, mult, holding_id, holding_data);
+        BlockData bd = holding_block != null ? holding_block : Material.STONE.createBlockData();
+        BlockProjectile projectile = new BlockProjectile(owner, name, charge, mult, bd);
         projectile.launchProjectile();
-        setDisguiseBlock(0, (byte) 0);
+        setDisguiseBlock(null);
     }
 
-    public void setDisguiseBlock(int id, byte data) {
+    public void setDisguiseBlock(BlockData blockData) {
         Disguise disguise = DisguiseManager.disguises.get(owner);
         if(disguise == null || !(disguise instanceof EndermanDisguise)) {
             return;
         }
         EndermanDisguise endermanDisguise = (EndermanDisguise) disguise;
-        endermanDisguise.setHeldBlock(id, data);
+        if (blockData == null) {
+            endermanDisguise.setHeldBlock(0, (byte) 0);
+        } else {
+            endermanDisguise.setHeldBlock(blockData);
+        }
     }
 
 }
-
-
-
-

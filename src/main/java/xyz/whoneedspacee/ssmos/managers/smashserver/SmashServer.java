@@ -1,8 +1,6 @@
 package xyz.whoneedspacee.ssmos.managers.smashserver;
 
-import net.minecraft.nbt.CompoundTag;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -464,13 +462,7 @@ public class SmashServer implements Listener, Runnable {
             Entity podium_mob = kit.getNewPodiumMob(podium_location);
             Utils.attachCustomName(podium_mob, ChatColor.GREEN + kit.getName());
             DamageManager.invincible_mobs.put(podium_mob, 1);
-            // Disable mob ai
-            net.minecraft.world.entity.Entity nms_entity = ((CraftEntity) podium_mob).getHandle();
-            CompoundTag comp = new CompoundTag();
-            nms_entity.save(comp);
-            comp.putByte("NoAI", (byte) 1);
-            nms_entity.load(comp);
-            nms_entity.setNoAi(true);
+            // Disable mob ai (handled in getNewPodiumMob via setAI)
         }
         // Clear all current map votes
         for (GameMap map : current_gamemode.getAllowedMaps()) {
