@@ -260,7 +260,7 @@ public class BlockRestoreManager implements Listener, Runnable {
             return;
 
         //Not Buildable
-        if (blockMat.isSolid() && blockMat != Material.SNOW && blockMat != Material.CARPET)
+        if (blockMat.isSolid() && blockMat != Material.SNOW && !blockMat.name().endsWith("_CARPET"))
             return;
 
         //Limit Build Height

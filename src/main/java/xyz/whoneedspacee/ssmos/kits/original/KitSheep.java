@@ -28,7 +28,7 @@ public class KitSheep extends Kit {
         this.regeneration = 0.25;
         this.knockback = 1.7;
         this.name = "Sir. Sheep";
-        this.menuItem = Material.WOOL;
+        this.menuItem = Material.WHITE_WOOL;
         this.podium_mob_type = EntityType.SHEEP;
     }
 

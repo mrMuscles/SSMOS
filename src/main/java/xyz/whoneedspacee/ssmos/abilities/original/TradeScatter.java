@@ -60,7 +60,7 @@ public class TradeScatter extends Ability implements OwnerRightClickEvent {
         if(currentForm instanceof CycleArts.ButcherForm) {
             front = true;
             particle_type = Particle.FLAME;
-            bullet_item = Material.RAW_BEEF;
+            bullet_item = Material.BEEF;
             bullet_damage = 1;
             tick_effect_rate = 3;
             player_velocity = 1;

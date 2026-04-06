@@ -35,7 +35,7 @@ public class WoolProjectile extends SmashProjectile {
 
     @Override
     protected Entity createProjectileEntity() {
-        ItemStack wool = new ItemStack(Material.WOOL);
+        ItemStack wool = new ItemStack(Material.WHITE_WOOL);
         return firer.getWorld().dropItem(firer.getEyeLocation(), wool);
     }
 

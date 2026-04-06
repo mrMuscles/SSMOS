@@ -27,7 +27,7 @@ public class FishFlurryProjectile extends SmashProjectile {
 
     @Override
     protected Entity createProjectileEntity() {
-        ItemStack fish = new ItemStack(Material.RAW_FISH);
+        ItemStack fish = new ItemStack(Material.COD);
         fish.setDurability((byte) (Math.random() * 4));
         return block.getWorld().dropItem(block.getLocation().add(0.5, 1.5, 0.5), fish);
     }

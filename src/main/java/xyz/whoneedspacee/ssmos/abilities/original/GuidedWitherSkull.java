@@ -54,8 +54,7 @@ public class GuidedWitherSkull extends Ability implements OwnerRightClickEvent {
 
     public void activate() {
         ArmorStand skull = owner.getWorld().spawn(owner.getLocation(), ArmorStand.class);
-        ItemStack helmet = new ItemStack(Material.PLAYER_HEAD);
-        helmet.setDurability((short) 1);
+        ItemStack helmet = new ItemStack(Material.WITHER_SKELETON_SKULL);
         skull.setHelmet(helmet);
         skull.setGravity(false);
         skull.setVisible(false);

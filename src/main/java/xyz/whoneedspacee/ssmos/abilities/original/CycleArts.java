@@ -250,9 +250,9 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
         @Override
         public ItemStack getItem() {
             if (hasCooldown()) {
-                return new ItemStack(Material.STAINED_GLASS_PANE, 1, DyeColor.RED.getData());
+                return new ItemStack(Material.RED_STAINED_GLASS_PANE);
             }
-            return new ItemStack(Material.INK_SAC, 1, (short) (15 - DyeColor.RED.getData()));
+            return new ItemStack(Material.RED_DYE);
         }
 
         @Override
@@ -302,9 +302,9 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
         @Override
         public ItemStack getItem() {
             if (hasCooldown()) {
-                return new ItemStack(Material.STAINED_GLASS_PANE, 1, DyeColor.ORANGE.getData());
+                return new ItemStack(Material.ORANGE_STAINED_GLASS_PANE);
             }
-            return new ItemStack(Material.INK_SAC, 1, (short) (15 - DyeColor.ORANGE.getData()));
+            return new ItemStack(Material.ORANGE_DYE);
         }
 
         @Override
@@ -354,9 +354,9 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
         @Override
         public ItemStack getItem() {
             if (hasCooldown()) {
-                return new ItemStack(Material.STAINED_GLASS_PANE, 1, DyeColor.LIME.getData());
+                return new ItemStack(Material.LIME_STAINED_GLASS_PANE);
             }
-            return new ItemStack(Material.INK_SAC, 1, (short) (15 - DyeColor.LIME.getData()));
+            return new ItemStack(Material.LIME_DYE);
         }
 
         @Override
