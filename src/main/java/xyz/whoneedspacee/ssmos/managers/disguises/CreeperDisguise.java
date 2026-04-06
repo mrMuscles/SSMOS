@@ -1,18 +1,20 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.EntityCreeper;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.world.entity.monster.Creeper;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreeperDisguise extends Disguise {
 
-    private byte current_fuse_state = -1;
-    private byte current_powered_state = 0;
+    private int current_fuse_state = -1;
+    private boolean current_powered_state = false;
 
     public CreeperDisguise(Player owner) {
         super(owner);
@@ -20,8 +22,9 @@ public class CreeperDisguise extends Disguise {
         type = EntityType.CREEPER;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntityCreeper(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new Creeper(net.minecraft.world.entity.EntityType.CREEPER,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
     @Override
@@ -29,13 +32,10 @@ public class CreeperDisguise extends Disguise {
         if(living == null) {
             return;
         }
-        // Do these in update and track them so that even if the disguise gets re-shown it will be correct
-        // If you wanted to reduce packets sent you could put these in ShowDisguise more than likely
-        // Unfortunately packet code scares me
-        DataWatcher dw = living.getDataWatcher();
-        dw.watch(16, current_fuse_state);
-        dw.watch(17, current_powered_state);
-        PacketPlayOutEntityMetadata data_packet = new PacketPlayOutEntityMetadata(living.getId(), dw, true);
+        List<SynchedEntityData.DataValue<?>> dataValues = new ArrayList<>();
+        dataValues.add(SynchedEntityData.DataValue.create(Creeper.DATA_SWELL_DIR, current_fuse_state));
+        dataValues.add(SynchedEntityData.DataValue.create(Creeper.DATA_IS_POWERED, current_powered_state));
+        ClientboundSetEntityDataPacket data_packet = new ClientboundSetEntityDataPacket(living.getId(), dataValues);
         Utils.sendPacketToAll(data_packet);
         super.update();
     }
@@ -52,7 +52,7 @@ public class CreeperDisguise extends Disguise {
         if (living == null) {
             return;
         }
-        current_powered_state = value;
+        current_powered_state = (value != 0);
         update();
     }
 

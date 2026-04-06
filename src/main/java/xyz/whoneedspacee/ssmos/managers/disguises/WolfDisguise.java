@@ -1,8 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntityWolf;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import net.minecraft.world.entity.animal.Wolf;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -14,8 +13,9 @@ public class WolfDisguise extends Disguise {
         type = EntityType.WOLF;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntityWolf(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new Wolf(net.minecraft.world.entity.EntityType.WOLF,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
 }

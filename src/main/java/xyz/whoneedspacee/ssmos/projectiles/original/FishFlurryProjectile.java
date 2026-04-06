@@ -4,7 +4,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -56,7 +56,7 @@ public class FishFlurryProjectile extends SmashProjectile {
         smashDamageEvent.setIgnoreDamageDelay(true);
         smashDamageEvent.setKnockbackOrigin(hit.getLocation().add(Math.random() - 0.5, -0.1, Math.random() - 0.5));
         smashDamageEvent.setReason(name);
-        Utils.playParticle(EnumParticle.EXPLOSION_NORMAL, hit.getLocation().add(0, 1, 0),
+        Utils.playParticle(Particle.POOF, hit.getLocation().add(0, 1, 0),
                 1f, 1f, 1f, 0, 12, 96, hit.getWorld().getPlayers());
         smashDamageEvent.callEvent();
         return true;

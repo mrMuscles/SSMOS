@@ -6,11 +6,11 @@ import xyz.whoneedspacee.ssmos.abilities.Ability;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EntityLargeFireball;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.world.entity.projectile.LargeFireball;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLargeFireball;
+import org.bukkit.craftbukkit.entity.CraftLargeFireball;
 import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -57,10 +57,8 @@ public class MagmaBlast extends Ability implements OwnerRightClickEvent, OwnerDe
         ball.setBounce(false);
         ball.teleport(owner.getEyeLocation().add(owner.getLocation().getDirection().multiply(1)));
         Vector dir = owner.getLocation().getDirection().multiply(velocity);
-        EntityLargeFireball eFireball = ((CraftLargeFireball) ball).getHandle();
-        eFireball.dirX = dir.getX();
-        eFireball.dirY = dir.getY();
-        eFireball.dirZ = dir.getZ();
+        LargeFireball eFireball = ((CraftLargeFireball) ball).getHandle();
+        eFireball.setPower(dir.getX(), dir.getY(), dir.getZ());
         VelocityUtil.setVelocity(owner, owner.getLocation().getDirection().multiply(-1), 1.2, false, 0, 0.2, 1.2, true);
         ball.setMetadata("Magma Blast", new FixedMetadataValue(plugin, 1));
         owner.getWorld().playSound(owner.getLocation(), Sound.CREEPER_DEATH, 2f, 1.5f);
@@ -103,7 +101,7 @@ public class MagmaBlast extends Ability implements OwnerRightClickEvent, OwnerDe
             difference.normalize();
             VelocityUtil.setVelocity(player, difference, 1 + 2 * range, false, 0, 0.2 + 0.4 * range, 1.2, true);
         }
-        Utils.playParticle(EnumParticle.LAVA, projectile.getLocation(),
+        Utils.playParticle(Particle.LAVA, projectile.getLocation(),
                 0.1f, 0.1f, 0.1f, 0.1f, 50, 96, projectile.getWorld().getPlayers());
     }
 

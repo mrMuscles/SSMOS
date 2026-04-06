@@ -7,7 +7,7 @@ import xyz.whoneedspacee.ssmos.attributes.Attribute;
 import xyz.whoneedspacee.ssmos.managers.KitManager;
 import xyz.whoneedspacee.ssmos.kits.Kit;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -54,12 +54,12 @@ public class TradeScatter extends Ability implements OwnerRightClickEvent {
         double bullet_damage = 0.5;
         long tick_effect_rate = 1;
         boolean front = false;
-        EnumParticle particle_type = EnumParticle.VILLAGER_HAPPY;
+        Particle particle_type = Particle.HAPPY_VILLAGER;
         Material bullet_item = Material.EMERALD;
         Attribute currentForm = cycleArts.getCurrentForm();
         if(currentForm instanceof CycleArts.ButcherForm) {
             front = true;
-            particle_type = EnumParticle.FLAME;
+            particle_type = Particle.FLAME;
             bullet_item = Material.RAW_BEEF;
             bullet_damage = 1;
             tick_effect_rate = 3;
@@ -67,11 +67,11 @@ public class TradeScatter extends Ability implements OwnerRightClickEvent {
         } else if (currentForm instanceof CycleArts.BlacksmithForm) {
             front = true;
             bullet_spread = 0.75;
-            particle_type = EnumParticle.FIREWORKS_SPARK;
+            particle_type = Particle.FIREWORK;
             bullet_item = Material.IRON_INGOT;
             player_velocity = 1;
         } else if (currentForm instanceof CycleArts.SpeedsterForm) {
-            particle_type = EnumParticle.ENCHANTMENT_TABLE;
+            particle_type = Particle.ENCHANT;
             bullet_item = Material.FEATHER;
             player_velocity = 1.5;
             //bullet_velocity = 2;

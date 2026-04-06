@@ -1,13 +1,17 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntitySkeleton;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.monster.Skeleton;
+import com.mojang.datafixers.util.Pair;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SkeletonDisguise extends Disguise {
 
@@ -17,8 +21,9 @@ public class SkeletonDisguise extends Disguise {
         type = EntityType.SKELETON;
     }
 
-    public EntityLiving newLiving() {
-        return new EntitySkeleton(((CraftWorld) owner.getWorld()).getHandle());
+    public net.minecraft.world.entity.LivingEntity newLiving() {
+        return new Skeleton(net.minecraft.world.entity.EntityType.SKELETON,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
     @Override
@@ -26,7 +31,9 @@ public class SkeletonDisguise extends Disguise {
         if (living == null) {
             return;
         }
-        PacketPlayOutEntityEquipment weapon_packet = new PacketPlayOutEntityEquipment(living.getId(), 0, CraftItemStack.asNMSCopy(owner.getItemInHand()));
+        List<Pair<EquipmentSlot, net.minecraft.world.item.ItemStack>> slots = new ArrayList<>();
+        slots.add(Pair.of(EquipmentSlot.MAINHAND, CraftItemStack.asNMSCopy(owner.getInventory().getItemInMainHand())));
+        ClientboundSetEquipmentPacket weapon_packet = new ClientboundSetEquipmentPacket(living.getId(), slots);
         Utils.sendPacketToAllBut(owner, weapon_packet);
         super.update();
     }

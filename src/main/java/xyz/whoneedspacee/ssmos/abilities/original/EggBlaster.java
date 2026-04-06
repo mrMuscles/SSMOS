@@ -60,7 +60,7 @@ public class EggBlaster extends Ability implements OwnerRightClickEvent {
                 Egg egg = owner.getWorld().spawn(owner.getLocation().add(0, 0.5, 0).add(offset), Egg.class);
                 egg.setVelocity(owner.getLocation().getDirection().add(new Vector(0, 0.2, 0)));
                 egg.setShooter(owner);
-                owner.getWorld().playSound(owner.getLocation(), Sound.CHICKEN_EGG_POP, 0.5f, 1f);
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.5f, 1f);
             }
         }, 0L, 0L);
     }

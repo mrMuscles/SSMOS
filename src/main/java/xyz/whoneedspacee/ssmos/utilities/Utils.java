@@ -1,11 +1,14 @@
 package xyz.whoneedspacee.ssmos.utilities;
 
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.phys.AABB;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.entity.*;
+import org.bukkit.craftbukkit.entity.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.*;
@@ -36,8 +39,7 @@ public class Utils {
      * @param player  player receiving the message
      */
     public static void sendActionBarMessage(String message, Player player) {
-        PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(message), (byte) 2);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        player.sendActionBar(message);
     }
 
     public static void sendServerMessageToPlayer(String message, Player player, ServerMessageType type) {
@@ -65,14 +67,7 @@ public class Utils {
         if (subtitle_string == null) {
             subtitle_string = "";
         }
-        PacketPlayOutTitle timing_packet = new PacketPlayOutTitle(fade_in_ticks, stay_ticks, fade_out_ticks);
-        Utils.sendPacket(player, timing_packet);
-        ChatMessage subtitle_message = new ChatMessage(subtitle_string);
-        PacketPlayOutTitle subtitle_packet = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, subtitle_message);
-        Utils.sendPacket(player, subtitle_packet);
-        ChatMessage title_message = new ChatMessage(title_string);
-        PacketPlayOutTitle title_packet = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, title_message);
-        Utils.sendPacket(player, title_packet);
+        player.sendTitle(title_string, subtitle_string, fade_in_ticks, stay_ticks, fade_out_ticks);
     }
 
     public static String progressString(float exp) {
@@ -126,8 +121,8 @@ public class Utils {
         }
         World world = ent.getWorld();
         // Hitbox Edges
-        net.minecraft.server.v1_8_R3.Entity nms_entity = ((CraftEntity) ent).getHandle();
-        double width_radius = (nms_entity.width / 2) * 100;
+        net.minecraft.world.entity.Entity nms_entity = ((CraftEntity) ent).getHandle();
+        double width_radius = (nms_entity.getBbWidth() / 2) * 100;
         width_radius = Math.round(width_radius) / 100.0;
         double[] coords = {-width_radius, 0, width_radius};
         for (double x : coords) {
@@ -163,11 +158,11 @@ public class Utils {
             for (int z = zMin; z <= zMax; z++) {
                 if (entity.getLocation().add(x, -0.5, z).getBlock().getType() != Material.AIR && !entity.getLocation().add(x, -0.5, z).getBlock().isLiquid())
                     return true;
-                if (entity.getLocation().add(x, 0, z).getBlock().getType() == Material.WATER_LILY)
+                if (entity.getLocation().add(x, 0, z).getBlock().getType() == Material.LILY_PAD)
                     return true;
                 Material beneath = entity.getLocation().add(x, -1.5, z).getBlock().getType();
                 if (entity.getLocation().getY() % 0.5 == 0 &&
-                        (beneath.toString().contains("FENCE") || beneath == Material.COBBLE_WALL))
+                        (beneath.toString().contains("FENCE") || beneath == Material.COBBLESTONE_WALL))
                     return true;
             }
         }
@@ -225,8 +220,7 @@ public class Utils {
         data.setPower(1);
         data.addEffect(fe);
         firework.setFireworkMeta(data);
-
-        ((CraftFirework) firework).getHandle().expectedLifespan = 1;
+        firework.detonate();
     }
 
     public static void fullHeal(LivingEntity livingEntity) {
@@ -249,25 +243,20 @@ public class Utils {
         return Math.sqrt(Math.pow(first.getX() - second.getX(), 2) + Math.pow(first.getZ() - second.getZ(), 2));
     }
 
-    public static void playParticle(EnumParticle particle, Location location, float offsetX, float offsetY, float offsetZ,
+    public static void playParticle(org.bukkit.Particle particle, Location location, float offsetX, float offsetY, float offsetZ,
                                     float speed, int count, int dist, Collection<Player> players) {
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, true,
-                (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                offsetX, offsetY, offsetZ, speed, count, dist);
-
         for (Player player : players) {
             if (player.getLocation().distance(location) > dist)
                 continue;
-
-            Utils.sendPacket(player, packet);
+            player.spawnParticle(particle, location, count, offsetX, offsetY, offsetZ, speed);
         }
     }
 
-    public static void sendPacket(Player player, Packet packet) {
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    public static void sendPacket(Player player, Packet<?> packet) {
+        ((CraftPlayer) player).getHandle().connection.send(packet);
     }
 
-    public static void sendPacketToAllBut(Player exclude, Packet packet) {
+    public static void sendPacketToAllBut(Player exclude, Packet<?> packet) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.equals(exclude)) {
                 continue;
@@ -276,7 +265,7 @@ public class Utils {
         }
     }
 
-    public static void sendPacketToAll(Packet packet) {
+    public static void sendPacketToAll(Packet<?> packet) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             sendPacket(player, packet);
         }
@@ -289,36 +278,36 @@ public class Utils {
         if (ent.getLocation().toVector().distanceSquared(target.toVector()) < 0.01)
             return;
 
-        EntityCreature ec = ((CraftCreature) ent).getHandle();
-        NavigationAbstract nav = ec.getNavigation();
+        PathfinderMob ec = ((CraftMob) ent).getHandle();
+        PathNavigation nav = ec.getNavigation();
 
         if (ent.getLocation().toVector().distanceSquared(target.toVector()) > 16 * 16) {
             Location newTarget = ent.getLocation();
 
             newTarget.add(target.toVector().clone().subtract(ent.getLocation().toVector().clone()).normalize().multiply(16));
 
-            nav.a(newTarget.getX(), newTarget.getY(), newTarget.getZ(), speed);
+            nav.moveTo(newTarget.getX(), newTarget.getY(), newTarget.getZ(), speed);
         } else {
-            nav.a(target.getX(), target.getY(), target.getZ(), speed);
+            nav.moveTo(target.getX(), target.getY(), target.getZ(), speed);
         }
     }
 
     public static <T extends Entity> List<T> getEntitiesInsideEntity(Entity ent, List<T> entities) {
-        AxisAlignedBB box = ((CraftEntity) ent).getHandle().getBoundingBox();
+        AABB box = ((CraftEntity) ent).getHandle().getBoundingBox();
 
         List<T> list = new ArrayList<>();
 
         for (T e : entities) {
-            AxisAlignedBB box2 = ((CraftEntity) e).getHandle().getBoundingBox();
-            if (box2.b(box)) list.add(e);
+            AABB box2 = ((CraftEntity) e).getHandle().getBoundingBox();
+            if (box2.intersects(box)) list.add(e);
         }
         return list;
     }
 
     public static boolean isInsideBoundingBox(Entity ent, Vector a, Vector b) {
-        AxisAlignedBB box = ((CraftEntity) ent).getHandle().getBoundingBox();
-        AxisAlignedBB box2 = new AxisAlignedBB(a.getX(), a.getY(), a.getZ(), b.getX(), b.getY(), b.getZ());
-        return box.b(box2);
+        AABB box = ((CraftEntity) ent).getHandle().getBoundingBox();
+        AABB box2 = new AABB(a.getX(), a.getY(), a.getZ(), b.getX(), b.getY(), b.getZ());
+        return box.intersects(box2);
     }
 
     public static boolean hitBox(Location loc, LivingEntity ent, double mult, EntityType disguise) {
@@ -414,12 +403,12 @@ public class Utils {
         if (entity == null) {
             return;
         }
-        net.minecraft.server.v1_8_R3.Entity nms_entity = ((CraftEntity) entity).getHandle();
+        net.minecraft.world.entity.Entity nms_entity = ((CraftEntity) entity).getHandle();
         Squid squid = (Squid) entity.getWorld().spawnEntity(new Location(entity.getWorld(),
-                nms_entity.locX, nms_entity.locY + nms_entity.an(), nms_entity.locZ), EntityType.SQUID);
-        EntitySquid nms_squid = ((CraftSquid) squid).getHandle();
+                nms_entity.getX(), nms_entity.getY() + nms_entity.getBbHeight(), nms_entity.getZ()), EntityType.SQUID);
+        net.minecraft.world.entity.Entity nms_squid = ((CraftSquid) squid).getHandle();
         ArmorStand armor_stand = (ArmorStand) entity.getWorld().spawnEntity(new Location(entity.getWorld(),
-                nms_entity.locX, nms_squid.locY + nms_squid.an(), nms_entity.locZ), EntityType.ARMOR_STAND);
+                nms_entity.getX(), nms_squid.getY() + nms_squid.getBbHeight(), nms_entity.getZ()), EntityType.ARMOR_STAND);
         armor_stand.setCustomName(name);
         armor_stand.setCustomNameVisible(true);
         armor_stand.setVisible(false);
@@ -447,8 +436,8 @@ public class Utils {
                     cancel();
                     return;
                 }
-                squid.setPassenger(armor_stand);
-                entity.setPassenger(squid);
+                squid.addPassenger(armor_stand);
+                entity.addPassenger(squid);
             }
         };
         runnable.runTaskTimer(Main.getInstance(), 0L, 0L);

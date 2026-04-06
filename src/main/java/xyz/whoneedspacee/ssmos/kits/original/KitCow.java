@@ -41,7 +41,7 @@ public class KitCow extends Kit {
         addAttribute(new Regeneration(regeneration));
         addAttribute(new Hunger());
         addAttribute(new Compass());
-        addAttribute(new GenericDoubleJump(0.9, 0.9, Sound.GHAST_FIREBALL));
+        addAttribute(new GenericDoubleJump(0.9, 0.9, Sound.ENTITY_GHAST_SHOOT));
         addAttribute(new Stampede());
 
         DisguiseManager.addDisguise(owner, new CowDisguise(owner));

@@ -9,7 +9,7 @@ import xyz.whoneedspacee.ssmos.utilities.BlocksUtil;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -73,12 +73,12 @@ public class WaterSplash extends Ability implements OwnerRightClickEvent, OwnerT
                     Bukkit.getScheduler().cancelTask(splash_task);
                     return;
                 }
-                Utils.playParticle(EnumParticle.DRIP_WATER, owner.getLocation(),
+                Utils.playParticle(Particle.DRIPPING_WATER, owner.getLocation(),
                         0.5f, 0.5f, 0.5f, 0.01f, 10, 96, owner.getWorld().getPlayers());
                 long time_elapsed = CooldownManager.getInstance().getTimeElapsedFor(WaterSplash.this, owner);
                 if (Utils.entityIsDirectlyOnGround(owner) && owner.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.FENCE &&
                         time_elapsed >= minimum_air_time_ms) {
-                    Utils.playParticle(EnumParticle.FIREWORKS_SPARK, owner.getEyeLocation(),
+                    Utils.playParticle(Particle.FIREWORK, owner.getEyeLocation(),
                             0, 0, 0, 0.5f, 50, 96, owner.getWorld().getPlayers());
                     for (Block block : BlocksUtil.getInRadius(owner.getLocation(), damage_radius).keySet()) {
                         if (Math.random() < 0.9 || BlocksUtil.isAirOrFoliage(block) || !BlocksUtil.isAirOrFoliage(block.getRelative(BlockFace.UP))) {

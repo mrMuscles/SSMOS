@@ -9,7 +9,7 @@ import xyz.whoneedspacee.ssmos.managers.DisguiseManager;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -68,8 +68,8 @@ public class BoneKick extends Ability implements OwnerRightClickEvent {
             smashDamageEvent.setIgnoreDamageDelay(true);
             smashDamageEvent.setReason(name);
             smashDamageEvent.callEvent();
-            owner.getWorld().playSound(owner.getLocation(), Sound.SKELETON_HURT, 4f, 0.6f);
-            owner.getWorld().playSound(owner.getLocation(), Sound.SKELETON_HURT, 4f, 0.6f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SKELETON_HURT, 4f, 0.6f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SKELETON_HURT, 4f, 0.6f);
             if(livingEntity instanceof Player) {
                 Player player = (Player) livingEntity;
                 Utils.sendAttributeMessage(ChatColor.YELLOW + owner.getName() +
@@ -100,7 +100,7 @@ public class BoneKick extends Ability implements OwnerRightClickEvent {
                     Location location = owner.getLocation();
                     location.add(owner.getLocation().getDirection().setY(0).normalize().multiply(1.5));
                     location.add(0, 0.8, 0);
-                    Utils.playParticle(EnumParticle.SMOKE_LARGE, location,
+                    Utils.playParticle(Particle.LARGE_SMOKE, location,
                             0.3f, 0.3f, 0.3f, 0, 2, 96, owner.getWorld().getPlayers());
                 }
             }

@@ -7,7 +7,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -46,10 +46,10 @@ public class SonicHurr extends Ability implements OwnerRightClickEvent {
         new SpiralEffect(1, 2, (int) distance * 10, location) {
             @Override
             public void playParticle(Location location) {
-                Utils.playParticle(EnumParticle.CLOUD, location,
+                Utils.playParticle(Particle.CLOUD, location,
                         0, 0, 0, 0, 1, 96, location.getWorld().getPlayers());
                 if (Math.random() < 0.05) {
-                    Utils.playParticle(EnumParticle.VILLAGER_ANGRY, location,
+                    Utils.playParticle(Particle.ANGRY_VILLAGER, location,
                             0.3f, 0.3f, 0.3f, 0, 1, 96, location.getWorld().getPlayers());
                 }
             }

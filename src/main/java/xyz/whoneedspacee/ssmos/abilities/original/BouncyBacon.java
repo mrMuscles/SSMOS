@@ -8,7 +8,7 @@ import xyz.whoneedspacee.ssmos.managers.KitManager;
 import xyz.whoneedspacee.ssmos.kits.Kit;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -80,7 +80,7 @@ public class BouncyBacon extends Ability implements OwnerRightClickEvent {
         owner.setExp(Math.min(0.999f, owner.getExp() + energy_recharge));
         if (item.getItemStack().getType().equals(Material.GRILLED_PORK)){
             owner.setHealth(Math.min(owner.getMaxHealth(), owner.getHealth() + health_regain));
-            Utils.playParticle(EnumParticle.HEART, event.getPlayer().getLocation().add(0, 0.5, 0),
+            Utils.playParticle(Particle.HEART, event.getPlayer().getLocation().add(0, 0.5, 0),
                     0.2f, 0.2f, 0.2f, 0, 4, 96, owner.getWorld().getPlayers() );
         }
         item.remove();

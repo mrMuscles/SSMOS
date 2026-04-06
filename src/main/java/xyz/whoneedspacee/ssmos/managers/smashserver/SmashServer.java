@@ -1,8 +1,8 @@
 package xyz.whoneedspacee.ssmos.managers.smashserver;
 
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.nbt.CompoundTag;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -325,8 +325,8 @@ public class SmashServer implements Listener, Runnable {
         // Don't do anything before setting to full hp again
         Utils.fullHeal(player);
         // Blood Particles
-        EffectUtil.createEffect(player.getEyeLocation(), 10, 0.5, Sound.HURT_FLESH,
-                1f, 1f, Material.INK_SACK, (byte) 1, 10, true);
+        EffectUtil.createEffect(player.getEyeLocation(), 10, 0.5, Sound.ENTITY_PLAYER_HURT,
+                1f, 1f, Material.INK_SAC, (byte) 1, 10, true);
         SmashDamageEvent record = DamageManager.getLastDamageEvent(player);
         for(Player message : players) {
             String damager_color = "" + ChatColor.YELLOW;
@@ -465,12 +465,12 @@ public class SmashServer implements Listener, Runnable {
             Utils.attachCustomName(podium_mob, ChatColor.GREEN + kit.getName());
             DamageManager.invincible_mobs.put(podium_mob, 1);
             // Disable mob ai
-            net.minecraft.server.v1_8_R3.Entity nms_entity = ((CraftEntity) podium_mob).getHandle();
-            NBTTagCompound comp = new NBTTagCompound();
-            nms_entity.c(comp);
-            comp.setByte("NoAI", (byte) 1);
-            nms_entity.f(comp);
-            nms_entity.b(true);
+            net.minecraft.world.entity.Entity nms_entity = ((CraftEntity) podium_mob).getHandle();
+            CompoundTag comp = new CompoundTag();
+            nms_entity.save(comp);
+            comp.putByte("NoAI", (byte) 1);
+            nms_entity.load(comp);
+            nms_entity.setNoAi(true);
         }
         // Clear all current map votes
         for (GameMap map : current_gamemode.getAllowedMaps()) {

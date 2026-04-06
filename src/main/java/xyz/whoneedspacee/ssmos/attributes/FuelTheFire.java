@@ -10,7 +10,7 @@ import xyz.whoneedspacee.ssmos.managers.KitManager;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerTakeSmashDamageEvent;
 import xyz.whoneedspacee.ssmos.kits.Kit;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -44,7 +44,7 @@ public class FuelTheFire extends Attribute implements OwnerKillEvent, OwnerTakeS
             return;
         }
         int real_size = stacks + 1;
-        Utils.playParticle(EnumParticle.LAVA, owner.getLocation().add(0, 0.4, 0),
+        Utils.playParticle(Particle.LAVA, owner.getLocation().add(0, 0.4, 0),
                 0.15f * real_size, 0.15f * real_size, 0.15f * real_size, 0, 1, 96, owner.getWorld().getPlayers());
     }
 

@@ -3,7 +3,7 @@ package xyz.whoneedspacee.ssmos.attributes.bowcharge;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerDealSmashDamageEvent;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -41,7 +41,7 @@ public class DamageBoost extends BowCharge implements OwnerDealSmashDamageEvent 
                 arrowIterator.remove();
                 continue;
             }
-            Utils.playParticle(EnumParticle.REDSTONE, arrow.getLocation(),
+            Utils.playParticle(Particle.DUST, arrow.getLocation(),
                     0, 0, 0, 0, 1, 96, arrow.getWorld().getPlayers());
         }
     }

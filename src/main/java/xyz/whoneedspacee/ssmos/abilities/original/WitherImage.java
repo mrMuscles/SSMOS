@@ -9,9 +9,9 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EntitySkeleton;
+import net.minecraft.world.entity.monster.Skeleton;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftSkeleton;
+import org.bukkit.craftbukkit.entity.CraftSkeleton;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -57,8 +57,8 @@ public class WitherImage extends Ability implements OwnerRightClickEvent {
             Location wither_old_location = wither_image.getLocation().clone();
             Location wither_new_location = owner.getLocation().clone();
             // Cannot normally teleport entities with passengers
-            EntitySkeleton nms_wither_image = ((CraftSkeleton) wither_image).getHandle();
-            nms_wither_image.setPositionRotation(wither_new_location.getX(), wither_new_location.getY(), wither_new_location.getZ(),
+            Skeleton nms_wither_image = ((CraftSkeleton) wither_image).getHandle();
+            nms_wither_image.snapTo(wither_new_location.getX(), wither_new_location.getY(), wither_new_location.getZ(),
                     wither_new_location.getYaw(), wither_new_location.getPitch());
             VelocityUtil.setVelocity(wither_image, old_owner_vector);
             // Teleporting adds no damage ticks?
@@ -93,7 +93,7 @@ public class WitherImage extends Ability implements OwnerRightClickEvent {
                 if(owner == null || !owner.isValid() || !wither_image.isValid() ||
                         wither_image.getTicksLived() > 160 || wither_image.getLocation().getBlock().isLiquid()) {
                     Utils.itemEffect(wither_image.getLocation().add(0, 0.5, 0), 12, 0.3,
-                            Sound.WITHER_HURT, 1f, 0.75f, Material.BONE, (byte) 0, 40);
+                            Sound.ENTITY_WITHER_HURT, 1f, 0.75f, Material.BONE, (byte) 0, 40);
                     wither_image.remove();
                     wither_image = null;
                     Bukkit.getScheduler().cancelTask(image_task);

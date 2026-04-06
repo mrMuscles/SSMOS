@@ -27,7 +27,7 @@ public class BaconProjectile extends SmashProjectile {
     @Override
     public void launchProjectile() {
         super.launchProjectile();
-        firer.getWorld().playSound(firer.getLocation(), Sound.PIG_IDLE, 2f, 1.5f);
+        firer.getWorld().playSound(firer.getLocation(), Sound.ENTITY_PIG_AMBIENT, 2f, 1.5f);
     }
 
     @Override

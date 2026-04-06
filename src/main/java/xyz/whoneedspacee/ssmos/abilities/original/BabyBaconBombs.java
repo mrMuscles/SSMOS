@@ -10,7 +10,7 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
@@ -66,7 +66,7 @@ public class BabyBaconBombs extends Ability implements OwnerRightClickEvent {
     public void activate() {
         last_time_used = System.currentTimeMillis();
         VelocityUtil.setVelocity(owner, owner.getLocation().getDirection(), 0.8, true, 1.2, 0, 1, true);
-        owner.getWorld().playSound(owner.getLocation(), Sound.PIG_IDLE, 2f, 0.75f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_PIG_AMBIENT, 2f, 0.75f);
         Pig pig = owner.getWorld().spawn(owner.getLocation(), Pig.class);
         pig.setHealth(5);
         pig.setVelocity(new Vector(0, -0.4, 0));
@@ -104,7 +104,7 @@ public class BabyBaconBombs extends Ability implements OwnerRightClickEvent {
     }
 
     public void explodePig(Pig pig) {
-        Utils.playParticle(EnumParticle.EXPLOSION_LARGE, pig.getLocation().add(0, 0.5, 0),
+        Utils.playParticle(Particle.EXPLOSION, pig.getLocation().add(0, 0.5, 0),
                 0, 0, 0, 0, 1, 96, pig.getWorld().getPlayers());
         pig.getWorld().playSound(pig.getLocation(), Sound.EXPLODE, 0.6f, 2f);
         pig.getWorld().playSound(pig.getLocation(), Sound.PIG_DEATH, 1f, 2f);

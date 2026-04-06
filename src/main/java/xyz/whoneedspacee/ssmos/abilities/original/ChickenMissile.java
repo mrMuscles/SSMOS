@@ -7,7 +7,7 @@ import xyz.whoneedspacee.ssmos.managers.CooldownManager;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.*;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.LivingEntity;
@@ -58,7 +58,7 @@ public class ChickenMissile extends Ability implements OwnerRightClickEvent {
                     return;
                 }
                 chicken.setVelocity(direction);
-                chicken.getWorld().playSound(chicken.getLocation(), Sound.CHICKEN_HURT, 0.3f, 1.5f);
+                chicken.getWorld().playSound(chicken.getLocation(), Sound.ENTITY_CHICKEN_HURT, 0.3f, 1.5f);
                 if (CooldownManager.getInstance().getTimeElapsedFor(ChickenMissile.this, owner) < minimum_hit_time_ms) {
                     return;
                 }
@@ -102,7 +102,7 @@ public class ChickenMissile extends Ability implements OwnerRightClickEvent {
                         VelocityUtil.setVelocity(livingEntity, living2d.clone().subtract(chicken2d).normalize(),
                                 1.6, true, 0.8, 0, 10, true);
                     }
-                    Utils.playParticle(EnumParticle.EXPLOSION_HUGE, chicken.getLocation(),
+                    Utils.playParticle(Particle.EXPLOSION_EMITTER, chicken.getLocation(),
                             0, 0, 0, 0,1, 96, chicken.getWorld().getPlayers());
                     chicken.getWorld().playSound(chicken.getLocation(), Sound.EXPLODE, 2f, 1.2f);
                     Utils.playFirework(chicken.getLocation().add(0, 0.6, 0), FireworkEffect.Type.BALL, Color.WHITE, false, false);

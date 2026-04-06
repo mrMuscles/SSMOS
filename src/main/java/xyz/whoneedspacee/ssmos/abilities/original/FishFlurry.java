@@ -6,7 +6,7 @@ import xyz.whoneedspacee.ssmos.abilities.Ability;
 import xyz.whoneedspacee.ssmos.utilities.BlocksUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -82,7 +82,7 @@ public class FishFlurry extends Ability implements OwnerRightClickEvent {
                 }
                 if(ticks % 3 == 0) {
                     for(Block block : blocks) {
-                        Utils.playParticle(EnumParticle.WATER_SPLASH, block.getLocation().add(0.5, 1, 0.5),
+                        Utils.playParticle(Particle.SPLASH, block.getLocation().add(0.5, 1, 0.5),
                                 0.25f, 0, 0.25f, 0, 1, 96, block.getWorld().getPlayers());
                     }
                 }

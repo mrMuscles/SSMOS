@@ -5,7 +5,7 @@ import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -46,7 +46,7 @@ public class IronHookProjectile extends SmashProjectile {
     @Override
     protected void doEffect() {
         firer.getWorld().playSound(projectile.getLocation(), Sound.FIRE_IGNITE, 1.4f, 0.8f);
-        Utils.playParticle(EnumParticle.CRIT, projectile.getLocation(),
+        Utils.playParticle(Particle.CRIT, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.0f, 1, 96,
                 projectile.getWorld().getPlayers());
     }

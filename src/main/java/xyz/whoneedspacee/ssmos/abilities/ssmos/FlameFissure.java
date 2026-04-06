@@ -1,6 +1,6 @@
 package xyz.whoneedspacee.ssmos.abilities.ssmos;
 
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -64,12 +64,12 @@ public class FlameFissure extends Ability implements OwnerRightClickEvent {
                 }
                 if(ticks % 3 == 0) {
                     for(Block block : blocks) {
-                        Utils.playParticle(EnumParticle.FLAME, block.getLocation().add(0.5, 1, 0.5),
+                        Utils.playParticle(Particle.FLAME, block.getLocation().add(0.5, 1, 0.5),
                                 0.25f, 0, 0.25f, 0, 5, 96, block.getWorld().getPlayers());
                     }
                 }
                 for(Block block : blocks) {
-                    Utils.playParticle(EnumParticle.FLAME, block.getLocation().add(0.5, 1, 0.5),
+                    Utils.playParticle(Particle.FLAME, block.getLocation().add(0.5, 1, 0.5),
                             0.25f, 0, 0.25f, 0.5f, 1, 96, block.getWorld().getPlayers());
                 }
                 if (System.currentTimeMillis() - activation_time_ms < 1000) {

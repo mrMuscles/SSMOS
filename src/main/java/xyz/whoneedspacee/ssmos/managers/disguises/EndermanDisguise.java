@@ -1,18 +1,16 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.EntityEnderman;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.world.entity.monster.EnderMan;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-public class EndermanDisguise extends Disguise {
+import java.util.List;
 
-    private short block_id = 0;
-    private byte block_data = 0;
+public class EndermanDisguise extends Disguise {
 
     public EndermanDisguise(Player owner) {
         super(owner);
@@ -20,8 +18,9 @@ public class EndermanDisguise extends Disguise {
         type = EntityType.ENDERMAN;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntityEnderman(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new EnderMan(net.minecraft.world.entity.EntityType.ENDERMAN,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
     @Override
@@ -29,21 +28,30 @@ public class EndermanDisguise extends Disguise {
         if(living == null) {
             return;
         }
-        // Do these in update and track them so that even if the disguise gets re-shown it will be correct
-        // If you wanted to reduce packets sent you could put these in ShowDisguise more than likely
-        // Unfortunately packet code scares me
-        DataWatcher dw = living.getDataWatcher();
-        dw.watch(16, block_id);
-        dw.watch(17, block_data);
-        PacketPlayOutEntityMetadata data_packet = new PacketPlayOutEntityMetadata(living.getId(), dw, true);
-        Utils.sendPacketToAll(data_packet);
         super.update();
     }
 
+    /**
+     * Sets the block the enderman appears to carry.
+     * Block ID-based lookup is no longer supported in 1.21.4;
+     * use setHeldBlock(org.bukkit.block.data.BlockData) instead.
+     */
     public void setHeldBlock(int id, byte data) {
-        block_id = (short) id;
-        block_data = data;
-        update();
+        // Block integer IDs are not supported in 1.21.4
+    }
+
+    public void setHeldBlock(org.bukkit.block.data.BlockData blockData) {
+        if (living == null) {
+            return;
+        }
+        org.bukkit.craftbukkit.block.data.CraftBlockData craftData =
+                (org.bukkit.craftbukkit.block.data.CraftBlockData) blockData;
+        ((EnderMan) living).setCarriedBlock(craftData.getState());
+        List<SynchedEntityData.DataValue<?>> dataValues = living.getEntityData().packDirty();
+        if (dataValues != null) {
+            ClientboundSetEntityDataPacket data_packet = new ClientboundSetEntityDataPacket(living.getId(), dataValues);
+            Utils.sendPacketToAll(data_packet);
+        }
     }
 
 }

@@ -4,7 +4,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -43,7 +43,7 @@ public class WhirlpoolProjectile extends SmashProjectile {
 
     @Override
     protected void doEffect() {
-        Utils.playParticle(EnumParticle.DRIP_WATER, projectile.getLocation(),
+        Utils.playParticle(Particle.DRIPPING_WATER, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.01f, 1, 96, projectile.getWorld().getPlayers());
     }
 

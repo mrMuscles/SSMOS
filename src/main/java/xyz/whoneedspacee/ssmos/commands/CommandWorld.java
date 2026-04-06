@@ -364,7 +364,7 @@ public class CommandWorld implements CommandExecutor {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
-        return (plate.getType() == Material.GOLD_PLATE);
+        return (plate.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
     }
 
     public static boolean isBoundaryPoint(Block check) {
@@ -376,7 +376,7 @@ public class CommandWorld implements CommandExecutor {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
-        return (plate.getType() == Material.GOLD_PLATE);
+        return (plate.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
     }
 
     public static boolean isCenterPoint(Block check) {
@@ -388,7 +388,7 @@ public class CommandWorld implements CommandExecutor {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
-        return (plate.getType() == Material.GOLD_PLATE);
+        return (plate.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
     }
 
 }

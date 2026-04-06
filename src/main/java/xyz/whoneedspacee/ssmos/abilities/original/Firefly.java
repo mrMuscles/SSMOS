@@ -9,7 +9,7 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.EntityEffect;
@@ -72,7 +72,7 @@ public class Firefly extends Ability implements OwnerRightClickEvent, OwnerTakeS
                 if(CooldownManager.getInstance().getTimeElapsedFor(Firefly.this, owner) < warmup_time_ms) {
                     VelocityUtil.setVelocity(owner, new Vector(0, 0, 0));
                     owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 0.2f, 0.6f);
-                    Utils.playParticle(EnumParticle.FIREWORKS_SPARK, owner.getLocation().add(0, 1, 0),
+                    Utils.playParticle(Particle.FIREWORK, owner.getLocation().add(0, 1, 0),
                             0.6f, 0.6f, 0.6f, 0, 10, 96, owner.getWorld().getPlayers());
                     float progress = (float) CooldownManager.getInstance().getTimeElapsedFor(Firefly.this, owner) / warmup_time_ms;
                     owner.getWorld().playSound(owner.getLocation(), Sound.BLAZE_BREATH, 0.5f, 1f + progress);
@@ -80,9 +80,9 @@ public class Firefly extends Ability implements OwnerRightClickEvent, OwnerTakeS
                 }
                 VelocityUtil.setVelocity(owner, owner.getLocation().getDirection().multiply(velocity).add(new Vector(0, 0.15, 0)));
                 owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 0.6f, 1.2f);
-                Utils.playParticle(EnumParticle.FLAME, owner.getLocation().add(0, 1, 0),
+                Utils.playParticle(Particle.FLAME, owner.getLocation().add(0, 1, 0),
                         1f, 1f, 1f, 0, 15, 96, owner.getWorld().getPlayers());
-                Utils.playParticle(EnumParticle.LAVA, owner.getLocation().add(0, 1, 0),
+                Utils.playParticle(Particle.LAVA, owner.getLocation().add(0, 1, 0),
                         1f, 1f, 1f, 0, 10, 96, owner.getWorld().getPlayers());
                 owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 0.75f, 0.75f);
                 for(Player player : Utils.getNearby(owner.getLocation(), hitbox_radius)) {

@@ -1,8 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntitySpider;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import net.minecraft.world.entity.monster.Spider;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -14,8 +13,9 @@ public class SpiderDisguise extends Disguise {
         type = EntityType.SPIDER;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntitySpider(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new Spider(net.minecraft.world.entity.EntityType.SPIDER,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
 }

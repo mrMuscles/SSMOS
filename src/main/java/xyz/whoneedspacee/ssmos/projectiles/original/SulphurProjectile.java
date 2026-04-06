@@ -4,7 +4,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -75,7 +75,7 @@ public class SulphurProjectile extends SmashProjectile {
     }
 
     protected void explodeEffect() {
-        Utils.playParticle(EnumParticle.EXPLOSION_LARGE, projectile.getLocation(),
+        Utils.playParticle(Particle.EXPLOSION, projectile.getLocation(),
                 0, 0, 0, 0, 1, 96, projectile.getWorld().getPlayers());
         projectile.getWorld().playSound(projectile.getLocation(), Sound.EXPLODE, 1f, 1.5f);
     }

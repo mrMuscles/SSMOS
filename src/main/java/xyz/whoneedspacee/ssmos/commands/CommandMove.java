@@ -1,10 +1,11 @@
 package xyz.whoneedspacee.ssmos.commands;
 
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class CommandMove implements CommandExecutor {
@@ -23,7 +24,7 @@ public class CommandMove implements CommandExecutor {
         if (args.length == 1) {
             power = Float.parseFloat(args[0]);
         }
-        craftplayer.getHandle().playerConnection.sendPacket(new PacketPlayOutEntityVelocity(player.getEntityId(), power, 0, 0));
+        craftplayer.getHandle().connection.send(new ClientboundSetEntityMotionPacket(player.getEntityId(), power, 0, 0));
         return true;
     }
 

@@ -1,8 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
-import net.minecraft.server.v1_8_R3.EntityCow;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import net.minecraft.world.entity.animal.Cow;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -14,8 +13,9 @@ public class CowDisguise extends Disguise {
         type = EntityType.COW;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntityCow(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new Cow(net.minecraft.world.entity.EntityType.COW,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
 }

@@ -2,7 +2,7 @@ package xyz.whoneedspacee.ssmos.attributes;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerToggleSneakEvent;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -40,7 +40,7 @@ public class Teleport extends Attribute implements OwnerToggleSneakEvent {
         owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 0.5f);
         owner.teleport(target.getLocation().add(0.5, 1, 0.5).setDirection(owner.getLocation().getDirection()));
         owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 0.5f);
-        Utils.playParticle(EnumParticle.SPELL_WITCH, owner.getLocation().add(0, 1, 0),
+        Utils.playParticle(Particle.EFFECT_WITCH, owner.getLocation().add(0, 1, 0),
                 1f, 1f, 1f, 0.1f, 100, 96, owner.getWorld().getPlayers());
     }
 
@@ -78,7 +78,7 @@ public class Teleport extends Attribute implements OwnerToggleSneakEvent {
                 Utils.sendTitleMessage(owner, "", Utils.progressString(charge), 0, 10, 10);
                 if(charge < 1) {
                     owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f + charge);
-                    Utils.playParticle(EnumParticle.SPELL_WITCH, owner.getLocation().add(0, 1, 0),
+                    Utils.playParticle(Particle.EFFECT_WITCH, owner.getLocation().add(0, 1, 0),
                             1f, 1f, 1f, 0.05f, 10, 96, owner.getWorld().getPlayers());
                     return;
                 }

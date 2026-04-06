@@ -12,7 +12,7 @@ import xyz.whoneedspacee.ssmos.managers.DisguiseManager;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -89,7 +89,7 @@ public class TargetLaser extends Ability implements OwnerRightClickEvent, OwnerD
                     Bukkit.getScheduler().cancelTask(laser_task);
                     return;
                 }
-                Utils.playParticle(EnumParticle.CRIT_MAGIC, target.getLocation().add(0, 0.5, 0.5),
+                Utils.playParticle(Particle.CRIT_MAGIC, target.getLocation().add(0, 0.5, 0.5),
                         1f, 0.5f, 1f, 0.1f, 10, 96, target.getWorld().getPlayers());
                 long time_elapsed = CooldownManager.getInstance().getTimeElapsedFor(TargetLaser.this, owner);
                 if(owner.getLocation().distance(target.getLocation()) > max_range || time_elapsed >= max_time_ms) {

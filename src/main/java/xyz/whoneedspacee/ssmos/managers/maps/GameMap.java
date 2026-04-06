@@ -144,7 +144,7 @@ public class GameMap extends SmashMap {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
-        return (plate.getType() == Material.GOLD_PLATE);
+        return (plate.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
     }
 
     public boolean isBoundaryPoint(Block check) {
@@ -156,7 +156,7 @@ public class GameMap extends SmashMap {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
-        return (plate.getType() == Material.GOLD_PLATE);
+        return (plate.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
     }
 
     public boolean isCenterPoint(Block check) {
@@ -168,7 +168,7 @@ public class GameMap extends SmashMap {
             return false;
         }
         Block plate = check.getRelative(0, 1, 0);
-        return (plate.getType() == Material.GOLD_PLATE);
+        return (plate.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
     }
 
     public String toString() {

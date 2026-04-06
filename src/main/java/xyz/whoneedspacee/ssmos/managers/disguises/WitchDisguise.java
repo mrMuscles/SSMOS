@@ -1,8 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntityWitch;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import net.minecraft.world.entity.monster.Witch;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -14,8 +13,9 @@ public class WitchDisguise extends Disguise {
         type = EntityType.WITCH;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntityWitch(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new Witch(net.minecraft.world.entity.EntityType.WITCH,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
 }

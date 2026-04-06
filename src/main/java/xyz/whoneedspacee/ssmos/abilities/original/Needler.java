@@ -58,7 +58,7 @@ public class Needler extends Ability implements OwnerRightClickEvent {
             arrow.setShooter(owner);
             arrow.setCustomName("Needler");
             arrow.setMetadata("Needler", new FixedMetadataValue(plugin, 1));
-            owner.playSound(owner.getLocation(), Sound.SPIDER_IDLE, 0.8f, 2f);
+            owner.playSound(owner.getLocation(), Sound.ENTITY_SPIDER_AMBIENT, 0.8f, 2f);
             fired++;
         }, 0L, 0L);
     }

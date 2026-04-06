@@ -3,7 +3,7 @@ package xyz.whoneedspacee.ssmos.attributes;
 import xyz.whoneedspacee.ssmos.managers.disguises.Disguise;
 import xyz.whoneedspacee.ssmos.managers.disguises.SheepDisguise;
 import xyz.whoneedspacee.ssmos.managers.DisguiseManager;
-import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.world.entity.LivingEntity;
 
 public class RainbowSheep extends Attribute {
 

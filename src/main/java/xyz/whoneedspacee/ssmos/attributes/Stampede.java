@@ -5,7 +5,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerTakeSmashDamageEvent;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -45,7 +45,7 @@ public class Stampede extends Attribute implements OwnerDealSmashDamageEvent, Ow
             return;
         }
         if(stacks > 0) {
-            Utils.playParticle(EnumParticle.CRIT, owner.getLocation(), (float) (Math.random() - 0.5), 0.2f + (float) Math.random(),
+            Utils.playParticle(Particle.CRIT, owner.getLocation(), (float) (Math.random() - 0.5), 0.2f + (float) Math.random(),
                     (float) (Math.random() - 0.5), 0, stacks * 2, 96, owner.getWorld().getPlayers());
         }
         ticks = (ticks + 1) % 5;
@@ -73,7 +73,7 @@ public class Stampede extends Attribute implements OwnerDealSmashDamageEvent, Ow
         start_time_ms = System.currentTimeMillis();
         if(stacks < max_stacks) {
             stacks++;
-            owner.getWorld().playSound(owner.getLocation(), Sound.COW_HURT, 2f, 0.75f + 0.25f * stacks);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_COW_HURT, 2f, 0.75f + 0.25f * stacks);
         }
     }
 
@@ -97,7 +97,7 @@ public class Stampede extends Attribute implements OwnerDealSmashDamageEvent, Ow
                     ChatColor.GRAY + " hit you with", name, player, ServerMessageType.GAME);
         }
         owner.getWorld().playSound(owner.getLocation(), Sound.ZOMBIE_WOOD, 1f, 2f);
-        owner.getWorld().playSound(owner.getLocation(), Sound.COW_HURT, 2f, 2f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_COW_HURT, 2f, 2f);
         removeStampede();
     }
 

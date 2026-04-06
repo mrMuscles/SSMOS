@@ -6,7 +6,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -93,9 +93,9 @@ public class MilkSpiral extends Ability implements OwnerRightClickEvent {
                         second_particle.getWorld().playSound(second_particle, Sound.SPLASH, 0.2f, 0.75f);
                         first = false;
                     }
-                    Utils.playParticle(EnumParticle.FIREWORKS_SPARK, first_particle,
+                    Utils.playParticle(Particle.FIREWORK, first_particle,
                             0, 0, 0, 0, 1, 96, first_particle.getWorld().getPlayers());
-                    Utils.playParticle(EnumParticle.FIREWORKS_SPARK, second_particle,
+                    Utils.playParticle(Particle.FIREWORK, second_particle,
                             0, 0, 0, 0, 1, 96, second_particle.getWorld().getPlayers());
                     double distance = total_distance / 4;
                     old_location.add(direction.clone().multiply(distance));
@@ -123,7 +123,7 @@ public class MilkSpiral extends Ability implements OwnerRightClickEvent {
                     last_damage_time.put(player, System.currentTimeMillis());
                     times_hit.putIfAbsent(player, 0);
                     times_hit.put(player, times_hit.get(player) + 1);
-                    Utils.playParticle(EnumParticle.FIREWORKS_SPARK, player.getLocation().add(0, 1, 0),
+                    Utils.playParticle(Particle.FIREWORK, player.getLocation().add(0, 1, 0),
                             0.2f, 0.2f, 0.2f, 0.3f, 30, 96, player.getWorld().getPlayers());
                     player.getWorld().playSound(player.getLocation(), Sound.SPLASH, 0.2f, 2f);
                     SmashDamageEvent smashDamageEvent = new SmashDamageEvent(player, owner, damage);

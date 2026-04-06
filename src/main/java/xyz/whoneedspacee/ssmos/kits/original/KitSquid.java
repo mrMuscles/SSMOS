@@ -24,7 +24,7 @@ public class KitSquid extends Kit {
         this.regeneration = 0.25;
         this.knockback = 1.5;
         this.name = "Sky Squid";
-        this.menuItem = Material.INK_SACK;
+        this.menuItem = Material.INK_SAC;
         this.podium_mob_type = EntityType.SQUID;
     }
 
@@ -41,7 +41,7 @@ public class KitSquid extends Kit {
         addAttribute(new Regeneration(regeneration));
         addAttribute(new Hunger());
         addAttribute(new Compass());
-        addAttribute(new GenericDoubleJump(0.9, 0.9, Sound.GHAST_FIREBALL));
+        addAttribute(new GenericDoubleJump(0.9, 0.9, Sound.ENTITY_GHAST_SHOOT));
 
         DisguiseManager.addDisguise(owner, new SquidDisguise(owner));
     }

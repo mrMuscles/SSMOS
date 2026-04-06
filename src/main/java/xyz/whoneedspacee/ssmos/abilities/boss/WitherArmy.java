@@ -72,7 +72,7 @@ public class WitherArmy extends Ability implements OwnerRightClickEvent {
                             if (owner == null || !owner.isValid() || !wither_soldier.isValid() ||
                                     wither_soldier.getTicksLived() > 160 || wither_soldier.getLocation().getBlock().isLiquid()) {
                                 Utils.itemEffect(wither_soldier.getLocation().add(0, 0.5, 0), 12, 0.3,
-                                        Sound.WITHER_HURT, 1f, 0.75f, Material.BONE, (byte) 0, 40);
+                                        Sound.ENTITY_WITHER_HURT, 1f, 0.75f, Material.BONE, (byte) 0, 40);
                                 wither_soldier.remove();
                                 wither_army.remove(wither_soldier);
                                 cancel();

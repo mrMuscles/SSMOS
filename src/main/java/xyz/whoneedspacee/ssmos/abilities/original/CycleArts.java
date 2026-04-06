@@ -196,7 +196,7 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
             DoubleJump current = kit.getAttributeByClass(DoubleJump.class);
             boolean last_flight_state = owner.getAllowFlight();
             kit.removeAttribute(current);
-            DoubleJump doubleJump = new GenericDoubleJump(0.9, 0.9, Sound.GHAST_FIREBALL);
+            DoubleJump doubleJump = new GenericDoubleJump(0.9, 0.9, Sound.ENTITY_GHAST_SHOOT);
             owner.setAllowFlight(last_flight_state);
             kit.addAttribute(doubleJump);
             Disguise disguise = DisguiseManager.disguises.get(owner);
@@ -236,7 +236,7 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
             DoubleJump current = kit.getAttributeByClass(DoubleJump.class);
             boolean last_flight_state = owner.getAllowFlight();
             kit.removeAttribute(current);
-            DoubleJump doubleJump = new GenericDoubleJump(0.9, 0.9, Sound.GHAST_FIREBALL);
+            DoubleJump doubleJump = new GenericDoubleJump(0.9, 0.9, Sound.ENTITY_GHAST_SHOOT);
             owner.setAllowFlight(last_flight_state);
             kit.addAttribute(doubleJump);
             Disguise disguise = DisguiseManager.disguises.get(owner);
@@ -252,7 +252,7 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
             if (hasCooldown()) {
                 return new ItemStack(Material.STAINED_GLASS_PANE, 1, DyeColor.RED.getData());
             }
-            return new ItemStack(Material.INK_SACK, 1, (short) (15 - DyeColor.RED.getData()));
+            return new ItemStack(Material.INK_SAC, 1, (short) (15 - DyeColor.RED.getData()));
         }
 
         @Override
@@ -288,7 +288,7 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
             DoubleJump current = kit.getAttributeByClass(DoubleJump.class);
             boolean last_flight_state = owner.getAllowFlight();
             kit.removeAttribute(current);
-            DoubleJump doubleJump = new GenericDoubleJump(0.7, 0.7, Sound.GHAST_FIREBALL);
+            DoubleJump doubleJump = new GenericDoubleJump(0.7, 0.7, Sound.ENTITY_GHAST_SHOOT);
             owner.setAllowFlight(last_flight_state);
             kit.addAttribute(doubleJump);
             Disguise disguise = DisguiseManager.disguises.get(owner);
@@ -304,7 +304,7 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
             if (hasCooldown()) {
                 return new ItemStack(Material.STAINED_GLASS_PANE, 1, DyeColor.ORANGE.getData());
             }
-            return new ItemStack(Material.INK_SACK, 1, (short) (15 - DyeColor.ORANGE.getData()));
+            return new ItemStack(Material.INK_SAC, 1, (short) (15 - DyeColor.ORANGE.getData()));
         }
 
         @Override
@@ -340,7 +340,7 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
             DoubleJump current = kit.getAttributeByClass(DoubleJump.class);
             boolean last_flight_state = owner.getAllowFlight();
             kit.removeAttribute(current);
-            DoubleJump doubleJump = new DirectDoubleJump(1.1, 1.1, Sound.GHAST_FIREBALL);
+            DoubleJump doubleJump = new DirectDoubleJump(1.1, 1.1, Sound.ENTITY_GHAST_SHOOT);
             owner.setAllowFlight(last_flight_state);
             kit.addAttribute(doubleJump);
             Disguise disguise = DisguiseManager.disguises.get(owner);
@@ -356,7 +356,7 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
             if (hasCooldown()) {
                 return new ItemStack(Material.STAINED_GLASS_PANE, 1, DyeColor.LIME.getData());
             }
-            return new ItemStack(Material.INK_SACK, 1, (short) (15 - DyeColor.LIME.getData()));
+            return new ItemStack(Material.INK_SAC, 1, (short) (15 - DyeColor.LIME.getData()));
         }
 
         @Override

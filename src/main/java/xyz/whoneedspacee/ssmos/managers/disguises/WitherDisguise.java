@@ -1,9 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntitySpider;
-import net.minecraft.server.v1_8_R3.EntityWither;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -15,8 +13,9 @@ public class WitherDisguise extends Disguise {
         type = EntityType.WITHER;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntityWither(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new WitherBoss(net.minecraft.world.entity.EntityType.WITHER,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
 }
