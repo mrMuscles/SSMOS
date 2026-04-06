@@ -1,11 +1,15 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.world.entity.monster.Guardian;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class GuardianDisguise extends Disguise {
 
@@ -15,8 +19,9 @@ public class GuardianDisguise extends Disguise {
         type = EntityType.GUARDIAN;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntityGuardian(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new Guardian(net.minecraft.world.entity.EntityType.GUARDIAN,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
     public void setTarget(Entity entity) {
@@ -25,10 +30,12 @@ public class GuardianDisguise extends Disguise {
         if(target != null) {
             id = target.getEntityId();
         }
-        DataWatcher dw = living.getDataWatcher();
-        dw.watch(17, id);
-        PacketPlayOutEntityMetadata target_packet = new PacketPlayOutEntityMetadata(living.getId(), dw, true);
-        Utils.sendPacketToAll(target_packet);
+        ((Guardian) living).setActiveAttackTarget(id);
+        List<SynchedEntityData.DataValue<?>> dataValues = living.getEntityData().packDirty();
+        if (dataValues != null) {
+            ClientboundSetEntityDataPacket target_packet = new ClientboundSetEntityDataPacket(living.getId(), dataValues);
+            Utils.sendPacketToAll(target_packet);
+        }
     }
 
     @Override

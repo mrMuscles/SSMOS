@@ -299,10 +299,9 @@ public abstract class Kit implements Listener {
     public Entity getNewPodiumMob(Location spawn_location) {
         CraftWorld craftWorld = (CraftWorld) spawn_location.getWorld();
         CraftEntity podium_mob = craftWorld.createEntity(spawn_location, podium_mob_type.getEntityClass()).getBukkitEntity();
-        craftWorld.getHandle().addEntity(podium_mob.getHandle());
-        net.minecraft.server.v1_8_R3.Entity nms_podium_mob = podium_mob.getHandle();
-        nms_podium_mob.onGround = true;
-        nms_podium_mob.inWater = false;
+        craftWorld.getHandle().addFreshEntity(podium_mob.getHandle());
+        net.minecraft.world.entity.Entity nms_podium_mob = podium_mob.getHandle();
+        nms_podium_mob.setOnGround(true);
         return podium_mob;
     }
 

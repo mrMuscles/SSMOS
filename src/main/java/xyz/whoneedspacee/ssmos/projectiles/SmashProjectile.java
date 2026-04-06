@@ -6,8 +6,15 @@ import xyz.whoneedspacee.ssmos.managers.KitManager;
 import xyz.whoneedspacee.ssmos.kits.Kit;
 import xyz.whoneedspacee.ssmos.Main;
 import xyz.whoneedspacee.ssmos.utilities.BlocksUtil;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.core.BlockPos;
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -117,7 +124,7 @@ public abstract class SmashProjectile extends BukkitRunnable implements Listener
     }
 
     protected void playHitSound() {
-        firer.playSound(firer.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.25f);
+        firer.playSound(firer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.25f);
     }
 
     protected LivingEntity checkClosestTarget() {
@@ -127,14 +134,14 @@ public abstract class SmashProjectile extends BukkitRunnable implements Listener
         // If you want to optimize this probably start with checking the magnitude of velocity
         double max_realistic_velocity = 4;
         int max_iterations = 15;
-        net.minecraft.server.v1_8_R3.Entity entity = ((CraftEntity) projectile).getHandle();
-        //Bukkit.broadcastMessage(entity.getBoundingBox().toString());
+        net.minecraft.world.entity.Entity entity = ((CraftEntity) projectile).getHandle();
+        Vec3 entityMotion = entity.getDeltaMovement();
         // Get possible projectiles that could be hit on this tick
         List<LivingEntity> possible = new ArrayList<LivingEntity>();
         for (Entity check : projectile.getWorld().getNearbyEntities(projectile.getLocation(),
-                entity.motX + hitbox_size + max_realistic_velocity,
-                entity.motY + hitbox_size + max_realistic_velocity,
-                entity.motZ + hitbox_size + max_realistic_velocity)) {
+                Math.abs(entityMotion.x) + hitbox_size + max_realistic_velocity,
+                Math.abs(entityMotion.y) + hitbox_size + max_realistic_velocity,
+                Math.abs(entityMotion.z) + hitbox_size + max_realistic_velocity)) {
             if (!(check instanceof LivingEntity)) {
                 continue;
             }
@@ -156,33 +163,34 @@ public abstract class SmashProjectile extends BukkitRunnable implements Listener
             double percent = i / (max_iterations - 1);
             // Linearly interpolate the player and entity hitbox and see if they overlap
             for (LivingEntity check : possible) {
-                net.minecraft.server.v1_8_R3.EntityLiving living = (EntityLiving) ((CraftEntity) check).getHandle();
-                AxisAlignedBB bb = living.getBoundingBox();
-                double l_x = living.motX * percent;
-                double l_y = living.motY * percent;
-                double l_z = living.motZ * percent;
-                AxisAlignedBB livingBB = new AxisAlignedBB(bb.a + l_x, bb.b + l_y, bb.c + l_z,
-                        bb.d + l_x, bb.e + l_y, bb.f + l_z);
-                double p_x = entity.locX + entity.motX * percent;
-                double p_y = entity.locY + entity.motY * percent;
-                double p_z = entity.locZ + entity.motZ * percent;
-                AxisAlignedBB projectileBB = new AxisAlignedBB(p_x, p_y, p_z, p_x, p_y, p_z);
+                net.minecraft.world.entity.LivingEntity living = (net.minecraft.world.entity.LivingEntity) ((CraftEntity) check).getHandle();
+                AABB bb = living.getBoundingBox();
+                Vec3 livingMotion = living.getDeltaMovement();
+                double l_x = livingMotion.x * percent;
+                double l_y = livingMotion.y * percent;
+                double l_z = livingMotion.z * percent;
+                AABB livingBB = new AABB(bb.minX + l_x, bb.minY + l_y, bb.minZ + l_z,
+                        bb.maxX + l_x, bb.maxY + l_y, bb.maxZ + l_z);
+                double p_x = entity.getX() + entityMotion.x * percent;
+                double p_y = entity.getY() + entityMotion.y * percent;
+                double p_z = entity.getZ() + entityMotion.z * percent;
+                AABB projectileBB = new AABB(p_x, p_y, p_z, p_x, p_y, p_z);
                 // Grow by hitbox size given
                 // Falling Blocks are grown by 0.49 default (0.98 size)
                 // Item Entities are grown by 0.125 default (0.25 size)
-                projectileBB = projectileBB.grow(hitbox_size, hitbox_size, hitbox_size);
+                projectileBB = projectileBB.inflate(hitbox_size, hitbox_size, hitbox_size);
                 // Attempt at visually displaying the hitbox path of the projectile
                 if(CommandShowHitboxes.show_hitboxes) {
-                    for (double x_iterate : new double[]{projectileBB.a, projectileBB.d}) {
-                        for (double y_iterate : new double[]{projectileBB.b, projectileBB.e}) {
-                            for (double z_iterate : new double[]{projectileBB.c, projectileBB.f}) {
+                    for (double x_iterate : new double[]{projectileBB.minX, projectileBB.maxX}) {
+                        for (double y_iterate : new double[]{projectileBB.minY, projectileBB.maxY}) {
+                            for (double z_iterate : new double[]{projectileBB.minZ, projectileBB.maxZ}) {
                                 Location vertex_loc = new Location(projectile.getWorld(), x_iterate, y_iterate, z_iterate);
-                                Utils.playParticle(EnumParticle.FIREWORKS_SPARK, vertex_loc, 0, 0, 0, 0, 1, 96, projectile.getWorld().getPlayers());
+                                Utils.playParticle(Particle.FIREWORK, vertex_loc, 0, 0, 0, 0, 1, 96, projectile.getWorld().getPlayers());
                             }
                         }
                     }
                 }
-                if (projectileBB.b(livingBB)) {
+                if (projectileBB.intersects(livingBB)) {
                     return check;
                 }
             }
@@ -193,29 +201,32 @@ public abstract class SmashProjectile extends BukkitRunnable implements Listener
     // This modifies projectile motion and location, this can cause
     // Bugs with projectiles that do not delete themselves
     protected Block checkHitBlock() {
-        net.minecraft.server.v1_8_R3.World world = ((CraftWorld) projectile.getWorld()).getHandle();
-        net.minecraft.server.v1_8_R3.Entity entity = ((CraftEntity) projectile).getHandle();
+        net.minecraft.world.entity.Entity entity = ((CraftEntity) projectile).getHandle();
+        Vec3 deltaMovement = entity.getDeltaMovement();
         // Do a raytrace to see what our real position is going to be
-        Vec3D vec_old = new Vec3D(entity.locX, entity.locY, entity.locZ);
-        Vec3D vec_new = new Vec3D(entity.locX + entity.motX, entity.locY + entity.motY, entity.locZ + entity.motZ);
-        MovingObjectPosition final_position = entity.world.rayTrace(vec_old, vec_new, false, true, false);
-        if (final_position == null) {
+        Vec3 vecOld = new Vec3(entity.getX(), entity.getY(), entity.getZ());
+        Vec3 vecNew = new Vec3(entity.getX() + deltaMovement.x, entity.getY() + deltaMovement.y, entity.getZ() + deltaMovement.z);
+        ClipContext clipContext = new ClipContext(vecOld, vecNew, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity);
+        BlockHitResult hitResult = entity.level().clip(clipContext);
+        if (hitResult.getType() == HitResult.Type.MISS) {
             return null;
         }
-        Block block = projectile.getWorld().getBlockAt(final_position.a().getX(),
-                final_position.a().getY(), final_position.a().getZ());
+        BlockPos blockPos = hitResult.getBlockPos();
+        Block block = projectile.getWorld().getBlockAt(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         if (block.isLiquid() || !block.getType().isSolid()) {
             return null;
         }
         // Set our motion to stop on the block we are hitting
-        entity.motX = ((float) (final_position.pos.a - entity.locX));
-        entity.motY = ((float) (final_position.pos.b - entity.locY));
-        entity.motZ = ((float) (final_position.pos.c - entity.locZ));
+        Vec3 hitLocation = hitResult.getLocation();
+        double newMotX = hitLocation.x - entity.getX();
+        double newMotY = hitLocation.y - entity.getY();
+        double newMotZ = hitLocation.z - entity.getZ();
+        entity.setDeltaMovement(newMotX, newMotY, newMotZ);
         // Get the magnitude of the motion vector
-        float f2 = MathHelper.sqrt(entity.motX * entity.motX + entity.motY * entity.motY + entity.motZ * entity.motZ);
-        entity.locX -= entity.motX / f2 * 0.0500000007450581D;
-        entity.locY -= entity.motY / f2 * 0.0500000007450581D;
-        entity.locZ -= entity.motZ / f2 * 0.0500000007450581D;
+        float f2 = Mth.sqrt((float) (newMotX * newMotX + newMotY * newMotY + newMotZ * newMotZ));
+        entity.setPos(entity.getX() - newMotX / f2 * 0.0500000007450581D,
+                entity.getY() - newMotY / f2 * 0.0500000007450581D,
+                entity.getZ() - newMotZ / f2 * 0.0500000007450581D);
         return block;
     }
 

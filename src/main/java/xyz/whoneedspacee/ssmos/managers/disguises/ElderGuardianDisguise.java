@@ -1,11 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.EntityGuardian;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
+import net.minecraft.world.entity.monster.ElderGuardian;
 import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -17,10 +13,9 @@ public class ElderGuardianDisguise extends GuardianDisguise {
         type = EntityType.GUARDIAN;
     }
 
-    protected EntityLiving newLiving() {
-        EntityGuardian guardian = (EntityGuardian) super.newLiving();
-        guardian.setElder(true);
-        return guardian;
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new ElderGuardian(net.minecraft.world.entity.EntityType.ELDER_GUARDIAN,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
     @Override

@@ -1,14 +1,17 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntityMagmaCube;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityMetadata;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.world.entity.monster.MagmaCube;
+import net.minecraft.world.entity.monster.Slime;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MagmaCubeDisguise extends Disguise {
 
@@ -20,9 +23,10 @@ public class MagmaCubeDisguise extends Disguise {
         type = EntityType.MAGMA_CUBE;
     }
 
-    protected EntityLiving newLiving() {
-        EntityMagmaCube magmaCube = new EntityMagmaCube(((CraftWorld) owner.getWorld()).getHandle());
-        magmaCube.setSize(size);
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        MagmaCube magmaCube = new MagmaCube(net.minecraft.world.entity.EntityType.MAGMA_CUBE,
+                ((CraftWorld) owner.getWorld()).getHandle());
+        magmaCube.setSize(size, false);
         return magmaCube;
     }
 
@@ -31,9 +35,9 @@ public class MagmaCubeDisguise extends Disguise {
         if (living == null) {
             return;
         }
-        DataWatcher dw = living.getDataWatcher();
-        dw.watch(16, (byte) size);
-        PacketPlayOutEntityMetadata size_packet = new PacketPlayOutEntityMetadata(living.getId(), dw, true);
+        List<SynchedEntityData.DataValue<?>> dataValues = new ArrayList<>();
+        dataValues.add(SynchedEntityData.DataValue.create(Slime.DATA_SIZE, size));
+        ClientboundSetEntityDataPacket size_packet = new ClientboundSetEntityDataPacket(living.getId(), dataValues);
         Utils.sendPacketToAll(size_packet);
         super.update();
     }
@@ -45,9 +49,9 @@ public class MagmaCubeDisguise extends Disguise {
     @Override
     public Sound getDamageSound() {
         if(size > 1) {
-            return Sound.SLIME_WALK2;
+            return Sound.ENTITY_SLIME_SQUISH;
         }
-        return Sound.SLIME_WALK;
+        return Sound.ENTITY_SLIME_SQUISH_SMALL;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
-import net.minecraft.server.v1_8_R3.EntityLiving;
-import net.minecraft.server.v1_8_R3.EntityPig;
+import net.minecraft.world.entity.animal.Pig;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -14,8 +13,9 @@ public class PigDisguise extends Disguise {
         type = EntityType.PIG;
     }
 
-    protected EntityLiving newLiving() {
-        return new EntityPig(((CraftWorld) owner.getWorld()).getHandle());
+    protected net.minecraft.world.entity.LivingEntity newLiving() {
+        return new Pig(net.minecraft.world.entity.EntityType.PIG,
+                ((CraftWorld) owner.getWorld()).getHandle());
     }
 
 }
