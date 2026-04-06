@@ -30,7 +30,7 @@ public class WoolProjectile extends SmashProjectile {
     @Override
     public void launchProjectile() {
         super.launchProjectile();
-        firer.getWorld().playSound(firer.getLocation(), Sound.SHEEP_IDLE, 2f, 1.5f);
+        firer.getWorld().playSound(firer.getLocation(), Sound.ENTITY_SHEEP_AMBIENT, 2f, 1.5f);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class WoolProjectile extends SmashProjectile {
         block.setType(Material.WOOL);
         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
         if (inform) {
-            firer.getWorld().playSound(firer.getLocation(), Sound.SHEEP_IDLE, 2f, 1.5f);
+            firer.getWorld().playSound(firer.getLocation(), Sound.ENTITY_SHEEP_AMBIENT, 2f, 1.5f);
             Utils.sendAttributeMessage("You armed", name, firer, ServerMessageType.GAME);
         }
         destroy();

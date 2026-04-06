@@ -112,7 +112,7 @@ public class StaticLaser extends Ability implements OwnerRightClickEvent {
         }
         Utils.sendAttributeMessage("You fired", name, owner, ServerMessageType.SKILL);
         owner.getWorld().playSound(owner.getEyeLocation(), Sound.ZOMBIE_REMEDY, 0.5f + owner.getExp(), 1.75f - owner.getExp());
-        owner.getWorld().playSound(owner.getLocation(), Sound.SHEEP_IDLE, 2f, 1.5f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SHEEP_AMBIENT, 2f, 1.5f);
         setWoolColor(DyeColor.WHITE);
         owner.setExp(0f);
     }

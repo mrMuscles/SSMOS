@@ -28,7 +28,7 @@ public class InkProjectile extends SmashProjectile {
 
     @Override
     protected Entity createProjectileEntity() {
-        ItemStack ink = new ItemStack(Material.INK_SACK);
+        ItemStack ink = new ItemStack(Material.INK_SAC);
         return firer.getWorld().dropItem(firer.getEyeLocation().add(firer.getLocation().getDirection()), ink);
     }
 

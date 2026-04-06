@@ -39,7 +39,7 @@ public class KitWolf extends Kit {
         addAttribute(new Regeneration(regeneration));
         addAttribute(new Hunger());
         addAttribute(new Compass());
-        addAttribute(new DirectDoubleJump(1.0, 1.0, Sound.GHAST_FIREBALL));
+        addAttribute(new DirectDoubleJump(1.0, 1.0, Sound.ENTITY_GHAST_SHOOT));
         addAttribute(new Ravage());
 
         DisguiseManager.addDisguise(owner, new WolfDisguise(owner));

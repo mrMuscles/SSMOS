@@ -2,7 +2,7 @@ package xyz.whoneedspacee.ssmos.managers.smashserver;
 
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -325,8 +325,8 @@ public class SmashServer implements Listener, Runnable {
         // Don't do anything before setting to full hp again
         Utils.fullHeal(player);
         // Blood Particles
-        EffectUtil.createEffect(player.getEyeLocation(), 10, 0.5, Sound.HURT_FLESH,
-                1f, 1f, Material.INK_SACK, (byte) 1, 10, true);
+        EffectUtil.createEffect(player.getEyeLocation(), 10, 0.5, Sound.ENTITY_PLAYER_HURT,
+                1f, 1f, Material.INK_SAC, (byte) 1, 10, true);
         SmashDamageEvent record = DamageManager.getLastDamageEvent(player);
         for(Player message : players) {
             String damager_color = "" + ChatColor.YELLOW;

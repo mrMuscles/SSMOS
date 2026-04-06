@@ -428,11 +428,11 @@ public class BlockRestoreManager implements Listener, Runnable {
         private void handleLilypad(boolean restore) {
             if (restore) {
                 for (Location l : pad.keySet()) {
-                    l.getBlock().setType(Material.WATER_LILY);
+                    l.getBlock().setType(Material.LILY_PAD);
                     l.getBlock().setData(pad.get(l));
                 }
             } else {
-                if (block.getRelative(BlockFace.UP, 1).getType() == Material.WATER_LILY) {
+                if (block.getRelative(BlockFace.UP, 1).getType() == Material.LILY_PAD) {
                     pad.put(block.getRelative(BlockFace.UP, 1).getLocation(), block.getRelative(BlockFace.UP, 1).getData());
                     block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
                 }

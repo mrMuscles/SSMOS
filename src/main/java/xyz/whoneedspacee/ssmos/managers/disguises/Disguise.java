@@ -1,7 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import xyz.whoneedspacee.ssmos.managers.gamestate.GameState;
 import xyz.whoneedspacee.ssmos.commands.CommandShowHealth;
 import xyz.whoneedspacee.ssmos.managers.GameManager;
@@ -12,9 +12,9 @@ import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -297,83 +297,83 @@ public abstract class Disguise {
         Sound sound;
         switch (type) {
             default:
-                sound = Sound.HURT_FLESH;
+                sound = Sound.ENTITY_PLAYER_HURT;
                 break;
             case BAT:
-                sound = Sound.BAT_HURT;
+                sound = Sound.ENTITY_BAT_HURT;
                 break;
             case BLAZE:
-                sound = Sound.BLAZE_HIT;
+                sound = Sound.ENTITY_BLAZE_HURT;
                 break;
             case CAVE_SPIDER:
             case SPIDER:
-                sound = Sound.SPIDER_IDLE;
+                sound = Sound.ENTITY_SPIDER_AMBIENT;
                 break;
             case CHICKEN:
-                sound = Sound.CHICKEN_HURT;
+                sound = Sound.ENTITY_CHICKEN_HURT;
                 break;
             case COW:
-            case MUSHROOM_COW:
-                sound = Sound.COW_HURT;
+            case MOOSHROOM:
+                sound = Sound.ENTITY_COW_HURT;
                 break;
             case CREEPER:
-                sound = Sound.CREEPER_HISS;
+                sound = Sound.ENTITY_CREEPER_PRIMED;
                 break;
             case ENDER_DRAGON:
-                sound = Sound.ENDERDRAGON_HIT;
+                sound = Sound.ENTITY_ENDER_DRAGON_HURT;
                 break;
             case ENDERMAN:
-                sound = Sound.ENDERMAN_HIT;
+                sound = Sound.ENTITY_ENDERMAN_HURT;
                 break;
             case GHAST:
-                sound = Sound.GHAST_SCREAM;
+                sound = Sound.ENTITY_GHAST_SCREAM;
                 break;
             case GIANT:
             case ZOMBIE:
-                sound = Sound.ZOMBIE_HURT;
+                sound = Sound.ENTITY_ZOMBIE_HURT;
                 break;
             case HORSE: // lmao virgin bukkit entity type doesn't differentiate between horse variants
-                sound = Sound.HORSE_SKELETON_HIT;
+                sound = Sound.ENTITY_SKELETON_HORSE_HURT;
                 break;
             case IRON_GOLEM:
-                sound = Sound.IRONGOLEM_HIT;
+                sound = Sound.ENTITY_IRON_GOLEM_HURT;
                 break;
             case MAGMA_CUBE:
-                sound = Sound.MAGMACUBE_JUMP;
+                sound = Sound.ENTITY_MAGMA_CUBE_HURT;
                 break;
             case OCELOT:
-                sound = Sound.CAT_HIT;
+                sound = Sound.ENTITY_CAT_HURT;
                 break;
             case PIG:
-                sound = Sound.PIG_IDLE;
+                sound = Sound.ENTITY_PIG_AMBIENT;
                 break;
-            case PIG_ZOMBIE:
-                sound = Sound.ZOMBIE_PIG_HURT;
+            case ZOMBIFIED_PIGLIN:
+                sound = Sound.ENTITY_ZOMBIFIED_PIGLIN_HURT;
                 break;
             case SHEEP:
-                sound = Sound.SHEEP_IDLE;
+                sound = Sound.ENTITY_SHEEP_AMBIENT;
                 break;
             case SILVERFISH:
-                sound = Sound.SILVERFISH_HIT;
+                sound = Sound.ENTITY_SILVERFISH_HURT;
                 break;
             case SKELETON:
-                sound = Sound.SKELETON_HURT;
+                sound = Sound.ENTITY_SKELETON_HURT;
                 break;
             case SLIME:
-                sound = Sound.SLIME_ATTACK;
+                sound = Sound.ENTITY_SLIME_ATTACK;
                 break;
             case SNOWMAN:
-                sound = Sound.STEP_SNOW;
+                sound = Sound.BLOCK_SNOW_STEP;
                 break;
             case VILLAGER:
             case WITCH:
-                sound = Sound.VILLAGER_HIT;
+                sound = Sound.ENTITY_VILLAGER_HURT;
                 break;
             case WITHER:
-                sound = Sound.WITHER_HURT;
+                sound = Sound.ENTITY_WITHER_HURT;
                 break;
             case WOLF:
-                sound = Sound.WOLF_HURT;
+                sound = Sound.ENTITY_WOLF_HURT;
                 break;
         }
         return sound;

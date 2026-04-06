@@ -4,8 +4,8 @@ import xyz.whoneedspacee.ssmos.utilities.Utils;
 import net.minecraft.server.v1_8_R3.EntityMonster;
 import net.minecraft.server.v1_8_R3.EntityPigZombie;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityEquipment;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -14,7 +14,7 @@ public class NetherPigDisguise extends Disguise {
     public NetherPigDisguise(Player owner) {
         super(owner);
         name = "Zombie";
-        type = EntityType.PIG_ZOMBIE;
+        type = EntityType.ZOMBIFIED_PIGLIN;
     }
 
     protected EntityMonster newLiving() {

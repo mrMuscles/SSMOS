@@ -1,7 +1,7 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
 
 import net.minecraft.server.v1_8_R3.EntitySlime;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftSlime;
+import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.projectiles.original.SlimeProjectile;

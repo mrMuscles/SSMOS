@@ -34,7 +34,7 @@ public class BoneExplosion extends Ability implements OwnerRightClickEvent {
     public void activate() {
         Location location = owner.getLocation().add(0, 0.5, 0);
         Utils.itemEffect(owner.getLocation().add(0, 0.5, 0), 48, 0.8,
-                Sound.SKELETON_HURT, 2f, 1.2f, Material.BONE, (byte) 0, 40);
+                Sound.ENTITY_SKELETON_HURT, 2f, 1.2f, Material.BONE, (byte) 0, 40);
 
         HashMap<LivingEntity, Double> canHit = Utils.getInRadius(owner.getLocation(), range);
         canHit.remove(owner);

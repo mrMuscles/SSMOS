@@ -67,7 +67,7 @@ public class Main extends JavaPlugin implements Listener {
         ItemMeta kit_meta = KIT_SELECTOR_ITEM.getItemMeta();
         kit_meta.setDisplayName(ChatColor.GREEN + "" + "Choose a Kit");
         KIT_SELECTOR_ITEM.setItemMeta(kit_meta);
-        TELEPORT_HUB_ITEM = new ItemStack(Material.WATCH);
+        TELEPORT_HUB_ITEM = new ItemStack(Material.CLOCK);
         ItemMeta hub_meta = TELEPORT_HUB_ITEM.getItemMeta();
         hub_meta.setDisplayName(ChatColor.GREEN + "" + "Return to Hub");
         hub_meta.setLore(Arrays.asList(ChatColor.RESET + "Click while holding this", ChatColor.RESET + "to return to the Hub."));
@@ -168,7 +168,7 @@ public class Main extends JavaPlugin implements Listener {
         player.getInventory().setArmorContents(null);
         player.getInventory().setItem(0, SERVER_BROWSER_ITEM);
         Utils.fullHeal(player);
-        DoubleJump double_jump = new DoubleJump(1, 1, Sound.GHAST_FIREBALL) {
+        DoubleJump double_jump = new DoubleJump(1, 1, Sound.ENTITY_GHAST_SHOOT) {
             @Override
             public boolean groundCheck() {
                 return Utils.entityIsDirectlyOnGround(owner);
@@ -267,24 +267,24 @@ public class Main extends JavaPlugin implements Listener {
         Block blockFromAbove = e.getFrom().getBlock().getRelative(BlockFace.UP);
         Block blockToAbove = e.getTo().getBlock().getRelative(BlockFace.UP);
         if (player.getLocation().getWorld() == Bukkit.getWorlds().get(0)) {
-            if (blockToAbove.getType() == Material.PORTAL && blockFromAbove.getType() != Material.PORTAL) {
+            if (blockToAbove.getType() == Material.NETHER_PORTAL && blockFromAbove.getType() != Material.NETHER_PORTAL) {
                 player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
                 Bukkit.getScheduler().runTaskLater(this, () -> GameManager.openServerMenu(player), 5L);
             }
             last_boost_time.putIfAbsent(player, 0L);
-            if (blockIn.getType() == Material.GOLD_PLATE && System.currentTimeMillis() - last_boost_time.get(player) >= 500) {
+            if (blockIn.getType() == Material.LIGHT_WEIGHTED_PRESSURE_PLATE && System.currentTimeMillis() - last_boost_time.get(player) >= 500) {
                 last_boost_time.put(player, System.currentTimeMillis());
                 Location location = player.getLocation();
                 Vector direction = location.getDirection().multiply(4);
                 direction.setY(1.2);
-                player.getWorld().playSound(location, Sound.CHICKEN_EGG_POP, 2, 0.5F);
+                player.getWorld().playSound(location, Sound.ENTITY_CHICKEN_EGG, 2, 0.5F);
                 VelocityUtil.setVelocity(player, direction);
             }
             return;
         }
         if (blockIn.isLiquid() && DamageUtil.canDamage(player, null)) {
             boolean lighting = false;
-            if (blockIn.getType() == Material.LAVA || blockIn.getType() == Material.STATIONARY_LAVA) {
+            if (blockIn.getType() == Material.LAVA || blockIn.getType() == Material.LAVA) {
                 lighting = true;
             }
             DamageUtil.borderKill(player, lighting);

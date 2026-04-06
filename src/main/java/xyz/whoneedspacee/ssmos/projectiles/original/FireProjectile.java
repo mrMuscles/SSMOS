@@ -33,7 +33,7 @@ public class FireProjectile extends SmashProjectile {
     @Override
     public void launchProjectile() {
         super.launchProjectile();
-        firer.getWorld().playSound(firer.getEyeLocation(), Sound.GHAST_FIREBALL, 0.1f, 1f);
+        firer.getWorld().playSound(firer.getEyeLocation(), Sound.ENTITY_GHAST_SHOOT, 0.1f, 1f);
     }
 
     @Override

@@ -66,7 +66,7 @@ public class BabyBaconBombs extends Ability implements OwnerRightClickEvent {
     public void activate() {
         last_time_used = System.currentTimeMillis();
         VelocityUtil.setVelocity(owner, owner.getLocation().getDirection(), 0.8, true, 1.2, 0, 1, true);
-        owner.getWorld().playSound(owner.getLocation(), Sound.PIG_IDLE, 2f, 0.75f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_PIG_AMBIENT, 2f, 0.75f);
         Pig pig = owner.getWorld().spawn(owner.getLocation(), Pig.class);
         pig.setHealth(5);
         pig.setVelocity(new Vector(0, -0.4, 0));

@@ -68,8 +68,8 @@ public class BoneKick extends Ability implements OwnerRightClickEvent {
             smashDamageEvent.setIgnoreDamageDelay(true);
             smashDamageEvent.setReason(name);
             smashDamageEvent.callEvent();
-            owner.getWorld().playSound(owner.getLocation(), Sound.SKELETON_HURT, 4f, 0.6f);
-            owner.getWorld().playSound(owner.getLocation(), Sound.SKELETON_HURT, 4f, 0.6f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SKELETON_HURT, 4f, 0.6f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SKELETON_HURT, 4f, 0.6f);
             if(livingEntity instanceof Player) {
                 Player player = (Player) livingEntity;
                 Utils.sendAttributeMessage(ChatColor.YELLOW + owner.getName() +

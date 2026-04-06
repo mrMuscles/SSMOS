@@ -58,7 +58,7 @@ public class ChickenMissile extends Ability implements OwnerRightClickEvent {
                     return;
                 }
                 chicken.setVelocity(direction);
-                chicken.getWorld().playSound(chicken.getLocation(), Sound.CHICKEN_HURT, 0.3f, 1.5f);
+                chicken.getWorld().playSound(chicken.getLocation(), Sound.ENTITY_CHICKEN_HURT, 0.3f, 1.5f);
                 if (CooldownManager.getInstance().getTimeElapsedFor(ChickenMissile.this, owner) < minimum_hit_time_ms) {
                     return;
                 }

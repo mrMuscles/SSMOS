@@ -49,7 +49,7 @@ public class BoneRush extends Ability implements OwnerRightClickEvent {
                     Bukkit.getScheduler().cancelTask(rush_task);
                     return;
                 }
-                owner.getWorld().playSound(owner.getLocation(), Sound.SKELETON_HURT, 0.4f, (float) (Math.random() + 1));
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SKELETON_HURT, 0.4f, (float) (Math.random() + 1));
                 double limit = y_limit;
                 if(!owner.isSneaking()) {
                     VelocityUtil.setVelocity(owner, owner.getLocation().getDirection(), 0.6, false, 0, 0, limit, false);

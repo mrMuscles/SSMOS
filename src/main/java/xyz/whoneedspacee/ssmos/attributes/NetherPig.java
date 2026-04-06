@@ -53,8 +53,8 @@ public class NetherPig extends Attribute {
             kit.setArmorSlot(Material.CHAINMAIL_LEGGINGS, 1);
             kit.setArmorSlot(Material.CHAINMAIL_CHESTPLATE, 2);
             owner.getInventory().setHelmet(null);
-            owner.getWorld().playSound(owner.getLocation(), Sound.PIG_IDLE, 2f, 1f);
-            owner.getWorld().playSound(owner.getLocation(), Sound.PIG_IDLE, 2f, 1f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_PIG_AMBIENT, 2f, 1f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_PIG_AMBIENT, 2f, 1f);
             DisguiseManager.addDisguise(owner, new PigDisguise(owner));
             Utils.sendAttributeMessage("You returned to",
                     ChatColor.GREEN + "Pig Form", owner, ServerMessageType.SKILL);

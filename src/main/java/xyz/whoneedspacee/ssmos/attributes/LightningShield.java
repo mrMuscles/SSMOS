@@ -39,7 +39,7 @@ public class LightningShield extends Attribute implements OwnerTakeSmashDamageEv
     public void activate() {
         owner.removePotionEffect(PotionEffectType.SPEED);
         owner.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 1, false, false));
-        owner.getWorld().playSound(owner.getLocation(), Sound.CREEPER_HISS, 3f, 1.25f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 3f, 1.25f);
         Utils.sendAttributeMessage(this, owner, ServerMessageType.SKILL);
         if(Bukkit.getScheduler().isQueued(unpower_task) || Bukkit.getScheduler().isCurrentlyRunning(unpower_task)) {
             Bukkit.getScheduler().cancelTask(unpower_task);
@@ -50,7 +50,7 @@ public class LightningShield extends Attribute implements OwnerTakeSmashDamageEv
             public void run() {
                 if(active && owner != null) {
                     setUnpowered();
-                    owner.getWorld().playSound(owner.getLocation(), Sound.CREEPER_HISS, 3f, 0.75f);
+                    owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_CREEPER_PRIMED, 3f, 0.75f);
                 }
             }
         }, 40L);

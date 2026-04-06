@@ -10,7 +10,7 @@ import net.minecraft.server.v1_8_R3.EntityLargeFireball;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLargeFireball;
+import org.bukkit.craftbukkit.entity.CraftLargeFireball;
 import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

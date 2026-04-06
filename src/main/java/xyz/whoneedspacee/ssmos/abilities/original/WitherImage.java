@@ -11,7 +11,7 @@ import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
 import net.minecraft.server.v1_8_R3.EntitySkeleton;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftSkeleton;
+import org.bukkit.craftbukkit.entity.CraftSkeleton;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -93,7 +93,7 @@ public class WitherImage extends Ability implements OwnerRightClickEvent {
                 if(owner == null || !owner.isValid() || !wither_image.isValid() ||
                         wither_image.getTicksLived() > 160 || wither_image.getLocation().getBlock().isLiquid()) {
                     Utils.itemEffect(wither_image.getLocation().add(0, 0.5, 0), 12, 0.3,
-                            Sound.WITHER_HURT, 1f, 0.75f, Material.BONE, (byte) 0, 40);
+                            Sound.ENTITY_WITHER_HURT, 1f, 0.75f, Material.BONE, (byte) 0, 40);
                     wither_image.remove();
                     wither_image = null;
                     Bukkit.getScheduler().cancelTask(image_task);

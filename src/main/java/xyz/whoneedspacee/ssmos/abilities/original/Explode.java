@@ -58,7 +58,7 @@ public class Explode extends Ability implements OwnerRightClickEvent, OwnerToggl
                 long elapsed = System.currentTimeMillis() - start_time_ms;
                 VelocityUtil.setVelocity(owner, new Vector(0, 0, 0));
                 float volume = (float) 0.5f + elapsed / 1000f;
-                owner.getWorld().playSound(owner.getLocation(), Sound.CREEPER_HISS, volume, volume);
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_CREEPER_PRIMED, volume, volume);
                 disguiseLarge();
                 owner.setExp((float) Math.min(0.999f, elapsed / 1500.0));
                 if(elapsed < 1500) {

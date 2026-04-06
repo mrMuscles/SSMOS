@@ -30,7 +30,7 @@ public class SpinWeb extends Ability implements OwnerRightClickEvent {
     }
 
     public void activate() {
-        owner.getWorld().playSound(owner.getLocation(), Sound.SPIDER_IDLE, 2f, 0.6f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SPIDER_AMBIENT, 2f, 0.6f);
         for (int i = 0; i < webAmount; i++) {
             WebProjectile projectile = new WebProjectile(owner, name);
             projectile.launchProjectile();

@@ -16,7 +16,7 @@ public class EffectUtil {
         List<Item> dropped = new ArrayList<Item>();
         for (int i = 0; i < particles; i++) {
             ItemStack stack = new ItemStack(type, 1);
-            if (type == Material.INK_SACK) {
+            if (type == Material.INK_SAC) {
                 stack.setDurability((short) 1);
             }
             Item item = location.getWorld().dropItem(location, stack);

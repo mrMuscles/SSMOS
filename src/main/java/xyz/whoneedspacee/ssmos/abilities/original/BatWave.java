@@ -116,7 +116,7 @@ public class BatWave extends Ability implements OwnerRightClickEvent, OwnerDeath
                         smashDamageEvent.setIgnoreDamageDelay(true);
                         smashDamageEvent.setReason(name);
                         smashDamageEvent.callEvent();
-                        bat.getWorld().playSound(bat.getLocation(), Sound.BAT_HURT, 1f, 1f);
+                        bat.getWorld().playSound(bat.getLocation(), Sound.ENTITY_BAT_HURT, 1f, 1f);
                         Utils.playParticle(EnumParticle.SMOKE_LARGE, bat.getLocation(),
                                 0, 0, 0, 0, 3, 96, bat.getWorld().getPlayers());
                         bat.remove();

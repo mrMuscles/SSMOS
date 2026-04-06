@@ -135,7 +135,7 @@ public class WitherSkullBarrage extends Ability implements OwnerRightClickEvent 
                             }
                             // Destroy Blocks
                             Collection<Block> blocks = BlocksUtil.getInRadius(skull.getLocation(), block_destroy_radius).keySet();
-                            blocks.removeIf(b -> b.getType() == Material.STATIONARY_LAVA || b.getType() == Material.LAVA || b.getType() == Material.BEDROCK);
+                            blocks.removeIf(b -> b.getType() == Material.LAVA || b.getType() == Material.LAVA || b.getType() == Material.BEDROCK);
                             BlockRestoreManager.BlockExplosion(blocks, skull.getLocation(), false, true, 30000L);
                             location.getWorld().playSound(location, Sound.EXPLODE, 2.5F, 0.4F);
                             Utils.playParticle(EnumParticle.EXPLOSION_HUGE, location,

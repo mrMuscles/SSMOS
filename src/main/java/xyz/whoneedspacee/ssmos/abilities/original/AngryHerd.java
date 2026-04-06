@@ -152,7 +152,7 @@ public class AngryHerd extends Ability implements OwnerRightClickEvent {
                         Utils.playParticle(EnumParticle.EXPLOSION_LARGE, cow.getLocation().add(0, 1, 0),
                                 1f, 1f, 1f, 0, 12, 96, cow.getWorld().getPlayers());
                         cow.getWorld().playSound(cow.getLocation(), Sound.ZOMBIE_WOOD, 0.75f, 0.8f);
-                        cow.getWorld().playSound(cow.getLocation(), Sound.COW_HURT, 1.5f, 0.75f);
+                        cow.getWorld().playSound(cow.getLocation(), Sound.ENTITY_COW_HURT, 1.5f, 0.75f);
                     }
                 }
             }

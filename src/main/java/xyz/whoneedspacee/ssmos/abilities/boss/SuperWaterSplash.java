@@ -108,7 +108,7 @@ public class SuperWaterSplash extends Ability implements OwnerRightClickEvent, O
                     Bukkit.getScheduler().cancelTask(splash_task);
                     // Destroy Blocks
                     Collection<Block> blocks = BlocksUtil.getInRadius(owner.getLocation(), block_destroy_radius).keySet();
-                    blocks.removeIf(b -> b.getType() == Material.STATIONARY_LAVA || b.getType() == Material.LAVA || b.getType() == Material.BEDROCK);
+                    blocks.removeIf(b -> b.getType() == Material.LAVA || b.getType() == Material.LAVA || b.getType() == Material.BEDROCK);
                     BlockRestoreManager.BlockExplosion(blocks, owner.getLocation(), true, true, 10000L);
                     return;
                 } else if (owner.isBlocking() && time_elapsed >= second_boost_time_ms && !boost_used) {

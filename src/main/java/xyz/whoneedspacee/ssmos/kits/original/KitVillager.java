@@ -43,7 +43,7 @@ public class KitVillager extends Kit {
         addAttribute(new Regeneration(regeneration));
         addAttribute(new Hunger());
         addAttribute(new Compass());
-        addAttribute(new GenericDoubleJump(0.9, 0.9, Sound.GHAST_FIREBALL));
+        addAttribute(new GenericDoubleJump(0.9, 0.9, Sound.ENTITY_GHAST_SHOOT));
 
         DisguiseManager.addDisguise(owner, new VillagerDisguise(owner));
     }
@@ -62,7 +62,7 @@ public class KitVillager extends Kit {
         setItem(new ItemStack(Material.IRON_HOE), 1);
         setItem(new ItemStack(Material.IRON_SPADE), 2);
         setItem(Compass.COMPASS_ITEM, 3);
-        setItem(new ItemStack(Material.INK_SACK, 1, (short)(15 - DyeColor.RED.getData())), 7);
+        setItem(new ItemStack(Material.INK_SAC, 1, (short)(15 - DyeColor.RED.getData())), 7);
     }
 
     @Override

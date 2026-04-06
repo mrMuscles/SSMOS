@@ -1,14 +1,14 @@
 package xyz.whoneedspacee.ssmos.utilities;
 
 import java.util.Collection;
+import java.util.List;
 
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R3.WorldSettings;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import com.mojang.authlib.GameProfile;
@@ -29,8 +29,8 @@ public class SkinsUtil {
     }
 
     public void changeSkin(String data, String signature) {
-        EntityPlayer ePlayer = ((CraftPlayer) player).getHandle();
-        GameProfile profile = ePlayer.getProfile();
+        ServerPlayer ePlayer = ((CraftPlayer) player).getHandle();
+        GameProfile profile = ePlayer.getGameProfile();
         PropertyMap pMap = profile.getProperties();
         Property property = pMap.get("textures").iterator().next();
         if(original_property == null) {
@@ -52,17 +52,15 @@ public class SkinsUtil {
         location = player.getLocation();
         slot = player.getInventory().getHeldItemSlot();
 
-        CraftWorld world = (CraftWorld) location.getWorld();
         CraftPlayer craftPlayer = ((CraftPlayer) player);
-        EntityPlayer entityPlayer = craftPlayer.getHandle();
-        entityPlayer.playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, craftPlayer.getHandle()));
-        entityPlayer.playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, craftPlayer.getHandle()));
-        //entityPlayer.playerConnection.sendPacket(new PacketPlayOutRespawn(world.getHandle().getDimensionManager(), world.getHandle().getDimensionKey(), world.getEnvironment().getId(), getGamemode(), getGamemode(), false, false, false));
+        ServerPlayer entityPlayer = craftPlayer.getHandle();
+        entityPlayer.connection.send(new ClientboundPlayerInfoRemovePacket(List.of(entityPlayer.getUUID())));
+        entityPlayer.connection.send(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(entityPlayer)));
 
         player.teleport(location);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.hidePlayer(this.player);
-            player.showPlayer(this.player);
+            player.hidePlayer(Main.getInstance(), this.player);
+            player.showPlayer(Main.getInstance(), this.player);
         }
 
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {public void run() {
@@ -73,19 +71,6 @@ public class SkinsUtil {
             player.openInventory(player.getEnderChest());
             player.closeInventory();
         }}, 2);
-    }
-
-    public WorldSettings.EnumGamemode getGamemode() {
-        switch (player.getGameMode()) {
-            case SURVIVAL:
-                return WorldSettings.EnumGamemode.SURVIVAL;
-            case CREATIVE:
-                return WorldSettings.EnumGamemode.CREATIVE;
-            case SPECTATOR:
-                return WorldSettings.EnumGamemode.SPECTATOR;
-            default:
-                return WorldSettings.EnumGamemode.ADVENTURE;
-        }
     }
 
 }

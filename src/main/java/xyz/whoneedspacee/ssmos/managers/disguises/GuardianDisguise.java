@@ -2,7 +2,7 @@ package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import net.minecraft.server.v1_8_R3.*;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

@@ -76,7 +76,7 @@ public class Blizzard extends Ability {
             snowball.setVelocity(owner.getLocation().getDirection().add(new Vector(x, y, z)).multiply(2));
             snowball.setMetadata("Blizzard", new FixedMetadataValue(plugin, 1));
         }
-        owner.getWorld().playSound(owner.getLocation(), Sound.STEP_SNOW, 0.1f, 0.5f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_SNOW_STEP, 0.1f, 0.5f);
     }
 
     @EventHandler(priority = EventPriority.LOW)
