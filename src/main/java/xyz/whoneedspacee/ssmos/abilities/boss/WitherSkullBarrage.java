@@ -1,6 +1,6 @@
 package xyz.whoneedspacee.ssmos.abilities.boss;
 
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
@@ -83,7 +83,7 @@ public class WitherSkullBarrage extends Ability implements OwnerRightClickEvent 
                             Location new_location = skull.getLocation().add(skull_direction.clone().multiply(1.6));
                             new_location.setYaw((float) (Math.atan2(skull_direction.getZ(), skull_direction.getX()) / Math.PI * 180) - 90);
                             skull.teleport(new_location);
-                            Utils.playParticle(EnumParticle.SMOKE_NORMAL, new_location.add(0, 2, 0),
+                            Utils.playParticle(Particle.SMOKE, new_location.add(0, 2, 0),
                                     0, 0, 0, 0.01f, 2, 96, skull.getWorld().getPlayers());
                             boolean hit_entity = false;
                             boolean hit_block = skull.getLocation().add(0, 1.5, 0).getBlock().getType().isSolid();
@@ -138,7 +138,7 @@ public class WitherSkullBarrage extends Ability implements OwnerRightClickEvent 
                             blocks.removeIf(b -> b.getType() == Material.LAVA || b.getType() == Material.LAVA || b.getType() == Material.BEDROCK);
                             BlockRestoreManager.BlockExplosion(blocks, skull.getLocation(), false, true, 30000L);
                             location.getWorld().playSound(location, Sound.EXPLODE, 2.5F, 0.4F);
-                            Utils.playParticle(EnumParticle.EXPLOSION_HUGE, location,
+                            Utils.playParticle(Particle.EXPLOSION_EMITTER, location,
                                     0, 0, 0, 0, 1, 96, skull.getWorld().getPlayers());
                             skull.remove();
                         }

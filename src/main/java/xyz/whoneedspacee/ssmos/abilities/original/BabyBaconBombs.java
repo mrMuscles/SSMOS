@@ -10,7 +10,7 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
@@ -104,7 +104,7 @@ public class BabyBaconBombs extends Ability implements OwnerRightClickEvent {
     }
 
     public void explodePig(Pig pig) {
-        Utils.playParticle(EnumParticle.EXPLOSION_LARGE, pig.getLocation().add(0, 0.5, 0),
+        Utils.playParticle(Particle.EXPLOSION, pig.getLocation().add(0, 0.5, 0),
                 0, 0, 0, 0, 1, 96, pig.getWorld().getPlayers());
         pig.getWorld().playSound(pig.getLocation(), Sound.EXPLODE, 0.6f, 2f);
         pig.getWorld().playSound(pig.getLocation(), Sound.PIG_DEATH, 1f, 2f);

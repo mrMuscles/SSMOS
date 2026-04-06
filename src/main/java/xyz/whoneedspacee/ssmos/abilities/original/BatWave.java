@@ -9,7 +9,7 @@ import xyz.whoneedspacee.ssmos.managers.DisguiseManager;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -117,7 +117,7 @@ public class BatWave extends Ability implements OwnerRightClickEvent, OwnerDeath
                         smashDamageEvent.setReason(name);
                         smashDamageEvent.callEvent();
                         bat.getWorld().playSound(bat.getLocation(), Sound.ENTITY_BAT_HURT, 1f, 1f);
-                        Utils.playParticle(EnumParticle.SMOKE_LARGE, bat.getLocation(),
+                        Utils.playParticle(Particle.LARGE_SMOKE, bat.getLocation(),
                                 0, 0, 0, 0, 3, 96, bat.getWorld().getPlayers());
                         bat.remove();
                         last_bat_hit_time = System.currentTimeMillis();
@@ -160,7 +160,7 @@ public class BatWave extends Ability implements OwnerRightClickEvent, OwnerDeath
         unleashBats();
         for(Bat bat : bats) {
             if(bat.isValid()) {
-                Utils.playParticle(EnumParticle.SMOKE_LARGE, bat.getLocation(),
+                Utils.playParticle(Particle.LARGE_SMOKE, bat.getLocation(),
                         0, 0, 0, 0, 3, 96, bat.getWorld().getPlayers());
             }
             bat.remove();

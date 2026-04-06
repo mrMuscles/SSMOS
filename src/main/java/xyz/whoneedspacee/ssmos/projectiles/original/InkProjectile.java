@@ -4,7 +4,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -51,7 +51,7 @@ public class InkProjectile extends SmashProjectile {
         if(projectile.getTicksLived() % 3 != 0) {
             return;
         }
-        Utils.playParticle(EnumParticle.EXPLOSION_NORMAL, projectile.getLocation(),
+        Utils.playParticle(Particle.POOF, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.0f, 1, 96,
                 projectile.getWorld().getPlayers());
     }

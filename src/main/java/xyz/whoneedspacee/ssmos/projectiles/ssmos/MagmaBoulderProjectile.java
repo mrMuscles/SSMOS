@@ -1,6 +1,8 @@
 package xyz.whoneedspacee.ssmos.projectiles.ssmos;
 
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -42,7 +44,7 @@ public class MagmaBoulderProjectile extends SmashProjectile {
     public void run() {
         super.run();
         if(projectile != null) {
-            PacketPlayOutEntityTeleport teleport_packet = new PacketPlayOutEntityTeleport(((CraftEntity) projectile).getHandle());
+            ClientboundTeleportEntityPacket teleport_packet = new ClientboundTeleportEntityPacket(((CraftEntity) projectile).getHandle());
             for(Player player : projectile.getWorld().getPlayers()) {
                 Utils.sendPacket(player, teleport_packet);
             }
@@ -86,7 +88,7 @@ public class MagmaBoulderProjectile extends SmashProjectile {
     @Override
     protected void doEffect() {
         firer.getWorld().playSound(projectile.getLocation(), Sound.FIRE, 1.4f, 0.8f);
-        Utils.playParticle(EnumParticle.FLAME, projectile.getLocation(),
+        Utils.playParticle(Particle.FLAME, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.25f, 1, 96,
                 projectile.getWorld().getPlayers());
     }
@@ -125,7 +127,7 @@ public class MagmaBoulderProjectile extends SmashProjectile {
     }
 
     public void doExplosion() {
-        Utils.playParticle(EnumParticle.EXPLOSION_LARGE, projectile.getLocation(),
+        Utils.playParticle(Particle.EXPLOSION, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.0f, 1, 96,
                 projectile.getWorld().getPlayers());
         projectile.getWorld().playSound(projectile.getLocation(), Sound.EXPLODE, 1.0f, 0.5f);

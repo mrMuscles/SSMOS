@@ -6,7 +6,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.managers.KitManager;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -56,7 +56,7 @@ public class SuperSquid extends Ability implements OwnerRightClickEvent {
                 KitManager.getPlayerKit(owner).setInvincible(true);
                 VelocityUtil.setVelocity(owner, 0.6, 0.1, 1, true);
                 owner.getWorld().playSound(owner.getLocation(), Sound.SPLASH2, 0.5f, 1f);
-                Utils.playParticle(EnumParticle.WATER_SPLASH, owner.getLocation().add(0, 0.5, 0),
+                Utils.playParticle(Particle.SPLASH, owner.getLocation().add(0, 0.5, 0),
                         0.3f, 0.3f, 0.3f, 0, 60, 96, owner.getWorld().getPlayers());
                 ticks++;
             }

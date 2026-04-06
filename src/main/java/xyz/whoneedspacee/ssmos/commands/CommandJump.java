@@ -1,6 +1,6 @@
 package xyz.whoneedspacee.ssmos.commands;
 
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityVelocity;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

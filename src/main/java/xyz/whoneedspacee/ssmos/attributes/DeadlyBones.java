@@ -3,7 +3,7 @@ package xyz.whoneedspacee.ssmos.attributes;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerTakeSmashDamageEvent;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -51,7 +51,7 @@ public class DeadlyBones extends Attribute implements OwnerTakeSmashDamageEvent 
                     return;
                 }
                 bone.setPickupDelay(1000000);
-                Utils.playParticle(EnumParticle.EXPLOSION_LARGE, bone.getLocation(),
+                Utils.playParticle(Particle.EXPLOSION, bone.getLocation(),
                         0, 0, 0, 0, 1, 96, bone.getWorld().getPlayers());
                 bone.getWorld().playSound(bone.getLocation(), Sound.EXPLODE, 0.8f, 1.4f);
                 HashMap<LivingEntity, Double> targets = Utils.getInRadius(bone.getLocation(), hitbox_radius);

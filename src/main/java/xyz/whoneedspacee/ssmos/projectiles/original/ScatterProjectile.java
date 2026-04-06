@@ -3,7 +3,8 @@ package xyz.whoneedspacee.ssmos.projectiles.original;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -16,7 +17,7 @@ public class ScatterProjectile extends SmashProjectile {
     public double spread = 0;
     public Vector projectile_direction;
     public long tick_effect_rate = 1;
-    public EnumParticle particle_type;
+    public Particle particle_type;
 
     public ScatterProjectile(Player firer, String name) {
         super(firer, name);

@@ -5,7 +5,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerTakeSmashDamageEvent;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -45,7 +45,7 @@ public class Stampede extends Attribute implements OwnerDealSmashDamageEvent, Ow
             return;
         }
         if(stacks > 0) {
-            Utils.playParticle(EnumParticle.CRIT, owner.getLocation(), (float) (Math.random() - 0.5), 0.2f + (float) Math.random(),
+            Utils.playParticle(Particle.CRIT, owner.getLocation(), (float) (Math.random() - 0.5), 0.2f + (float) Math.random(),
                     (float) (Math.random() - 0.5), 0, stacks * 2, 96, owner.getWorld().getPlayers());
         }
         ticks = (ticks + 1) % 5;

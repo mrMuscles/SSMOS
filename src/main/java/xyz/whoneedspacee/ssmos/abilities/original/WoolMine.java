@@ -13,7 +13,7 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -100,7 +100,7 @@ public class WoolMine extends Ability implements OwnerRightClickEvent {
         if(wool_block == null) {
             return;
         }
-        Utils.playParticle(EnumParticle.EXPLOSION_HUGE, wool_block.getLocation().add(0.5, 0.5, 0.5),
+        Utils.playParticle(Particle.EXPLOSION_EMITTER, wool_block.getLocation().add(0.5, 0.5, 0.5),
                 0, 0, 0, 0, 1, 96, wool_block.getWorld().getPlayers());
         wool_block.getWorld().playSound(wool_block.getLocation(), Sound.EXPLODE, 3f, 0.8f);
         if(owner == null) {

@@ -1,6 +1,6 @@
 package xyz.whoneedspacee.ssmos.projectiles.ssmos;
 
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -35,7 +35,7 @@ public class FlameFissureProjectile extends SmashProjectile {
     @Override
     public void launchProjectile() {
         super.launchProjectile();
-        Utils.playParticle(EnumParticle.EXPLOSION_NORMAL, projectile.getLocation(),
+        Utils.playParticle(Particle.POOF, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.0f, 1, 96,
                 projectile.getWorld().getPlayers());
     }
@@ -73,7 +73,7 @@ public class FlameFissureProjectile extends SmashProjectile {
         smashDamageEvent.setIgnoreDamageDelay(true);
         smashDamageEvent.setKnockbackOrigin(hit.getLocation().add(Math.random() - 0.5, -0.1, Math.random() - 0.5));
         smashDamageEvent.setReason(name);
-        Utils.playParticle(EnumParticle.EXPLOSION_NORMAL, hit.getLocation().add(0, 1, 0),
+        Utils.playParticle(Particle.POOF, hit.getLocation().add(0, 1, 0),
                 1f, 1f, 1f, 0, 12, 96, hit.getWorld().getPlayers());
         smashDamageEvent.callEvent();
         int fire_ticks = Math.min(160, Math.max(0, hit.getFireTicks()) + burn_ticks);

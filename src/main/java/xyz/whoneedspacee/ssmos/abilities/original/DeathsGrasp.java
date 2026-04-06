@@ -9,7 +9,7 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -158,9 +158,9 @@ public class DeathsGrasp extends Ability implements OwnerLeftClickEvent {
             return;
         }
         e.setDamage(e.getDamage() * 2);
-        Utils.playParticle(EnumParticle.REDSTONE, player.getLocation(),
+        Utils.playParticle(Particle.DUST, player.getLocation(),
                 0.5f, 0.5f, 0.5f, 0, 20, 96, player.getWorld().getPlayers());
-        Utils.playParticle(EnumParticle.EXPLOSION_LARGE, player.getLocation(),
+        Utils.playParticle(Particle.EXPLOSION, player.getLocation(),
                 0, 0, 0, 0, 1, 96, player.getWorld().getPlayers());
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ZOMBIE_HURT, 1f, 2f);
     }

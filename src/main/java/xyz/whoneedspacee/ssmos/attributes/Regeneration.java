@@ -1,7 +1,7 @@
 package xyz.whoneedspacee.ssmos.attributes;
 
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.PacketPlayOutUpdateHealth;
+import net.minecraft.network.protocol.game.ClientboundSetHealthPacket;
 
 public class Regeneration extends Attribute {
 
@@ -33,7 +33,7 @@ public class Regeneration extends Attribute {
         if (!owner.isDead() && owner.getFoodLevel() > 0) {
             // Use packets here to make the visual effect on the healthbar appear
             owner.setHealth(Math.min(owner.getHealth() + regen_amount, 20));
-            PacketPlayOutUpdateHealth packet = new PacketPlayOutUpdateHealth((float) owner.getHealth(), owner.getFoodLevel(), owner.getSaturation());
+            ClientboundSetHealthPacket packet = new ClientboundSetHealthPacket((float) owner.getHealth(), owner.getFoodLevel(), owner.getSaturation());
             Utils.sendPacket(owner, packet);
         }
     }

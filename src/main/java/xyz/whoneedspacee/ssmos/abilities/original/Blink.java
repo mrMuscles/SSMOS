@@ -4,7 +4,7 @@ import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
 import xyz.whoneedspacee.ssmos.utilities.LineParticle;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -35,7 +35,7 @@ public class Blink extends Ability implements OwnerRightClickEvent {
 
     public void activate() {
         LineParticle lineParticle = new LineParticle(owner.getEyeLocation(), owner.getLocation().getDirection(),
-                0.2f, range, EnumParticle.SMOKE_NORMAL, owner.getWorld().getPlayers());
+                0.2f, range, Particle.SMOKE, owner.getWorld().getPlayers());
         while (!lineParticle.update()) { }
         Utils.playFirework(owner.getEyeLocation(), FireworkEffect.Type.BALL, Color.BLACK, false, false);
         owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f);

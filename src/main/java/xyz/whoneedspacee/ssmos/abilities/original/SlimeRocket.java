@@ -1,6 +1,6 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
 
-import net.minecraft.server.v1_8_R3.EntitySlime;
+import net.minecraft.world.entity.monster.Slime;
 import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
@@ -12,7 +12,7 @@ import xyz.whoneedspacee.ssmos.managers.KitManager;
 import xyz.whoneedspacee.ssmos.kits.Kit;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -75,7 +75,7 @@ public class SlimeRocket extends Ability implements OwnerRightClickEvent {
                 owner.setExp(Math.max(0, owner.getExp() - 0.00916f));
             }
             owner.getWorld().playSound(owner.getLocation(), Sound.SLIME_WALK, 0.5f, (float) (0.5 + 1.5 * (elapsed_sound / 3d)));
-            Utils.playParticle(EnumParticle.SLIME, owner.getLocation().add(0, 1, 0),
+            Utils.playParticle(Particle.ITEM_SLIME, owner.getLocation().add(0, 1, 0),
                     (float) (elapsed_sound / 6d), (float) (elapsed_sound / 6d), (float) (elapsed_sound / 6d), 0, (int) (elapsed_sound * 5),
                     96, owner.getWorld().getPlayers());
         }, 0L, 0L);
@@ -96,16 +96,16 @@ public class SlimeRocket extends Ability implements OwnerRightClickEvent {
         Slime slime = owner.getWorld().spawn(owner.getEyeLocation(), Slime.class);
         // Hack fix because slimes refuse to face any direction but south
         BukkitRunnable runnable = new BukkitRunnable() {
-            private EntitySlime nms_slime = ((CraftSlime) slime).getHandle();
+            private Slime nms_slime = ((CraftSlime) slime).getHandle();
             private float original_yaw = owner.getEyeLocation().getYaw();
             @Override
             public void run() {
-                if (nms_slime == null || nms_slime.onGround) {
+                if (nms_slime == null || nms_slime.onGround()) {
                     cancel();
                     return;
                 }
-                nms_slime.yaw = original_yaw;
-                nms_slime.lastYaw = original_yaw;
+                nms_slime.setYRot(original_yaw);
+                nms_slime.yRotLast = original_yaw;
             }
         };
         runnable.runTaskTimer(plugin, 0L, 0L);

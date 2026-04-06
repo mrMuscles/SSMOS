@@ -6,7 +6,7 @@ import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.managers.CooldownManager;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -91,7 +91,7 @@ public class AngryHerd extends Ability implements OwnerRightClickEvent {
                     Bukkit.getScheduler().cancelTask(herd_task);
                     for(Entity cow : cows) {
                         if(cow.isValid()) {
-                            Utils.playParticle(EnumParticle.EXPLOSION_NORMAL, cow.getLocation().add(0, 1, 0),
+                            Utils.playParticle(Particle.POOF, cow.getLocation().add(0, 1, 0),
                                     0, 0, 0, 0, 1, 96, cow.getWorld().getPlayers());
                             cow.remove();
                         }
@@ -105,7 +105,7 @@ public class AngryHerd extends Ability implements OwnerRightClickEvent {
                     }
                     if(System.currentTimeMillis() - last_move_time.get(cow) >= stuck_time_ms) {
                         if(cow.isValid()) {
-                            Utils.playParticle(EnumParticle.EXPLOSION_NORMAL, cow.getLocation().add(0, 1, 0),
+                            Utils.playParticle(Particle.POOF, cow.getLocation().add(0, 1, 0),
                                     0, 0, 0, 0, 1, 96, cow.getWorld().getPlayers());
                             cow.remove();
                         }
@@ -149,7 +149,7 @@ public class AngryHerd extends Ability implements OwnerRightClickEvent {
                         smashDamageEvent.setIgnoreDamageDelay(true);
                         smashDamageEvent.setReason(name);
                         smashDamageEvent.callEvent();
-                        Utils.playParticle(EnumParticle.EXPLOSION_LARGE, cow.getLocation().add(0, 1, 0),
+                        Utils.playParticle(Particle.EXPLOSION, cow.getLocation().add(0, 1, 0),
                                 1f, 1f, 1f, 0, 12, 96, cow.getWorld().getPlayers());
                         cow.getWorld().playSound(cow.getLocation(), Sound.ZOMBIE_WOOD, 0.75f, 0.8f);
                         cow.getWorld().playSound(cow.getLocation(), Sound.ENTITY_COW_HURT, 1.5f, 0.75f);

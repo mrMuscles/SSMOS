@@ -10,7 +10,7 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.LineParticle;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+
 import org.bukkit.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -83,7 +83,7 @@ public class StaticLaser extends Ability implements OwnerRightClickEvent {
             return;
         }
         LineParticle lineParticle = new LineParticle(owner.getEyeLocation(), owner.getLocation().getDirection(),
-                0.2f, range * owner.getExp(), EnumParticle.FIREWORKS_SPARK, owner.getWorld().getPlayers());
+                0.2f, range * owner.getExp(), Particle.FIREWORK, owner.getWorld().getPlayers());
         Player target = null;
         while (!lineParticle.update() && target == null) {
             for(Player player : Utils.getNearby(lineParticle.getLastLocation().subtract(0, 1, 0), hitbox_radius)) {
@@ -94,7 +94,7 @@ public class StaticLaser extends Ability implements OwnerRightClickEvent {
             }
         }
         Location target_location = lineParticle.getDestination();
-        Utils.playParticle(EnumParticle.EXPLOSION_NORMAL, target_location,
+        Utils.playParticle(Particle.POOF, target_location,
                 0, 0, 0, 0, 1, 96, target_location.getWorld().getPlayers());
         Utils.playFirework(target_location, FireworkEffect.Type.BURST, Color.YELLOW, false, false);
         for(LivingEntity livingEntity : Utils.getInRadius(target_location, damage_radius).keySet()) {
