@@ -45,7 +45,7 @@ public class KitIronGolem extends Kit {
         addAttribute(new Hunger());
         addAttribute(new Compass());
         addAttribute(new GenericDoubleJump(0.9, 0.9, Sound.ENTITY_GHAST_SHOOT));
-        addAttribute(new Potion(PotionEffectType.SLOW, 0));
+        addAttribute(new Potion(PotionEffectType.SLOWNESS, 0));
 
         DisguiseManager.addDisguise(owner, new IronGolemDisguise(owner));
     }
@@ -54,7 +54,7 @@ public class KitIronGolem extends Kit {
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
         setItem(new ItemStack(Material.IRON_PICKAXE), 1);
-        setItem(new ItemStack(Material.IRON_SPADE), 2);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 2);
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
 
@@ -62,7 +62,7 @@ public class KitIronGolem extends Kit {
     public void setGameHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
         setItem(new ItemStack(Material.IRON_PICKAXE), 1);
-        setItem(new ItemStack(Material.IRON_SPADE), 2);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 2);
         setItem(Compass.COMPASS_ITEM, 3);
     }
 

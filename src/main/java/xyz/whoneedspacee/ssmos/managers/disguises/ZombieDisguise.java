@@ -5,8 +5,8 @@ import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Zombie;
 import com.mojang.datafixers.util.Pair;
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_21_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R3.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 

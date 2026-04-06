@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.disguises.CreeperDisguise;
 import xyz.whoneedspacee.ssmos.managers.disguises.Disguise;
@@ -68,7 +69,7 @@ public class Explode extends Ability implements OwnerRightClickEvent, OwnerToggl
                 disguiseNormal();
                 Utils.playParticle(Particle.EXPLOSION_EMITTER, owner.getLocation(),
                         0, 0, 0, 0, 1, 96, owner.getWorld().getPlayers());
-                owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 2f, 1f);
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 2f, 1f);
                 double maxRange = 8;
                 double damage = 20;
                 for(LivingEntity living : Utils.getInRadius(owner.getLocation(), maxRange).keySet()) {

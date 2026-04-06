@@ -60,7 +60,7 @@ public class MagmaBlast extends Ability implements OwnerRightClickEvent, OwnerDe
         ((Fireball) ball).setDirection(dir.clone().normalize());
         VelocityUtil.setVelocity(owner, owner.getLocation().getDirection().multiply(-1), 1.2, false, 0, 0.2, 1.2, true);
         ball.setMetadata("Magma Blast", new FixedMetadataValue(plugin, 1));
-        owner.getWorld().playSound(owner.getLocation(), Sound.CREEPER_DEATH, 2f, 1.5f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_CREEPER_DEATH, 2f, 1.5f);
     }
 
     @EventHandler

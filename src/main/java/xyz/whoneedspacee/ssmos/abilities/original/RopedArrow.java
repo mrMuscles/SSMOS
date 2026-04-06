@@ -57,7 +57,7 @@ public class RopedArrow extends Ability implements OwnerLeftClickEvent {
         VelocityUtil.setVelocity(owner, trajectory, 0.4 + mult * power, false,
                 0, 0.6 * mult * power, 1.2 * mult * power, true);
 
-        arrow.getWorld().playSound(arrow.getLocation(), Sound.ARROW_HIT, 2.5f, 0.5f);
+        arrow.getWorld().playSound(arrow.getLocation(), Sound.ENTITY_ARROW_HIT, 2.5f, 0.5f);
         arrow = null;
     }
 

@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.projectiles.original.ScatterProjectile;
@@ -85,7 +86,7 @@ public class TradeScatter extends Ability implements OwnerRightClickEvent {
             direction = location.getDirection().multiply(-bullet_velocity);
         }
         VelocityUtil.setVelocity(owner, player_velocity, 0.3, 1.2, true);
-        owner.getWorld().playSound(location, Sound.FIREWORK_LARGE_BLAST, 1.5f, 1f);
+        owner.getWorld().playSound(location, Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 1.5f, 1f);
         for(int i = 0; i< bullets; i++) {
             ScatterProjectile projectile = new ScatterProjectile(owner, name);
             Item item = location.getWorld().dropItem(location, new ItemStack(bullet_item));

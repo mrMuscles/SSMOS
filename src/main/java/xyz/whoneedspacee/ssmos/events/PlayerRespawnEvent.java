@@ -1,5 +1,6 @@
 package xyz.whoneedspacee.ssmos.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -30,6 +31,11 @@ public class PlayerRespawnEvent extends Event {
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
+    }
+
+
+    public void callEvent() {
+        Bukkit.getPluginManager().callEvent(this);
     }
 
 }

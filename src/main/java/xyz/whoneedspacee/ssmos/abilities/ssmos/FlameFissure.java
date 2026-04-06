@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.ssmos;
+import org.bukkit.Particle;
 
 
 import org.bukkit.*;
@@ -76,7 +77,7 @@ public class FlameFissure extends Ability implements OwnerRightClickEvent {
                     /*for(Block block : blocks) {
                         if(Math.random() < 0.25) {
                             float progress = (float) CooldownManager.getInstance().getTimeElapsedFor(FlameFissure.this, owner) / 1000;
-                            block.getWorld().playSound(block.getLocation(), Sound.BLAZE_BREATH, 0.5f, 1f + progress);
+                            block.getWorld().playSound(block.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 0.5f, 1f + progress);
                         }
                     }*/
                     return;
@@ -90,7 +91,7 @@ public class FlameFissure extends Ability implements OwnerRightClickEvent {
                     FlameFissureProjectile projectile = new FlameFissureProjectile(owner, name, random, ticks * 4.5 * 4);
                     projectile.launchProjectile();
                     if(Math.random() < 0.25) {
-                        random.getWorld().playSound(random.getLocation(), Sound.FIZZ, 0.5f, 0.5f);
+                        random.getWorld().playSound(random.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.5f, 0.5f);
                     }
                 }
                 ticks++;

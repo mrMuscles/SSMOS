@@ -21,7 +21,7 @@ public class CommandMakeServer implements CommandExecutor {
         commandSender.sendMessage(ServerMessageType.ADMIN + " Created Server: " + server.toString());
         if(commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1f, 1f);
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         }
         return true;
     }

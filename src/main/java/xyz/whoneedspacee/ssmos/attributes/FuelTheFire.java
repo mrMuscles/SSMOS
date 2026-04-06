@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.attributes;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.disguises.Disguise;
 import xyz.whoneedspacee.ssmos.managers.disguises.MagmaCubeDisguise;

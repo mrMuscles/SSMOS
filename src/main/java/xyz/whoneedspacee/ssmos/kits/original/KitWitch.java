@@ -49,15 +49,15 @@ public class KitWitch extends Kit {
     @Override
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
-        setItem(new ItemStack(Material.LEASH), 2, getAttributeByClass(BatLeash.class));
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
+        setItem(new ItemStack(Material.LEAD), 2, getAttributeByClass(BatLeash.class));
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
 
     @Override
     public void setGameHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
         setItem(Compass.COMPASS_ITEM, 2);
     }
 

@@ -10,10 +10,10 @@ import xyz.whoneedspacee.ssmos.managers.smashserver.SmashServer;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
 import net.minecraft.network.protocol.game.ClientboundEntityEventPacket;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -54,12 +54,15 @@ public class DamageManager implements Listener {
     // Other servers have used seems to be jar patches
     // Modify Entity Patch, EntityFallingBlock damageEntity
     // Other parts from EntityHuman.class attack code
-    @EventHandler
-    public void preAttack(PrePlayerAttackEntityEvent e) {
-        if(!(e.getAttacked() instanceof FallingBlock)) {
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void preAttack(EntityDamageByEntityEvent e) {
+        if(!(e.getEntity() instanceof FallingBlock)) {
             return;
         }
-        if(no_fast_block.containsKey((FallingBlock) e.getAttacked())) {
+        if(!(e.getDamager() instanceof Player)) {
+            return;
+        }
+        if(no_fast_block.containsKey((FallingBlock) e.getEntity())) {
             return;
         }
         e.setCancelled(true);
@@ -320,7 +323,7 @@ public class DamageManager implements Listener {
         }
         if (damager instanceof Player && cause == DamageCause.PROJECTILE && projectile instanceof Arrow) {
             Player player = (Player) damager;
-            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 0.5f, 0.5f);
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.5f, 0.5f);
         }
         if (died && !(damagee instanceof Player)) {
             // Actually kill entities

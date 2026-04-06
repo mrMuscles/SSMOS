@@ -33,7 +33,7 @@ public class ItemGenerator extends Attribute {
             }
         }
         owner.getInventory().addItem(new ItemStack(item, amount));
-        owner.playSound(owner.getLocation(), Sound.ITEM_PICKUP, 10L, 1L);
+        owner.playSound(owner.getLocation(), Sound.ENTITY_ITEM_PICKUP, 10L, 1L);
     }
 
 }

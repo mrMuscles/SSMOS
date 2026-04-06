@@ -3,12 +3,11 @@ package xyz.whoneedspacee.ssmos.managers.disguises;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerData;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerType;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R3.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -28,19 +27,15 @@ public class VillagerDisguise extends Disguise {
     }
 
     public void setProfession(int id) {
-        net.minecraft.core.ResourceKey<VillagerProfession> profKey;
+        VillagerProfession profession;
         switch (id) {
-            case 1: profKey = VillagerProfession.LIBRARIAN; break;
-            case 2: profKey = VillagerProfession.CLERIC; break;
-            case 3: profKey = VillagerProfession.WEAPONSMITH; break;
-            case 4: profKey = VillagerProfession.BUTCHER; break;
-            default: profKey = VillagerProfession.FARMER; break;
+            case 1: profession = VillagerProfession.LIBRARIAN; break;
+            case 2: profession = VillagerProfession.CLERIC; break;
+            case 3: profession = VillagerProfession.WEAPONSMITH; break;
+            case 4: profession = VillagerProfession.BUTCHER; break;
+            default: profession = VillagerProfession.FARMER; break;
         }
-        net.minecraft.core.Holder<VillagerProfession> profHolder =
-                BuiltInRegistries.VILLAGER_PROFESSION.getOrThrow(profKey);
-        net.minecraft.core.Holder<VillagerType> typeHolder =
-                BuiltInRegistries.VILLAGER_TYPE.getOrThrow(VillagerType.PLAINS);
-        VillagerData data = new VillagerData(typeHolder, profHolder, 1);
+        VillagerData data = new VillagerData(VillagerType.PLAINS, profession, 1);
         ((Villager) living).setVillagerData(data);
         List<SynchedEntityData.DataValue<?>> dataValues = living.getEntityData().packDirty();
         if (dataValues != null) {

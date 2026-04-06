@@ -73,7 +73,7 @@ public class CommandMessage implements CommandExecutor {
         String private_message = message_builder.substring(0, message_builder.length() - 1);
         player.sendMessage(private_message);
         receiver.sendMessage(private_message);
-        receiver.playSound(receiver.getLocation(), Sound.NOTE_PIANO, 1, 1.25f);
+        receiver.playSound(receiver.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1.25f);
         Bukkit.getConsoleSender().sendMessage(private_message);
         last_received_from.put(receiver, player);
     }

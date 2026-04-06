@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.projectiles.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;

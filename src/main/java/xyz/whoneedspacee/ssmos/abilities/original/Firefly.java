@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
@@ -71,20 +72,20 @@ public class Firefly extends Ability implements OwnerRightClickEvent, OwnerTakeS
                 }
                 if(CooldownManager.getInstance().getTimeElapsedFor(Firefly.this, owner) < warmup_time_ms) {
                     VelocityUtil.setVelocity(owner, new Vector(0, 0, 0));
-                    owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 0.2f, 0.6f);
+                    owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2f, 0.6f);
                     Utils.playParticle(Particle.FIREWORK, owner.getLocation().add(0, 1, 0),
                             0.6f, 0.6f, 0.6f, 0, 10, 96, owner.getWorld().getPlayers());
                     float progress = (float) CooldownManager.getInstance().getTimeElapsedFor(Firefly.this, owner) / warmup_time_ms;
-                    owner.getWorld().playSound(owner.getLocation(), Sound.BLAZE_BREATH, 0.5f, 1f + progress);
+                    owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 0.5f, 1f + progress);
                     return;
                 }
                 VelocityUtil.setVelocity(owner, owner.getLocation().getDirection().multiply(velocity).add(new Vector(0, 0.15, 0)));
-                owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 0.6f, 1.2f);
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.6f, 1.2f);
                 Utils.playParticle(Particle.FLAME, owner.getLocation().add(0, 1, 0),
                         1f, 1f, 1f, 0, 15, 96, owner.getWorld().getPlayers());
                 Utils.playParticle(Particle.LAVA, owner.getLocation().add(0, 1, 0),
                         1f, 1f, 1f, 0, 10, 96, owner.getWorld().getPlayers());
-                owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 0.75f, 0.75f);
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.75f, 0.75f);
                 for(Player player : Utils.getNearby(owner.getLocation(), hitbox_radius)) {
                     if(player.equals(owner)) {
                         continue;

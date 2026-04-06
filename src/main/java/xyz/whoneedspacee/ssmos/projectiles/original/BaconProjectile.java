@@ -32,7 +32,7 @@ public class BaconProjectile extends SmashProjectile {
 
     @Override
     protected Entity createProjectileEntity() {
-        ItemStack bacon = new ItemStack(Material.PORK);
+        ItemStack bacon = new ItemStack(Material.PORKCHOP);
         return firer.getWorld().dropItem(firer.getEyeLocation(), bacon);
     }
 
@@ -58,7 +58,7 @@ public class BaconProjectile extends SmashProjectile {
     protected boolean onHitLivingEntity(LivingEntity hit) {
         if (projectile instanceof Item && DamageUtil.canDamage(hit, firer)) {
             Item pork = (Item) projectile;
-            pork.setItemStack(new ItemStack(Material.GRILLED_PORK));
+            pork.setItemStack(new ItemStack(Material.COOKED_PORKCHOP));
         }
         SmashDamageEvent smashDamageEvent = new SmashDamageEvent(hit, firer, damage);
         smashDamageEvent.multiplyKnockback(knockback_mult);
@@ -90,7 +90,7 @@ public class BaconProjectile extends SmashProjectile {
             Item pork = (Item) projectile;
             pork.setPickupDelay(5);
         }
-        firer.getWorld().playSound(firer.getLocation(), Sound.ITEM_PICKUP, 1f, 0.5f);
+        firer.getWorld().playSound(firer.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1f, 0.5f);
         double mult = 0.5 + (0.035 * (firer.getLocation().distance(projectile.getLocation())));
         Vector playerVector = firer.getLocation().toVector();
         Vector projectileVector = projectile.getLocation().toVector();

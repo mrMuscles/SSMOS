@@ -46,7 +46,7 @@ public class WitherArmy extends Ability implements OwnerRightClickEvent {
     }
 
     public void activate() {
-        owner.getWorld().playSound(owner.getLocation(), Sound.WITHER_SPAWN, 1f, 1f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1f, 1f);
         for(int i = 0; i < skeleton_amount; i++) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override

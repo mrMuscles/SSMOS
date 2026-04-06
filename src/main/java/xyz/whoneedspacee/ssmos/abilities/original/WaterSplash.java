@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
@@ -86,7 +87,7 @@ public class WaterSplash extends Ability implements OwnerRightClickEvent, OwnerT
                         }
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
-                    owner.getWorld().playSound(owner.getLocation(), Sound.SPLASH2, 2f, 0f);
+                    owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_SPLASH, 2f, 0f);
                     HashMap<LivingEntity, Double> targets = Utils.getInRadius(owner.getLocation(), damage_radius);
                     for (LivingEntity livingEntity : targets.keySet()) {
                         if (!(livingEntity instanceof Player)) {

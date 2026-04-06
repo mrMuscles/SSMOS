@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
@@ -89,8 +90,8 @@ public class MilkSpiral extends Ability implements OwnerRightClickEvent {
                     Location first_particle = old_location.clone().add(getCirclePoint(circle_first, circle_second, theta, radius));
                     Location second_particle = old_location.clone().add(getCirclePoint(circle_first, circle_second, theta + Math.PI, radius));
                     if(first) {
-                        first_particle.getWorld().playSound(first_particle, Sound.SPLASH, 0.2f, 0.75f);
-                        second_particle.getWorld().playSound(second_particle, Sound.SPLASH, 0.2f, 0.75f);
+                        first_particle.getWorld().playSound(first_particle, Sound.ENTITY_GENERIC_SPLASH, 0.2f, 0.75f);
+                        second_particle.getWorld().playSound(second_particle, Sound.ENTITY_GENERIC_SPLASH, 0.2f, 0.75f);
                         first = false;
                     }
                     Utils.playParticle(Particle.FIREWORK, first_particle,
@@ -125,7 +126,7 @@ public class MilkSpiral extends Ability implements OwnerRightClickEvent {
                     times_hit.put(player, times_hit.get(player) + 1);
                     Utils.playParticle(Particle.FIREWORK, player.getLocation().add(0, 1, 0),
                             0.2f, 0.2f, 0.2f, 0.3f, 30, 96, player.getWorld().getPlayers());
-                    player.getWorld().playSound(player.getLocation(), Sound.SPLASH, 0.2f, 2f);
+                    player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_SPLASH, 0.2f, 2f);
                     SmashDamageEvent smashDamageEvent = new SmashDamageEvent(player, owner, damage);
                     smashDamageEvent.setIgnoreDamageDelay(true);
                     smashDamageEvent.setReason(name);

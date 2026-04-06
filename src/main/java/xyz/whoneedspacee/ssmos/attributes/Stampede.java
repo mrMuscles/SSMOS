@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.attributes;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerDealSmashDamageEvent;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
@@ -96,7 +97,7 @@ public class Stampede extends Attribute implements OwnerDealSmashDamageEvent, Ow
             Utils.sendAttributeMessage(ChatColor.YELLOW + owner.getName() +
                     ChatColor.GRAY + " hit you with", name, player, ServerMessageType.GAME);
         }
-        owner.getWorld().playSound(owner.getLocation(), Sound.ZOMBIE_WOOD, 1f, 2f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_WOODEN_DOOR, 1f, 2f);
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_COW_HURT, 2f, 2f);
         removeStampede();
     }

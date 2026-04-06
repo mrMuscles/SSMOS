@@ -26,11 +26,12 @@
 
     <!-- spigot api -->
     <dependencies>
-        <!-- spigot for nms -->
+        <!-- spigot for nms (remapped-mojang required for Mojang-mapped NMS access) -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.21.4-R0.1-SNAPSHOT</version>
+            <classifier>remapped-mojang</classifier>
             <scope>provided</scope>
         </dependency>
 
@@ -67,6 +68,40 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- remap output jar from Mojang names back to obfuscated, then to Spigot names -->
+            <plugin>
+                <groupId>net.md-5</groupId>
+                <artifactId>specialsource-maven-plugin</artifactId>
+                <version>2.0.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>remap</goal>
+                        </goals>
+                        <id>remap-obf</id>
+                        <configuration>
+                            <srgIn>org.spigotmc:minecraft-server:1.21.4-R0.1-SNAPSHOT:txt:maps-mojang</srgIn>
+                            <reverse>true</reverse>
+                            <remappedDependencies>org.spigotmc:spigot:1.21.4-R0.1-SNAPSHOT:jar:remapped-mojang</remappedDependencies>
+                            <remappedArtifactAttached>true</remappedArtifactAttached>
+                            <remappedClassifierName>remapped-obf</remappedClassifierName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>remap</goal>
+                        </goals>
+                        <id>remap-craftbukkit</id>
+                        <configuration>
+                            <srgIn>org.spigotmc:minecraft-server:1.21.4-R0.1-SNAPSHOT:csrg:maps-spigot-members</srgIn>
+                            <inArtifact>remapped-obf</inArtifact>
+                            <remappedDependencies>org.spigotmc:spigot:1.21.4-R0.1-SNAPSHOT:jar:remapped-obf</remappedDependencies>
                         </configuration>
                     </execution>
                 </executions>

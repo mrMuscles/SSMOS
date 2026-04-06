@@ -50,7 +50,7 @@ public class KitCow extends Kit {
     @Override
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
         setItem(new ItemStack(Material.LEATHER), 2, getAttributeByClass(Stampede.class));
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
@@ -58,7 +58,7 @@ public class KitCow extends Kit {
     @Override
     public void setGameHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
         setItem(Compass.COMPASS_ITEM, 2);
     }
 

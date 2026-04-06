@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.boss;
+import org.bukkit.Particle;
 
 
 import org.bukkit.*;
@@ -67,7 +68,7 @@ public class WitherSkullBarrage extends Ability implements OwnerRightClickEvent 
                     skull.setGravity(false);
                     skull.setVisible(false);
                     skull.setMetadata("Wither Skull", new FixedMetadataValue(plugin, 1));
-                    owner.getWorld().playSound(owner.getLocation(), Sound.WITHER_SHOOT, 1f, 1f);
+                    owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1f, 1f);
                     // New runnable for each wither skull since they can stack up
                     BukkitRunnable runnable = new BukkitRunnable() {
                         private Vector skull_direction = owner.getLocation().getDirection().multiply(velocity);
@@ -136,7 +137,7 @@ public class WitherSkullBarrage extends Ability implements OwnerRightClickEvent 
                             Collection<Block> blocks = BlocksUtil.getInRadius(skull.getLocation(), block_destroy_radius).keySet();
                             blocks.removeIf(b -> b.getType() == Material.LAVA || b.getType() == Material.LAVA || b.getType() == Material.BEDROCK);
                             BlockRestoreManager.BlockExplosion(blocks, skull.getLocation(), false, true, 30000L);
-                            location.getWorld().playSound(location, Sound.EXPLODE, 2.5F, 0.4F);
+                            location.getWorld().playSound(location, Sound.ENTITY_GENERIC_EXPLODE, 2.5F, 0.4F);
                             Utils.playParticle(Particle.EXPLOSION_EMITTER, location,
                                     0, 0, 0, 0, 1, 96, skull.getWorld().getPlayers());
                             skull.remove();

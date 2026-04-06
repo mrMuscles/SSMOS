@@ -6,9 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.ChunkUnloadEvent;
 import xyz.whoneedspacee.ssmos.Main;
 
 import java.io.File;
@@ -62,7 +60,9 @@ public abstract class SmashMap implements Listener {
         if(permanent_chunk_load_radius >= 0) {
             for (int x = -permanent_chunk_load_radius; x <= permanent_chunk_load_radius; x++) {
                 for (int z = -permanent_chunk_load_radius; z <= permanent_chunk_load_radius; z++) {
-                    permanent_chunks.add(world.getChunkAt(center.getChunk().getX() + x, center.getChunk().getZ() + z));
+                    Chunk chunk = world.getChunkAt(center.getChunk().getX() + x, center.getChunk().getZ() + z);
+                    chunk.setForceLoaded(true);
+                    permanent_chunks.add(chunk);
                 }
             }
         }
@@ -131,13 +131,6 @@ public abstract class SmashMap implements Listener {
 
     public boolean parseBlock(Block parsed) {
         return false;
-    }
-
-    @EventHandler
-    public void chunkUnload(ChunkUnloadEvent e) {
-        if(permanent_chunks.contains(e.getChunk())) {
-            e.setCancelled(true);
-        }
     }
 
 }

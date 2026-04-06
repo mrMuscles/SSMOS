@@ -4,7 +4,7 @@ import xyz.whoneedspacee.ssmos.utilities.Utils;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.world.entity.monster.Guardian;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;

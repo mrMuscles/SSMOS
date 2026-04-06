@@ -49,7 +49,7 @@ public class KitWitherBoss extends Kit implements BossKitData {
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
         setItem(new ItemStack(Material.IRON_PICKAXE), 1);
-        setItem(new ItemStack(Material.COMMAND), 2, getAttributeByClass(EnergyFlight.class));
+        setItem(new ItemStack(Material.COMMAND_BLOCK), 2, getAttributeByClass(EnergyFlight.class));
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
 

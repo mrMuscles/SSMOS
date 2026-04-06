@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.projectiles.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
@@ -86,7 +87,7 @@ public class InkProjectile extends SmashProjectile {
     }
 
     protected void explodeEffect() {
-        projectile.getWorld().playSound(projectile.getLocation(), Sound.EXPLODE, 0.75f, 1.25f);
+        projectile.getWorld().playSound(projectile.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.75f, 1.25f);
     }
 
 }

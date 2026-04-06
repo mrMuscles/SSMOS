@@ -45,7 +45,7 @@ public class Barrage extends BowCharge {
                     Arrow arrow = owner.launchProjectile(Arrow.class);
                     arrow.setVelocity(owner.getLocation().getDirection().add(spread).multiply(3));
                     arrow.setMetadata("Barrage Arrow", new FixedMetadataValue(plugin, 1));
-                    owner.playSound(owner.getLocation(), Sound.SHOOT_ARROW, 1.0F, 1.0F);
+                    owner.playSound(owner.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1.0F, 1.0F);
                 }
             }, (i + 1));
         }

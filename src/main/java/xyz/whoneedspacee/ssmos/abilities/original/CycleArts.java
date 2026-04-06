@@ -65,14 +65,14 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
         if (current_form != base_form && time_elapsed < duration_ms) {
             owner.setExp(1 - (float) time_elapsed / duration_ms);
             if (time_elapsed > duration_ms - 2000 && sounds == 0 || time_elapsed > duration_ms - 1000 && sounds == 1) {
-                owner.playSound(owner.getLocation(), Sound.ORB_PICKUP, 1f, 0.3f);
+                owner.playSound(owner.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 0.3f);
                 sounds++;
             }
             return;
         }
         if (current_form != base_form) {
             owner.setExp(0);
-            owner.playSound(owner.getLocation(), Sound.ORB_PICKUP, 1f, 0.5f);
+            owner.playSound(owner.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 0.5f);
             if (current_form instanceof VillagerArt) {
                 VillagerArt art = (VillagerArt) current_form;
                 Utils.sendServerMessageToPlayer("Your " + art.getColor() +
@@ -228,9 +228,9 @@ public class CycleArts extends Ability implements OwnerRightClickEvent, OwnerDro
             owner.setWalkSpeed(0.2f);
             kit.setMelee(7.15);
             kit.setArmor(4.5);
-            kit.setArmorSlot(Material.GOLD_BOOTS, 0);
-            kit.setArmorSlot(Material.GOLD_LEGGINGS, 1);
-            kit.setArmorSlot(Material.GOLD_CHESTPLATE, 2);
+            kit.setArmorSlot(Material.GOLDEN_BOOTS, 0);
+            kit.setArmorSlot(Material.GOLDEN_LEGGINGS, 1);
+            kit.setArmorSlot(Material.GOLDEN_CHESTPLATE, 2);
             owner.getInventory().setHelmet(null);
             kit.setKnockback(1.45);
             DoubleJump current = kit.getAttributeByClass(DoubleJump.class);

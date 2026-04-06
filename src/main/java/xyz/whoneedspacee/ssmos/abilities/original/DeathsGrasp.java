@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.Main;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerLeftClickEvent;

@@ -4,7 +4,7 @@ import xyz.whoneedspacee.ssmos.utilities.Utils;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.world.entity.monster.EnderMan;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R3.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -44,8 +44,8 @@ public class EndermanDisguise extends Disguise {
         if (living == null) {
             return;
         }
-        org.bukkit.craftbukkit.block.data.CraftBlockData craftData =
-                (org.bukkit.craftbukkit.block.data.CraftBlockData) blockData;
+        org.bukkit.craftbukkit.v1_21_R3.block.data.CraftBlockData craftData =
+                (org.bukkit.craftbukkit.v1_21_R3.block.data.CraftBlockData) blockData;
         ((EnderMan) living).setCarriedBlock(craftData.getState());
         List<SynchedEntityData.DataValue<?>> dataValues = living.getEntityData().packDirty();
         if (dataValues != null) {

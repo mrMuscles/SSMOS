@@ -2,6 +2,7 @@ package xyz.whoneedspacee.ssmos.abilities.original;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
+import org.bukkit.Particle;
 import xyz.whoneedspacee.ssmos.utilities.LineParticle;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 
@@ -38,10 +39,10 @@ public class Blink extends Ability implements OwnerRightClickEvent {
                 0.2f, range, Particle.SMOKE, owner.getWorld().getPlayers());
         while (!lineParticle.update()) { }
         Utils.playFirework(owner.getEyeLocation(), FireworkEffect.Type.BALL, Color.BLACK, false, false);
-        owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f);
+        owner.playSound(owner.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1f);
         owner.teleport(lineParticle.getDestination().add(0, 0.4, 0));
         owner.setFallDistance(0);
-        owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f);
+        owner.playSound(owner.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1f);
         Utils.playFirework(owner.getEyeLocation(), FireworkEffect.Type.BALL, Color.BLACK, false, false);
     }
 

@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.attributes;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerTakeSmashDamageEvent;
@@ -53,7 +54,7 @@ public class DeadlyBones extends Attribute implements OwnerTakeSmashDamageEvent 
                 bone.setPickupDelay(1000000);
                 Utils.playParticle(Particle.EXPLOSION, bone.getLocation(),
                         0, 0, 0, 0, 1, 96, bone.getWorld().getPlayers());
-                bone.getWorld().playSound(bone.getLocation(), Sound.EXPLODE, 0.8f, 1.4f);
+                bone.getWorld().playSound(bone.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 1.4f);
                 HashMap<LivingEntity, Double> targets = Utils.getInRadius(bone.getLocation(), hitbox_radius);
                 for(LivingEntity livingEntity : targets.keySet()) {
                     if(livingEntity.equals(owner)) {

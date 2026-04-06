@@ -68,8 +68,8 @@ public class NetherPig extends Attribute {
             kit.setArmorSlot(Material.IRON_LEGGINGS, 1);
             kit.setArmorSlot(Material.IRON_CHESTPLATE, 2);
             kit.setArmorSlot(Material.IRON_HELMET, 3);
-            owner.getWorld().playSound(owner.getLocation(), Sound.ZOMBIE_PIG_ANGRY, 2f, 1f);
-            owner.getWorld().playSound(owner.getLocation(), Sound.ZOMBIE_PIG_ANGRY, 2f, 1f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ZOMBIFIED_PIGLIN_ANGRY, 2f, 1f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ZOMBIFIED_PIGLIN_ANGRY, 2f, 1f);
             owner.setExp(0.99f);
             DisguiseManager.addDisguise(owner, new NetherPigDisguise(owner));
             Utils.sendAttributeMessage("You transformed into",

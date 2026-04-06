@@ -1,17 +1,17 @@
 package xyz.whoneedspacee.ssmos.utilities;
 
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.phys.AABB;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.entity.CraftEntity;
-import org.bukkit.craftbukkit.entity.CraftMob;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.craftbukkit.entity.CraftSquid;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftMob;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftSquid;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.*;
@@ -42,7 +42,8 @@ public class Utils {
      * @param player  player receiving the message
      */
     public static void sendActionBarMessage(String message, Player player) {
-        player.sendActionBar(message);
+        player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR,
+                net.md_5.bungee.api.chat.TextComponent.fromLegacyText(message));
     }
 
     public static void sendServerMessageToPlayer(String message, Player player, ServerMessageType type) {
@@ -281,7 +282,7 @@ public class Utils {
         if (ent.getLocation().toVector().distanceSquared(target.toVector()) < 0.01)
             return;
 
-        PathfinderMob ec = ((CraftMob) ent).getHandle();
+        Mob ec = ((CraftMob) ent).getHandle();
         PathNavigation nav = ec.getNavigation();
 
         if (ent.getLocation().toVector().distanceSquared(target.toVector()) > 16 * 16) {

@@ -58,7 +58,7 @@ public class Ravage extends Attribute implements OwnerDealSmashDamageEvent {
         }
         int stacks = hit_times_ms.size();
         e.setDamage(e.getDamage() + Math.min(3, stacks));
-        owner.getWorld().playSound(owner.getLocation(), Sound.WOLF_BARK, (float) (0.5 + stacks * 0.25), (float) (1 + stacks * 0.25));
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WOLF_AMBIENT, (float) (0.5 + stacks * 0.25), (float) (1 + stacks * 0.25));
         hit_times_ms.add(System.currentTimeMillis());
         owner.setExp(0.1111111111F * hit_times_ms.size());
     }

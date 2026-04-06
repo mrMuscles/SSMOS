@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.attributes.bowcharge;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerDealSmashDamageEvent;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;

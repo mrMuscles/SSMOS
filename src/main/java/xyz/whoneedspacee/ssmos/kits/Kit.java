@@ -153,7 +153,7 @@ public abstract class Kit implements Listener {
         }
         ItemStack item = new ItemStack(itemMaterial);
         ItemMeta meta = item.getItemMeta();
-        meta.spigot().setUnbreakable(true);
+        meta.setUnbreakable(true);
         item.setItemMeta(meta);
         ItemStack[] armor = owner.getInventory().getArmorContents();
         armor[armorSlot] = item;
@@ -195,7 +195,7 @@ public abstract class Kit implements Listener {
             Damageable damageable = (Damageable) meta;
             damageable.damage((int) damage);
         }
-        meta.spigot().setUnbreakable(true);
+        meta.setUnbreakable(true);
         item.setItemMeta(meta);
         owner.getInventory().setItem(hotbarSlot, item);
     }

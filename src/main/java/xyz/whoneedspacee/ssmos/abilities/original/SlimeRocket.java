@@ -1,6 +1,7 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
-import org.bukkit.craftbukkit.entity.CraftSlime;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftSlime;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.projectiles.original.SlimeProjectile;
@@ -73,7 +74,7 @@ public class SlimeRocket extends Ability implements OwnerRightClickEvent {
             if (elapsed_ms < 3000) {
                 owner.setExp(Math.max(0, owner.getExp() - 0.00916f));
             }
-            owner.getWorld().playSound(owner.getLocation(), Sound.SLIME_WALK, 0.5f, (float) (0.5 + 1.5 * (elapsed_sound / 3d)));
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SLIME_SQUISH, 0.5f, (float) (0.5 + 1.5 * (elapsed_sound / 3d)));
             Utils.playParticle(Particle.ITEM_SLIME, owner.getLocation().add(0, 1, 0),
                     (float) (elapsed_sound / 6d), (float) (elapsed_sound / 6d), (float) (elapsed_sound / 6d), 0, (int) (elapsed_sound * 5),
                     96, owner.getWorld().getPlayers());
