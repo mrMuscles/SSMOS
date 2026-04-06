@@ -109,7 +109,7 @@ public class KitManager implements Listener {
                     } else {
                         KitManager.equipPlayer(clicked, kit);
                     }
-                    clicked.playSound(clicked.getLocation(), Sound.ORB_PICKUP, 1f, 1f);
+                    clicked.playSound(clicked.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
                     clicked.closeInventory();
                 }
             });

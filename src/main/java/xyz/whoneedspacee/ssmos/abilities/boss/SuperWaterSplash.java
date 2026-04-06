@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.boss;
+import org.bukkit.Particle;
 
 
 import org.bukkit.*;
@@ -67,7 +68,7 @@ public class SuperWaterSplash extends Ability implements OwnerRightClickEvent, O
             trajectory.setY(0.5);
             VelocityUtil.setVelocity(player, trajectory);
         }
-        owner.getWorld().playSound(owner.getLocation(), Sound.AMBIENCE_RAIN, 1.0f, 0.5f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.WEATHER_RAIN, 1.0f, 0.5f);
         splash_task = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             private boolean boost_used = false;
 
@@ -90,7 +91,7 @@ public class SuperWaterSplash extends Ability implements OwnerRightClickEvent, O
                         }
                         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     }
-                    owner.getWorld().playSound(owner.getLocation(), Sound.SPLASH2, 2f, 0f);
+                    owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_SPLASH, 2f, 0f);
                     HashMap<LivingEntity, Double> targets = Utils.getInRadius(owner.getLocation(), damage_radius);
                     for (LivingEntity livingEntity : targets.keySet()) {
                         if (!(livingEntity instanceof Player)) {

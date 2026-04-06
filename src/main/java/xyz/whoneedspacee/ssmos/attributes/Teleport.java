@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.attributes;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerToggleSneakEvent;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
@@ -37,10 +38,10 @@ public class Teleport extends Attribute implements OwnerToggleSneakEvent {
         while (target.getRelative(BlockFace.UP).getType() != Material.AIR) {
             target = target.getRelative(BlockFace.UP);
         }
-        owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 0.5f);
+        owner.playSound(owner.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 0.5f);
         owner.teleport(target.getLocation().add(0.5, 1, 0.5).setDirection(owner.getLocation().getDirection()));
-        owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 0.5f);
-        Utils.playParticle(Particle.EFFECT_WITCH, owner.getLocation().add(0, 1, 0),
+        owner.playSound(owner.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 0.5f);
+        Utils.playParticle(Particle.WITCH, owner.getLocation().add(0, 1, 0),
                 1f, 1f, 1f, 0.1f, 100, 96, owner.getWorld().getPlayers());
     }
 
@@ -77,8 +78,8 @@ public class Teleport extends Attribute implements OwnerToggleSneakEvent {
                 charge += charge_rate;
                 Utils.sendTitleMessage(owner, "", Utils.progressString(charge), 0, 10, 10);
                 if(charge < 1) {
-                    owner.playSound(owner.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f + charge);
-                    Utils.playParticle(Particle.EFFECT_WITCH, owner.getLocation().add(0, 1, 0),
+                    owner.playSound(owner.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1f + charge);
+                    Utils.playParticle(Particle.WITCH, owner.getLocation().add(0, 1, 0),
                             1f, 1f, 1f, 0.05f, 10, 96, owner.getWorld().getPlayers());
                     return;
                 }

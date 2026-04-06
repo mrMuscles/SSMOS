@@ -79,7 +79,7 @@ public class MagmaBoulderProjectile extends SmashProjectile {
 
     @Override
     protected void doEffect() {
-        firer.getWorld().playSound(projectile.getLocation(), Sound.FIRE, 1.4f, 0.8f);
+        firer.getWorld().playSound(projectile.getLocation(), Sound.BLOCK_FIRE_AMBIENT, 1.4f, 0.8f);
         Utils.playParticle(Particle.FLAME, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.25f, 1, 96,
                 projectile.getWorld().getPlayers());
@@ -122,7 +122,7 @@ public class MagmaBoulderProjectile extends SmashProjectile {
         Utils.playParticle(Particle.EXPLOSION, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.0f, 1, 96,
                 projectile.getWorld().getPlayers());
-        projectile.getWorld().playSound(projectile.getLocation(), Sound.EXPLODE, 1.0f, 0.5f);
+        projectile.getWorld().playSound(projectile.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 0.5f);
     }
 
 }

@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.projectiles.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
@@ -28,7 +29,7 @@ public class IronHookProjectile extends SmashProjectile {
     @Override
     public void launchProjectile() {
         super.launchProjectile();
-        firer.getWorld().playSound(firer.getLocation(), Sound.IRONGOLEM_THROW, 2f, 0.8f);
+        firer.getWorld().playSound(firer.getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 2f, 0.8f);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class IronHookProjectile extends SmashProjectile {
 
     @Override
     protected void doEffect() {
-        firer.getWorld().playSound(projectile.getLocation(), Sound.FIRE_IGNITE, 1.4f, 0.8f);
+        firer.getWorld().playSound(projectile.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1.4f, 0.8f);
         Utils.playParticle(Particle.CRIT, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.0f, 1, 96,
                 projectile.getWorld().getPlayers());

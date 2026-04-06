@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.Main;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
@@ -42,7 +43,7 @@ public class SonicHurr extends Ability implements OwnerRightClickEvent {
     public void activate() {
         Location location = owner.getEyeLocation();
         location.add(location.getDirection());
-        owner.getWorld().playSound(owner.getLocation(), Sound.VILLAGER_IDLE, 1.5f, 1.2f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_VILLAGER_AMBIENT, 1.5f, 1.2f);
         new SpiralEffect(1, 2, (int) distance * 10, location) {
             @Override
             public void playParticle(Location location) {

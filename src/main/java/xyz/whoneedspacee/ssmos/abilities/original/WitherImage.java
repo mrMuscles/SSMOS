@@ -9,7 +9,7 @@ import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
 import xyz.whoneedspacee.ssmos.utilities.VelocityUtil;
-import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftEntity;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -57,13 +57,13 @@ public class WitherImage extends Ability implements OwnerRightClickEvent {
             Location wither_new_location = owner.getLocation().clone();
             // Cannot normally teleport entities with passengers
             net.minecraft.world.entity.Entity nms_wither_image = ((CraftEntity) wither_image).getHandle();
-            nms_wither_image.snapTo(wither_new_location.getX(), wither_new_location.getY(), wither_new_location.getZ(),
+            nms_wither_image.moveTo(wither_new_location.getX(), wither_new_location.getY(), wither_new_location.getZ(),
                     wither_new_location.getYaw(), wither_new_location.getPitch());
             VelocityUtil.setVelocity(wither_image, old_owner_vector);
             // Teleporting adds no damage ticks?
             owner.teleport(wither_old_location);
             owner.setVelocity(old_image_vector);
-            owner.getWorld().playSound(owner.getLocation(), Sound.WITHER_SPAWN, 1f, 2f);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1f, 2f);
             return;
         }
         checkAndActivate();
@@ -84,7 +84,7 @@ public class WitherImage extends Ability implements OwnerRightClickEvent {
         VelocityUtil.setVelocity(wither_image, owner.getLocation().getDirection(),
                 1.6, false, 0, 0.2, 10, true);
         setSwapDelay(swap_cooldown_ticks / 4);
-        owner.getWorld().playSound(owner.getLocation(), Sound.WITHER_SPAWN, 1f, 1f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1f, 1f);
         // Update every 10 ticks
         image_task = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override

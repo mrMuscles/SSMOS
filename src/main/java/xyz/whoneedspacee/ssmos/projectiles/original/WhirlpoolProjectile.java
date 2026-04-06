@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.projectiles.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
@@ -27,7 +28,7 @@ public class WhirlpoolProjectile extends SmashProjectile {
     @Override
     public void launchProjectile() {
         super.launchProjectile();
-        firer.playSound(firer.getLocation(), Sound.DIG_SNOW, 1f, 1f);
+        firer.playSound(firer.getLocation(), Sound.BLOCK_SNOW_BREAK, 1f, 1f);
     }
 
     @Override

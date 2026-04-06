@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.projectiles.original.FishFlurryProjectile;
@@ -88,7 +89,7 @@ public class FishFlurry extends Ability implements OwnerRightClickEvent {
                 }
                 Block random = blocks.get((int) (Math.random() * blocks.size()));
                 if(Math.random() > 0.5) {
-                    random.getWorld().playSound(random.getLocation(), Math.random() > 0.5 ? Sound.SPLASH : Sound.SPLASH2, 0.5f, 1f);
+                    random.getWorld().playSound(random.getLocation(), Math.random() > 0.5 ? Sound.ENTITY_GENERIC_SPLASH : Sound.ENTITY_GENERIC_SPLASH, 0.5f, 1f);
                 }
                 if(System.currentTimeMillis() - activation_time_ms < 1000) {
                     return;

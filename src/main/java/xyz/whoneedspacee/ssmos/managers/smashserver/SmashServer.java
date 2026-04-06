@@ -127,7 +127,7 @@ public class SmashServer implements Listener, Runnable {
             game_map = getChosenMap();
             for (Player player : players) {
                 player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + game_map.getName() + ChatColor.WHITE + ChatColor.BOLD + " won the vote!");
-                player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
                 if(isSpectator(player)) {
                     continue;
                 }
@@ -171,7 +171,7 @@ public class SmashServer implements Listener, Runnable {
                 player.teleport(starting_point);
             }
             for (Player player : players) {
-                player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                 for (int i = 0; i < 6 - current_gamemode.getDescription().length; i++) {
                     player.sendMessage("");
                 }
@@ -204,7 +204,7 @@ public class SmashServer implements Listener, Runnable {
         }
         for (Player player : players) {
             if (time_remaining_ms % 1000 == 0 && time_remaining_ms <= 4000) {
-                player.playSound(player.getLocation(), Sound.NOTE_PLING, 1f, 1f);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
             }
         }
         time_remaining_ms -= 50;
@@ -218,7 +218,7 @@ public class SmashServer implements Listener, Runnable {
         }
         if (time_remaining_ms <= 0) {
             for (Player player : players) {
-                player.playSound(player.getLocation(), Sound.NOTE_PLING, 1f, 1f);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
             }
             setState(GameState.GAME_PLAYING);
             return;
@@ -251,7 +251,7 @@ public class SmashServer implements Listener, Runnable {
                         current_gamemode.getDescription()[2], 0, 45, 0);
             }
             if (time_remaining_ms % 1000 == 0) {
-                player.playSound(player.getLocation(), Sound.NOTE_STICKS, 1f, 1f);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_SNARE, 1f, 1f);
             }
         }
         time_remaining_ms -= 50;
@@ -367,7 +367,7 @@ public class SmashServer implements Listener, Runnable {
             Utils.sendTitleMessage(player, ChatColor.RED + "You Died", "",
                     10, 50, 10);
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You ran out of lives!");
-            player.playSound(player.getLocation(), Sound.EXPLODE, 2f, 1f);
+            player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 2f, 1f);
             lives.remove(player);
             deaths[1] = deaths[0];
             deaths[0] = player;
@@ -378,7 +378,7 @@ public class SmashServer implements Listener, Runnable {
         player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You have died!");
         player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "You have " + lives.get(player) +
                 " " + (lives.get(player) == 1 ? "life" : "lives") + " left!");
-        player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 2f, 0.5f);
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 2f, 0.5f);
         KitManager.equipPlayer(player, new KitTemporarySpectator());
         // Respawn in 4 seconds
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
@@ -472,7 +472,7 @@ public class SmashServer implements Listener, Runnable {
             Utils.sendServerMessageToPlayer("Set " +
                     ChatColor.YELLOW + current_gamemode.getName() + ChatColor.GRAY +
                     " as the next gamemode.", player, ServerMessageType.GAME);
-            player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1);
         }
         stopGame();
     }
@@ -487,7 +487,7 @@ public class SmashServer implements Listener, Runnable {
         }
         for(Kit kit : current_gamemode.getAllowedKits()) {
             if(clicked_name.equals(ChatColor.GREEN + kit.getName())) {
-                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
                 if(state == GameState.LOBBY_STARTING) {
                     KitManager.equipPlayer(player, kit);
                 }
@@ -640,7 +640,7 @@ public class SmashServer implements Listener, Runnable {
             if (map.getVoted().size() == 0) {
                 item = new ItemStack(Material.PAPER);
             } else {
-                item = new ItemStack(Material.EMPTY_MAP, map.getVoted().size());
+                item = new ItemStack(Material.MAP, map.getVoted().size());
             }
             if (map.getVoted().contains(player)) {
                 item = new ItemStack(Material.MAP, map.getVoted().size());
@@ -652,7 +652,7 @@ public class SmashServer implements Listener, Runnable {
             menu.setActionFromSlot(slot, (e) -> {
                 if(e.getWhoClicked() instanceof Player) {
                     Player clicked = (Player) e.getWhoClicked();
-                    clicked.playSound(clicked.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
+                    clicked.playSound(clicked.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
                     for(GameMap remove : current_gamemode.getAllowedMaps()) {
                         remove.getVoted().remove(clicked);
                     }
@@ -673,7 +673,7 @@ public class SmashServer implements Listener, Runnable {
             menu.setActionFromSlot(4, (e) -> {
                 if(e.getWhoClicked() instanceof Player) {
                     Player clicked = (Player) e.getWhoClicked();
-                    clicked.playSound(clicked.getLocation(), Sound.NOTE_BASS, 1.0f, 1.0f);
+                    clicked.playSound(clicked.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                     clicked.closeInventory();
                 }
             });

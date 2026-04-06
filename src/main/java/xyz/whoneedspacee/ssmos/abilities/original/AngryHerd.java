@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
@@ -80,7 +81,7 @@ public class AngryHerd extends Ability implements OwnerRightClickEvent {
                 last_move_time.put(cow, System.currentTimeMillis());
             }
         }
-        owner.getWorld().playSound(owner.getLocation(), Sound.COW_IDLE, 2f, 0.6f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_COW_AMBIENT, 2f, 0.6f);
         if (Bukkit.getScheduler().isQueued(herd_task) || Bukkit.getScheduler().isCurrentlyRunning(herd_task)) {
             Bukkit.getScheduler().cancelTask(herd_task);
         }
@@ -124,10 +125,10 @@ public class AngryHerd extends Ability implements OwnerRightClickEvent {
                         cow.setVelocity(cow_directions.get(cow));
                     }
                     if(Math.random() > 0.99) {
-                        cow.getWorld().playSound(cow.getLocation(), Sound.COW_IDLE, 1f, 1f);
+                        cow.getWorld().playSound(cow.getLocation(), Sound.ENTITY_COW_AMBIENT, 1f, 1f);
                     }
                     if(Math.random() > 0.97) {
-                        cow.getWorld().playSound(cow.getLocation(), Sound.COW_WALK, 1f, 1.2f);
+                        cow.getWorld().playSound(cow.getLocation(), Sound.ENTITY_COW_STEP, 1f, 1.2f);
                     }
                     for(Player player : owner.getWorld().getPlayers()) {
                         if(player.equals(owner)) {
@@ -151,7 +152,7 @@ public class AngryHerd extends Ability implements OwnerRightClickEvent {
                         smashDamageEvent.callEvent();
                         Utils.playParticle(Particle.EXPLOSION, cow.getLocation().add(0, 1, 0),
                                 1f, 1f, 1f, 0, 12, 96, cow.getWorld().getPlayers());
-                        cow.getWorld().playSound(cow.getLocation(), Sound.ZOMBIE_WOOD, 0.75f, 0.8f);
+                        cow.getWorld().playSound(cow.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_WOODEN_DOOR, 0.75f, 0.8f);
                         cow.getWorld().playSound(cow.getLocation(), Sound.ENTITY_COW_HURT, 1.5f, 0.75f);
                     }
                 }

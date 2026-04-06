@@ -32,7 +32,7 @@ public class WolfProjectile extends SmashProjectile {
     @Override
     public void launchProjectile() {
         super.launchProjectile();
-        firer.getWorld().playSound(projectile.getLocation(), Sound.WOLF_BARK, 1f, 1.8f);
+        firer.getWorld().playSound(projectile.getLocation(), Sound.ENTITY_WOLF_AMBIENT, 1f, 1.8f);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class WolfProjectile extends SmashProjectile {
         smashDamageEvent.setIgnoreDamageDelay(true);
         smashDamageEvent.setReason(name);
         smashDamageEvent.callEvent();
-        player.getWorld().playSound(player.getLocation(), Sound.WOLF_GROWL, 1.5f, 1.5f);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WOLF_GROWL, 1.5f, 1.5f);
         Utils.sendAttributeMessage("You hit " + ChatColor.YELLOW + player.getName()
                 + ChatColor.GRAY + " with", name, firer, ServerMessageType.GAME);
         Utils.sendAttributeMessage(ChatColor.YELLOW + firer.getName() + ChatColor.GRAY +
@@ -129,8 +129,8 @@ public class WolfProjectile extends SmashProjectile {
                         return;
                     }
                     if(projectile.getLocation().distance(hit.getLocation()) < 2.5) {
-                        hit.removePotionEffect(PotionEffectType.SLOW);
-                        hit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 18, 1, false, false));
+                        hit.removePotionEffect(PotionEffectType.SLOWNESS);
+                        hit.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 18, 1, false, false));
                         VelocityUtil.setVelocity(hit, new Vector(0, -0.3, 0));
                     }
                     Location location = hit.getLocation();

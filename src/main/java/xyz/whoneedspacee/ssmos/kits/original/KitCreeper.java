@@ -24,7 +24,7 @@ public class KitCreeper extends Kit {
         this.regeneration = 0.4;
         this.knockback = 1.65;
         this.name = "Creeper";
-        this.menuItem = Material.SULPHUR;
+        this.menuItem = Material.GUNPOWDER;
         this.podium_mob_type = EntityType.CREEPER;
     }
 
@@ -50,7 +50,7 @@ public class KitCreeper extends Kit {
     @Override
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
         setItem(new ItemStack(Material.COAL), 2, getAttributeByClass(LightningShield.class));
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
@@ -58,7 +58,7 @@ public class KitCreeper extends Kit {
     @Override
     public void setGameHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
         setItem(Compass.COMPASS_ITEM, 2);
     }
 

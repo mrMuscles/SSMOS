@@ -74,7 +74,7 @@ public class SeismicSlam extends Ability implements OwnerRightClickEvent {
             smashDamageEvent.setReason(name);
             smashDamageEvent.callEvent();
         }
-        owner.getWorld().playSound(owner.getLocation(), Sound.ZOMBIE_WOOD, 2f, 0.2f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_WOODEN_DOOR, 2f, 0.2f);
         for (Block check : BlocksUtil.getBlocks(owner.getLocation(), 4)) {
             if (check.getType().isSolid() && !check.getRelative(BlockFace.UP).getType().isSolid()) {
                 if(Math.random() < 0.9) {

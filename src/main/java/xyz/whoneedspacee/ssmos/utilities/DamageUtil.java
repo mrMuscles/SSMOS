@@ -170,7 +170,7 @@ public class DamageUtil {
             case SLIME:
                 sound = Sound.ENTITY_SLIME_ATTACK;
                 break;
-            case SNOWMAN:
+            case SNOW_GOLEM:
                 sound = Sound.BLOCK_SNOW_STEP;
                 break;
             case VILLAGER:

@@ -21,7 +21,7 @@ public class KitPig extends Kit {
         this.regeneration = 0.25;
         this.knockback = 1.5;
         this.name = "Pig";
-        this.menuItem = Material.PORK;
+        this.menuItem = Material.PORKCHOP;
         this.podium_mob_type = EntityType.PIG;
     }
 
@@ -47,15 +47,15 @@ public class KitPig extends Kit {
     @Override
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
-        setItem(new ItemStack(Material.PORK), 2, getAttributeByClass(NetherPig.class));
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
+        setItem(new ItemStack(Material.PORKCHOP), 2, getAttributeByClass(NetherPig.class));
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
 
     @Override
     public void setGameHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
         setItem(Compass.COMPASS_ITEM, 2);
     }
 

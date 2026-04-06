@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.disguises.SkeletonHorseDisguise;
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
@@ -76,8 +77,8 @@ public class BoneKick extends Ability implements OwnerRightClickEvent {
                         ChatColor.GRAY + " hit you with", name, player, ServerMessageType.SKILL);
             }
         }
-        owner.removePotionEffect(PotionEffectType.SLOW);
-        owner.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, slow_ticks, 3, false, false));
+        owner.removePotionEffect(PotionEffectType.SLOWNESS);
+        owner.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, slow_ticks, 3, false, false));
         owner.setVelocity(new Vector(0, 0, 0));
         if(Bukkit.getScheduler().isQueued(end_kick_task) || Bukkit.getScheduler().isCurrentlyRunning(end_kick_task)) {
             Bukkit.getScheduler().cancelTask(end_kick_task);

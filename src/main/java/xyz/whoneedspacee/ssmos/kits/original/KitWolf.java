@@ -48,7 +48,7 @@ public class KitWolf extends Kit {
     @Override
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
-        setItem(new ItemStack(Material.IRON_SPADE), 1);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 1);
         setItem(new ItemStack(Material.BONE), 2, getAttributeByClass(Ravage.class));
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
@@ -56,7 +56,7 @@ public class KitWolf extends Kit {
     @Override
     public void setGameHotbar() {
         setItem(new ItemStack(Material.IRON_AXE, 1), 0);
-        setItem(new ItemStack(Material.IRON_SPADE, 1), 1);
+        setItem(new ItemStack(Material.IRON_SHOVEL, 1), 1);
         setItem(Compass.COMPASS_ITEM, 2);
     }
 

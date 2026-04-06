@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.attributes.doublejumps.DoubleJump;
 import xyz.whoneedspacee.ssmos.managers.disguises.Disguise;

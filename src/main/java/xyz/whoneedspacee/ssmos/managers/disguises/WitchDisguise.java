@@ -1,7 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import net.minecraft.world.entity.monster.Witch;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R3.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 

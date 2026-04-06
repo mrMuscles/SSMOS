@@ -38,7 +38,7 @@ public class FlamingKnockback extends Attribute implements OwnerDealSmashDamageE
         e.multiplyKnockback(knockback_multiplier);
         if(extinguish_after) {
             e.getDamagee().setFireTicks(0);
-            e.getDamagee().getWorld().playSound(e.getDamagee().getLocation(), Sound.FIZZ, 1.0f, 1.0f);
+            e.getDamagee().getWorld().playSound(e.getDamagee().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0f, 1.0f);
         }
     }
 

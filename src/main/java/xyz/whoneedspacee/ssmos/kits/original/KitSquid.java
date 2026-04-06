@@ -50,7 +50,7 @@ public class KitSquid extends Kit {
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
         setItem(new ItemStack(Material.IRON_SWORD), 1);
-        setItem(new ItemStack(Material.IRON_SPADE), 2);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 2);
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
 
@@ -58,7 +58,7 @@ public class KitSquid extends Kit {
     public void setGameHotbar() {
         setItem(new ItemStack(Material.IRON_AXE), 0);
         setItem(new ItemStack(Material.IRON_SWORD), 1);
-        setItem(new ItemStack(Material.IRON_SPADE), 2);
+        setItem(new ItemStack(Material.IRON_SHOVEL), 2);
         setItem(Compass.COMPASS_ITEM, 3);
     }
 

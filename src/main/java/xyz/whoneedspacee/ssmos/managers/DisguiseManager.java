@@ -12,7 +12,7 @@ import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -163,7 +163,16 @@ public class DisguiseManager implements Listener, Runnable {
                 super.write(channelHandlerContext, msg, channelPromise);
             }
         };
-        ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().connection.getConnection().channel.pipeline();
+        ChannelPipeline pipeline;
+        try {
+            java.lang.reflect.Field connectionField = net.minecraft.server.network.ServerCommonPacketListenerImpl.class.getDeclaredField("connection");
+            connectionField.setAccessible(true);
+            net.minecraft.network.Connection conn = (net.minecraft.network.Connection) connectionField.get(((CraftPlayer) player).getHandle().connection);
+            pipeline = conn.channel.pipeline();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return;
+        }
         if (pipeline.get(player.getName()) != null) {
             pipeline.remove(player.getName());
         }

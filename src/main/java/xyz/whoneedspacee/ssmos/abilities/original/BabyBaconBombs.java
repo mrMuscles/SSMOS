@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
@@ -106,8 +107,8 @@ public class BabyBaconBombs extends Ability implements OwnerRightClickEvent {
     public void explodePig(Pig pig) {
         Utils.playParticle(Particle.EXPLOSION, pig.getLocation().add(0, 0.5, 0),
                 0, 0, 0, 0, 1, 96, pig.getWorld().getPlayers());
-        pig.getWorld().playSound(pig.getLocation(), Sound.EXPLODE, 0.6f, 2f);
-        pig.getWorld().playSound(pig.getLocation(), Sound.PIG_DEATH, 1f, 2f);
+        pig.getWorld().playSound(pig.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.6f, 2f);
+        pig.getWorld().playSound(pig.getLocation(), Sound.ENTITY_PIG_DEATH, 1f, 2f);
         HashMap<LivingEntity, Double> targets = Utils.getInRadius(pig.getLocation(), damage_radius);
         for(LivingEntity livingEntity : targets.keySet()) {
             if(livingEntity.equals(owner)) {

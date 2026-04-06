@@ -47,7 +47,7 @@ public class BileBlaster extends Ability implements OwnerRightClickEvent {
                     return;
                 }
                 if(Math.random() > 0.85) {
-                    owner.getWorld().playSound(owner.getLocation(), Sound.BURP, 1f, (float) (Math.random() + 0.5));
+                    owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_PLAYER_BURP, 1f, (float) (Math.random() + 0.5));
                 }
                 for(int i = 0; i < projectiles_per_tick; i++) {
                     BileProjectile projectile = new BileProjectile(owner, name);

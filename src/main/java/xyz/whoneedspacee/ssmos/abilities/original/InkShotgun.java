@@ -36,8 +36,8 @@ public class InkShotgun extends Ability implements OwnerRightClickEvent {
             InkProjectile projectile = new InkProjectile(owner, name, spread);
             projectile.launchProjectile();
         }
-        owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 1.5f, 0.75f);
-        owner.getWorld().playSound(owner.getLocation(), Sound.SPLASH, 0.75f, 1f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.5f, 0.75f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_SPLASH, 0.75f, 1f);
     }
 
 }

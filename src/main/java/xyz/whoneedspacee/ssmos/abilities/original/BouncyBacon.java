@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.projectiles.original.BaconProjectile;
@@ -76,9 +77,9 @@ public class BouncyBacon extends Ability implements OwnerRightClickEvent {
         }
         event.setCancelled(true);
         Item item = event.getItem();
-        owner.getWorld().playSound(event.getPlayer().getLocation(), Sound.EAT, 2f, 1f);
+        owner.getWorld().playSound(event.getPlayer().getLocation(), Sound.ENTITY_GENERIC_EAT, 2f, 1f);
         owner.setExp(Math.min(0.999f, owner.getExp() + energy_recharge));
-        if (item.getItemStack().getType().equals(Material.GRILLED_PORK)){
+        if (item.getItemStack().getType().equals(Material.COOKED_PORKCHOP)){
             owner.setHealth(Math.min(owner.getMaxHealth(), owner.getHealth() + health_regain));
             Utils.playParticle(Particle.HEART, event.getPlayer().getLocation().add(0, 0.5, 0),
                     0.2f, 0.2f, 0.2f, 0, 4, 96, owner.getWorld().getPlayers() );

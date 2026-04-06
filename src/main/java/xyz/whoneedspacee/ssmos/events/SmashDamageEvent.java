@@ -233,6 +233,10 @@ public class SmashDamageEvent extends Event implements Cancellable {
         return HANDLERS;
     }
 
+    public void callEvent() {
+        Bukkit.getPluginManager().callEvent(this);
+    }
+
     @Override
     public void setCancelled(boolean isCancelled) {
         this.isCancelled = isCancelled;

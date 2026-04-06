@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
@@ -55,7 +56,7 @@ public class SuperSquid extends Ability implements OwnerRightClickEvent {
                 active = true;
                 KitManager.getPlayerKit(owner).setInvincible(true);
                 VelocityUtil.setVelocity(owner, 0.6, 0.1, 1, true);
-                owner.getWorld().playSound(owner.getLocation(), Sound.SPLASH2, 0.5f, 1f);
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_SPLASH, 0.5f, 1f);
                 Utils.playParticle(Particle.SPLASH, owner.getLocation().add(0, 0.5, 0),
                         0.3f, 0.3f, 0.3f, 0, 60, 96, owner.getWorld().getPlayers());
                 ticks++;

@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
@@ -59,7 +60,7 @@ public class GuidedWitherSkull extends Ability implements OwnerRightClickEvent {
         skull.setGravity(false);
         skull.setVisible(false);
         skull.setMetadata("Wither Skull", new FixedMetadataValue(plugin, 1));
-        owner.getWorld().playSound(owner.getLocation(), Sound.WITHER_SHOOT, 1f, 1f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1f, 1f);
         skull_amount++;
         // New runnable for each wither skull since they can stack up
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -119,7 +120,7 @@ public class GuidedWitherSkull extends Ability implements OwnerRightClickEvent {
                     smashDamageEvent.setReason(name);
                     smashDamageEvent.callEvent();
                 }
-                location.getWorld().playSound(location, Sound.EXPLODE, 2.5F, 0.4F);
+                location.getWorld().playSound(location, Sound.ENTITY_GENERIC_EXPLODE, 2.5F, 0.4F);
                 Utils.playParticle(Particle.EXPLOSION_EMITTER, location,
                         0, 0, 0, 0, 1, 96, skull.getWorld().getPlayers());
                 skull.remove();

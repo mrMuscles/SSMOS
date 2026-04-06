@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.disguises.Disguise;
 import xyz.whoneedspacee.ssmos.managers.disguises.MagmaCubeDisguise;
@@ -77,7 +78,7 @@ public class FlameDash extends Ability implements OwnerRightClickEvent {
                     velocity.normalize();
                     velocity.setY(0.05);
                     VelocityUtil.setVelocity(owner, velocity);
-                    owner.getWorld().playSound(owner.getLocation(), Sound.FIZZ, 0.6f, 1.2f);
+                    owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.6f, 1.2f);
                     Utils.playParticle(Particle.FLAME, owner.getLocation().add(0, 0.4, 0),
                             0.2f, 0.2f, 0.2f, 0f, 3, 96, owner.getWorld().getPlayers());
                     return;
@@ -112,7 +113,7 @@ public class FlameDash extends Ability implements OwnerRightClickEvent {
                     ChatColor.GRAY + " hit you with", name, player, ServerMessageType.GAME);
         }
         disguiseShow();
-        owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 1f, 1.2f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1.2f);
         Utils.playParticle(Particle.FLAME, owner.getLocation(),
                 0.1f, 0.1f, 0.1f, 0.3f, 100, 96, owner.getWorld().getPlayers());
         Utils.playParticle(Particle.EXPLOSION, owner.getLocation().add(0, 0.4, 0),

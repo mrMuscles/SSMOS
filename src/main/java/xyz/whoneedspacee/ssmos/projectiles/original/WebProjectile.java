@@ -24,7 +24,7 @@ public class WebProjectile extends SmashProjectile {
 
     @Override
     protected Entity createProjectileEntity() {
-        ItemStack cobweb = new ItemStack(Material.WEB, 1);
+        ItemStack cobweb = new ItemStack(Material.COBWEB, 1);
         return firer.getWorld().dropItem(firer.getLocation().add(0, 0.5, 0), cobweb);
     }
 

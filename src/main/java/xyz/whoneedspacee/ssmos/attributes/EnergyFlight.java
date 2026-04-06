@@ -51,7 +51,7 @@ public class EnergyFlight extends Attribute {
         }
         if(last_flight_state && !owner.isFlying()) {
             last_stop_flying_ms = System.currentTimeMillis();
-            owner.getWorld().playSound(owner.getLocation(), Sound.ANVIL_LAND, 1.0F, 0.5F);
+            owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0F, 0.5F);
             owner.setAllowFlight(false);
             last_flight_state = owner.isFlying();
         }

@@ -273,7 +273,7 @@ public class BossGamemode extends SmashGamemode {
                         setDefaultBossKit(player, kit);
                         //KitManager.equipPlayer(player, kit);
                     }
-                    clicked.playSound(clicked.getLocation(), Sound.ORB_PICKUP, 1f, 1f);
+                    clicked.playSound(clicked.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
                     clicked.closeInventory();
                 }
             });

@@ -21,8 +21,8 @@ public class KitSnowMan extends Kit {
         this.regeneration = 0.3;
         this.knockback = 1.4;
         this.name = "Snowman";
-        this.menuItem = Material.SNOW_BALL;
-        this.podium_mob_type = EntityType.SNOWMAN;
+        this.menuItem = Material.SNOWBALL;
+        this.podium_mob_type = EntityType.SNOW_GOLEM;
     }
 
     @Override

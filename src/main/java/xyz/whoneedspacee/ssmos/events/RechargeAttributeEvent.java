@@ -1,5 +1,6 @@
 package xyz.whoneedspacee.ssmos.events;
 
+import org.bukkit.Bukkit;
 import xyz.whoneedspacee.ssmos.attributes.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -31,6 +32,11 @@ public class RechargeAttributeEvent extends Event {
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
+    }
+
+
+    public void callEvent() {
+        Bukkit.getPluginManager().callEvent(this);
     }
 
 }

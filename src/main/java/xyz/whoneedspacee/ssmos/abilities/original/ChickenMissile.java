@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.managers.ownerevents.OwnerRightClickEvent;
 import xyz.whoneedspacee.ssmos.abilities.Ability;
@@ -104,7 +105,7 @@ public class ChickenMissile extends Ability implements OwnerRightClickEvent {
                     }
                     Utils.playParticle(Particle.EXPLOSION_EMITTER, chicken.getLocation(),
                             0, 0, 0, 0,1, 96, chicken.getWorld().getPlayers());
-                    chicken.getWorld().playSound(chicken.getLocation(), Sound.EXPLODE, 2f, 1.2f);
+                    chicken.getWorld().playSound(chicken.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 2f, 1.2f);
                     Utils.playFirework(chicken.getLocation().add(0, 0.6, 0), FireworkEffect.Type.BALL, Color.WHITE, false, false);
                     chicken.remove();
                     cancel();

@@ -42,7 +42,7 @@ public class WolfStrike extends Ability implements OwnerRightClickEvent, OwnerDe
 
     public void activate() {
         VelocityUtil.setVelocity(owner, owner.getLocation().getDirection(), 1.6, false, 1, 0.2, 1.2, true);
-        owner.getWorld().playSound(owner.getLocation(), Sound.WOLF_BARK, 1f, 1.2f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WOLF_AMBIENT, 1f, 1.2f);
         if (Bukkit.getScheduler().isQueued(strike_task) || Bukkit.getScheduler().isCurrentlyRunning(strike_task)) {
             Bukkit.getScheduler().cancelTask(strike_task);
         }
@@ -84,7 +84,7 @@ public class WolfStrike extends Ability implements OwnerRightClickEvent, OwnerDe
         smashDamageEvent.setIgnoreDamageDelay(true);
         smashDamageEvent.setReason(name);
         smashDamageEvent.callEvent();
-        owner.getWorld().playSound(owner.getLocation(), Sound.WOLF_BARK, 1.5f, 1f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WOLF_AMBIENT, 1.5f, 1f);
         Utils.sendAttributeMessage("You hit " + ChatColor.YELLOW + hit.getName() +
                 ChatColor.GRAY + " with", name, owner, ServerMessageType.GAME);
         Utils.sendAttributeMessage(ChatColor.YELLOW + owner.getName() +
@@ -105,7 +105,7 @@ public class WolfStrike extends Ability implements OwnerRightClickEvent, OwnerDe
                 wolf.remove();
                 e.multiplyKnockback(3.0);
                 owner.getWorld().playEffect(owner.getLocation(), Effect.STEP_SOUND, 55);
-                owner.getWorld().playSound(owner.getLocation(), Sound.WOLF_BARK, 2f, 1.5f);
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_WOLF_AMBIENT, 2f, 1.5f);
                 return;
             }
         }

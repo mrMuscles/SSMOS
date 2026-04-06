@@ -7,6 +7,7 @@ import xyz.whoneedspacee.ssmos.abilities.Ability;
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.managers.DisguiseManager;
 import xyz.whoneedspacee.ssmos.utilities.DamageUtil;
+import org.bukkit.Particle;
 import xyz.whoneedspacee.ssmos.utilities.LineParticle;
 import xyz.whoneedspacee.ssmos.utilities.ServerMessageType;
 import xyz.whoneedspacee.ssmos.utilities.Utils;
@@ -61,7 +62,7 @@ public class StaticLaser extends Ability implements OwnerRightClickEvent {
                     return;
                 }
                 owner.setExp(Math.min(max_charge, owner.getExp() + charge_per_tick));
-                owner.getWorld().playSound(owner.getLocation(), Sound.FIZZ, 0.25f + owner.getExp(), 0.75f + owner.getExp());
+                owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.25f + owner.getExp(), 0.75f + owner.getExp());
                 if(Math.random() > 0.5) {
                     setWoolColor(DyeColor.YELLOW);
                 } else {
@@ -111,7 +112,7 @@ public class StaticLaser extends Ability implements OwnerRightClickEvent {
             smashDamageEvent.callEvent();
         }
         Utils.sendAttributeMessage("You fired", name, owner, ServerMessageType.SKILL);
-        owner.getWorld().playSound(owner.getEyeLocation(), Sound.ZOMBIE_REMEDY, 0.5f + owner.getExp(), 1.75f - owner.getExp());
+        owner.getWorld().playSound(owner.getEyeLocation(), Sound.ENTITY_ZOMBIE_INFECT, 0.5f + owner.getExp(), 1.75f - owner.getExp());
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_SHEEP_AMBIENT, 2f, 1.5f);
         setWoolColor(DyeColor.WHITE);
         owner.setExp(0f);

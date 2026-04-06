@@ -1,7 +1,7 @@
 package xyz.whoneedspacee.ssmos.managers.disguises;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftEntity;
 import xyz.whoneedspacee.ssmos.Main;
 import xyz.whoneedspacee.ssmos.managers.gamestate.GameState;
 import xyz.whoneedspacee.ssmos.commands.CommandShowHealth;
@@ -25,12 +25,13 @@ import net.minecraft.world.entity.animal.Squid;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_21_R3.CraftWorld;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,31 @@ import java.util.Optional;
 import java.util.Set;
 
 public abstract class Disguise {
+
+    @SuppressWarnings("unchecked")
+    protected static final net.minecraft.network.syncher.EntityDataAccessor<Byte> DATA_SHARED_FLAGS_ID;
+    @SuppressWarnings("unchecked")
+    private static final net.minecraft.network.syncher.EntityDataAccessor<Optional<net.minecraft.network.chat.Component>> DATA_CUSTOM_NAME;
+    @SuppressWarnings("unchecked")
+    private static final net.minecraft.network.syncher.EntityDataAccessor<Boolean> DATA_CUSTOM_NAME_VISIBLE;
+
+    static {
+        try {
+            Field f1 = net.minecraft.world.entity.Entity.class.getDeclaredField("DATA_SHARED_FLAGS_ID");
+            f1.setAccessible(true);
+            DATA_SHARED_FLAGS_ID = (net.minecraft.network.syncher.EntityDataAccessor<Byte>) f1.get(null);
+
+            Field f2 = net.minecraft.world.entity.Entity.class.getDeclaredField("DATA_CUSTOM_NAME");
+            f2.setAccessible(true);
+            DATA_CUSTOM_NAME = (net.minecraft.network.syncher.EntityDataAccessor<Optional<net.minecraft.network.chat.Component>>) f2.get(null);
+
+            Field f3 = net.minecraft.world.entity.Entity.class.getDeclaredField("DATA_CUSTOM_NAME_VISIBLE");
+            f3.setAccessible(true);
+            DATA_CUSTOM_NAME_VISIBLE = (net.minecraft.network.syncher.EntityDataAccessor<Boolean>) f3.get(null);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to access Entity data fields", e);
+        }
+    }
 
     protected String name;
     protected EntityType type;
@@ -143,7 +169,7 @@ public abstract class Disguise {
         destroy_packet = new ClientboundRemoveEntitiesPacket(living.getId());
         Utils.sendPacket(player, destroy_packet);
         // Living Spawn
-        living.snapTo(owner.getLocation().getX(), owner.getLocation().getY(), owner.getLocation().getZ(),
+        living.moveTo(owner.getLocation().getX(), owner.getLocation().getY(), owner.getLocation().getZ(),
                     owner.getLocation().getYaw(), owner.getLocation().getPitch());
         // Set exact head rotation before entity is spawned since snapTo does not do that
         // The body of a mob is rotated on the client so this will make the body spawn already rotated
@@ -156,7 +182,7 @@ public abstract class Disguise {
                 living.getDeltaMovement(), living.getYHeadRot());
         Utils.sendPacket(player, living_packet);
         // Squid Spawn
-        squid.snapTo(owner.getLocation().getX(),
+        squid.moveTo(owner.getLocation().getX(),
                 living.getY() + living.getBbHeight() + squid.getBbHeight(),
                 owner.getLocation().getZ(),
                 owner.getLocation().getYaw(), owner.getLocation().getPitch());
@@ -168,7 +194,7 @@ public abstract class Disguise {
                 squid.getDeltaMovement(), squid.getYHeadRot());
         Utils.sendPacket(player, squid_packet);
         // Armor Stand Spawn
-        armorstand.snapTo(owner.getLocation().getX(),
+        armorstand.moveTo(owner.getLocation().getX(),
                 squid.getY() + squid.getBbHeight() + armorstand.getBbHeight(),
                 owner.getLocation().getZ(),
                 owner.getLocation().getYaw(), owner.getLocation().getPitch());
@@ -182,14 +208,14 @@ public abstract class Disguise {
         // Invisibility for Armor Stand
         List<SynchedEntityData.DataValue<?>> armorstand_invis_values = new ArrayList<>();
         armorstand_invis_values.add(SynchedEntityData.DataValue.create(
-                net.minecraft.world.entity.Entity.DATA_SHARED_FLAGS_ID, (byte) 0x20));
+                DATA_SHARED_FLAGS_ID, (byte) 0x20));
         ClientboundSetEntityDataPacket invisiblity_packet = new ClientboundSetEntityDataPacket(
                 armorstand.getId(), armorstand_invis_values);
         Utils.sendPacket(player, invisiblity_packet);
         // Invisibility for Squid
         List<SynchedEntityData.DataValue<?>> squid_invis_values = new ArrayList<>();
         squid_invis_values.add(SynchedEntityData.DataValue.create(
-                net.minecraft.world.entity.Entity.DATA_SHARED_FLAGS_ID, (byte) 0x20));
+                DATA_SHARED_FLAGS_ID, (byte) 0x20));
         invisiblity_packet = new ClientboundSetEntityDataPacket(squid.getId(), squid_invis_values);
         Utils.sendPacket(player, invisiblity_packet);
         update();
@@ -250,10 +276,10 @@ public abstract class Disguise {
             custom_name += ChatColor.RESET + SmashScoreboard.getPlayerColor(owner, false) + owner.getName();
             List<SynchedEntityData.DataValue<?>> nametag_values = new ArrayList<>();
             nametag_values.add(SynchedEntityData.DataValue.create(
-                    net.minecraft.world.entity.Entity.DATA_CUSTOM_NAME,
+                    DATA_CUSTOM_NAME,
                     Optional.of(Component.literal(custom_name))));
             nametag_values.add(SynchedEntityData.DataValue.create(
-                    net.minecraft.world.entity.Entity.DATA_CUSTOM_NAME_VISIBLE, true));
+                    DATA_CUSTOM_NAME_VISIBLE, true));
             ClientboundSetEntityDataPacket data_packet = new ClientboundSetEntityDataPacket(armorstand.getId(), nametag_values);
             Utils.sendPacket(viewer, data_packet);
         }
@@ -262,7 +288,7 @@ public abstract class Disguise {
             Vector direction = target.getLocation().toVector().subtract(location.toVector());
             location.setDirection(direction);
         }
-        living.snapTo(location.getX(), location.getY(), location.getZ(),
+        living.moveTo(location.getX(), location.getY(), location.getZ(),
                 location.getYaw(), location.getPitch());
         ClientboundTeleportEntityPacket teleport_packet = new ClientboundTeleportEntityPacket(
                 living.getId(), PositionMoveRotation.of(living), Set.of(), living.onGround());
@@ -272,12 +298,12 @@ public abstract class Disguise {
         Utils.sendPacketToAllBut(owner, head_packet);
         // From living.mount source code all the way to Entity.class mount
         // In the Entity.class al() method appears to be where it sets the passengers position
-        squid.snapTo(location.getX(), living.getY() + living.getBbHeight() + squid.getBbHeight(), location.getZ(),
+        squid.moveTo(location.getX(), living.getY() + living.getBbHeight() + squid.getBbHeight(), location.getZ(),
                 owner.getLocation().getYaw(), owner.getLocation().getPitch());
         teleport_packet = new ClientboundTeleportEntityPacket(
                 squid.getId(), PositionMoveRotation.of(squid), Set.of(), squid.onGround());
         Utils.sendPacketToAllBut(owner, teleport_packet);
-        armorstand.snapTo(location.getX(), squid.getY() + squid.getBbHeight() + armorstand.getBbHeight(), location.getZ(),
+        armorstand.moveTo(location.getX(), squid.getY() + squid.getBbHeight() + armorstand.getBbHeight(), location.getZ(),
                 owner.getLocation().getYaw(), owner.getLocation().getPitch());
         teleport_packet = new ClientboundTeleportEntityPacket(
                 armorstand.getId(), PositionMoveRotation.of(armorstand), Set.of(), armorstand.onGround());
@@ -295,7 +321,7 @@ public abstract class Disguise {
         }
         List<SynchedEntityData.DataValue<?>> player_data_values = new ArrayList<>();
         player_data_values.add(SynchedEntityData.DataValue.create(
-                net.minecraft.world.entity.Entity.DATA_SHARED_FLAGS_ID, player_data));
+                DATA_SHARED_FLAGS_ID, player_data));
         ClientboundSetEntityDataPacket data_packet = new ClientboundSetEntityDataPacket(living.getId(), player_data_values);
         Utils.sendPacketToAllBut(owner, data_packet);
         // Keep the entity loaded by sending status 0 packets repeatedly
@@ -411,7 +437,7 @@ public abstract class Disguise {
             case SLIME:
                 sound = Sound.ENTITY_SLIME_ATTACK;
                 break;
-            case SNOWMAN:
+            case SNOW_GOLEM:
                 sound = Sound.BLOCK_SNOW_STEP;
                 break;
             case VILLAGER:

@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.projectiles.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
@@ -59,7 +60,7 @@ public class PotionProjectile extends SmashProjectile {
 
     @Override
     protected void doEffect() {
-        Utils.playParticle(Particle.EFFECT_MOB, projectile.getLocation(),
+        Utils.playParticle(Particle.ENTITY_EFFECT, projectile.getLocation(),
                 0.0f, 0.0f, 0.0f, 0.0f, 1, 96, projectile.getWorld().getPlayers());
     }
 
@@ -88,8 +89,8 @@ public class PotionProjectile extends SmashProjectile {
             smashDamageEvent.setIgnoreDamageDelay(true);
             smashDamageEvent.setReason(name);
             smashDamageEvent.callEvent();
-            player.removePotionEffect(PotionEffectType.SLOW);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 1, false, false));
+            player.removePotionEffect(PotionEffectType.SLOWNESS);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 1, false, false));
         }
         players.removeAll(directHit);
         Vector a = projectile.getLocation().subtract(splash_range, splash_range, splash_range).toVector();
@@ -109,8 +110,8 @@ public class PotionProjectile extends SmashProjectile {
             smashDamageEvent.setIgnoreDamageDelay(true);
             smashDamageEvent.setReason(name);
             smashDamageEvent.callEvent();
-            player.removePotionEffect(PotionEffectType.SLOW);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 0, false, false));
+            player.removePotionEffect(PotionEffectType.SLOWNESS);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 0, false, false));
         }
         return false;
     }

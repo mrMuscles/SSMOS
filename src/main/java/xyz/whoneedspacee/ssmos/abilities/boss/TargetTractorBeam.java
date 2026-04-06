@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.boss;
+import org.bukkit.Particle;
 
 
 import org.bukkit.Bukkit;
@@ -84,7 +85,7 @@ public class TargetTractorBeam extends Ability implements OwnerRightClickEvent, 
                     return;
                 }
                 for(Player target : selected_targets) {
-                    Utils.playParticle(Particle.CRIT_MAGIC, target.getLocation().add(0, 0.5, 0.5),
+                    Utils.playParticle(Particle.ENCHANTED_HIT, target.getLocation().add(0, 0.5, 0.5),
                             1f, 0.5f, 1f, 0.1f, 10, 96, target.getWorld().getPlayers());
                     target.getWorld().playEffect(target.getLocation().add(0, 0.5, 0), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
                     VelocityUtil.setVelocity(target, owner.getLocation().subtract(target.getLocation()).toVector().normalize().multiply(pull_velocity));

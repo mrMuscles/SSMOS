@@ -1,5 +1,6 @@
 package xyz.whoneedspacee.ssmos.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import xyz.whoneedspacee.ssmos.managers.smashserver.SmashServer;
@@ -36,6 +37,11 @@ public class GameStateChangeEvent extends Event {
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
+    }
+
+
+    public void callEvent() {
+        Bukkit.getPluginManager().callEvent(this);
     }
 
 }

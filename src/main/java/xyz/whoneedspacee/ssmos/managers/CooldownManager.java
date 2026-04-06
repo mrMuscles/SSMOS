@@ -63,7 +63,7 @@ public class CooldownManager extends BukkitRunnable {
                 Utils.sendActionBarMessage("§a§l" + currData.getAttribute().name + " Recharged", currData.getAbilityUser());
                 Ability ability = KitManager.getCurrentAbility(currData.getAbilityUser());
                 if (ability != null && ability.equals(currData.getAttribute())) {
-                    currData.getAbilityUser().playSound(currData.getAbilityUser().getLocation(), Sound.NOTE_PLING, 1.0f, 24.0f);
+                    currData.getAbilityUser().playSound(currData.getAbilityUser().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 24.0f);
                 }
             }
         }

@@ -51,7 +51,7 @@ public class KitEnderman extends Kit {
     public void setPreviewHotbar() {
         setItem(new ItemStack(Material.IRON_SWORD), 0);
         setItem(new ItemStack(Material.IRON_AXE), 1);
-        setItem(new ItemStack(Material.EYE_OF_ENDER), 2, getAttributeByClass(Teleport.class));
+        setItem(new ItemStack(Material.ENDER_EYE), 2, getAttributeByClass(Teleport.class));
         setItem(new ItemStack(Material.NETHER_STAR), 3);
     }
 

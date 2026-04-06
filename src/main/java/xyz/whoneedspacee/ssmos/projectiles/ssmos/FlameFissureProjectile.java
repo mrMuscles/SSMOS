@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.projectiles.ssmos;
+import org.bukkit.Particle;
 
 
 import org.bukkit.Material;

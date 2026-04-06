@@ -45,7 +45,7 @@ public class WhirlpoolShotgun extends Ability implements OwnerRightClickEvent {
             };
             projectile.launchProjectile();
         }
-        owner.getWorld().playSound(owner.getLocation(), Sound.EXPLODE, 1.5f, 0.75f);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.5f, 0.75f);
     }
 
 }

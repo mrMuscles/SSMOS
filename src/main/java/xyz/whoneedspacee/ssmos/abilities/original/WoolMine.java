@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.abilities.original;
+import org.bukkit.Particle;
 
 import org.bukkit.*;
 import xyz.whoneedspacee.ssmos.managers.disguises.Disguise;
@@ -102,7 +103,7 @@ public class WoolMine extends Ability implements OwnerRightClickEvent {
         }
         Utils.playParticle(Particle.EXPLOSION_EMITTER, wool_block.getLocation().add(0.5, 0.5, 0.5),
                 0, 0, 0, 0, 1, 96, wool_block.getWorld().getPlayers());
-        wool_block.getWorld().playSound(wool_block.getLocation(), Sound.EXPLODE, 3f, 0.8f);
+        wool_block.getWorld().playSound(wool_block.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 3f, 0.8f);
         if(owner == null) {
             if (block_blockData != null) wool_block.setBlockData(block_blockData);
             else wool_block.setType(block_material != null ? block_material : Material.AIR);

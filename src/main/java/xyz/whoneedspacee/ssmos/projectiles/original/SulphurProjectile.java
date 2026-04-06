@@ -1,4 +1,5 @@
 package xyz.whoneedspacee.ssmos.projectiles.original;
+import org.bukkit.Particle;
 
 import xyz.whoneedspacee.ssmos.events.SmashDamageEvent;
 import xyz.whoneedspacee.ssmos.projectiles.SmashProjectile;
@@ -25,7 +26,7 @@ public class SulphurProjectile extends SmashProjectile {
     @Override
     public void launchProjectile() {
         super.launchProjectile();
-        firer.getWorld().playSound(firer.getLocation(), Sound.CREEPER_DEATH, 2f, 1.5f);
+        firer.getWorld().playSound(firer.getLocation(), Sound.ENTITY_CREEPER_DEATH, 2f, 1.5f);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class SulphurProjectile extends SmashProjectile {
     protected void explodeEffect() {
         Utils.playParticle(Particle.EXPLOSION, projectile.getLocation(),
                 0, 0, 0, 0, 1, 96, projectile.getWorld().getPlayers());
-        projectile.getWorld().playSound(projectile.getLocation(), Sound.EXPLODE, 1f, 1.5f);
+        projectile.getWorld().playSound(projectile.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1.5f);
     }
 
 }
